@@ -1,0 +1,53 @@
+npm-config-proxy () {
+  env | grep -i _proxy > /dev/null
+  if [ $? = 0 ]; then
+    cmd="npm config set proxy $http_proxy"
+    echo + $cmd
+    eval $cmd
+    cmd="npm config set https-proxy $https_proxy"
+    echo + $cmd
+    eval $cmd
+  else
+    cmd="npm config delete proxy"
+    echo + $cmd
+    eval $cmd
+    cmd="npm config delete https-proxy"
+    echo + $cmd
+    eval $cmd
+  fi
+}
+
+ssh_ges () {
+  # add the ~/.ssh/ path to the -i arg
+  if [ "$1" = '-i' ]; then
+    case "$2" in
+      /*);;
+      *) if [ ! -f "$2" ]; then
+	   file="$2"
+	   if [ -f "$HOME/.ssh/$file" ]; then
+	     file="~/.ssh/$file"
+	     shift; shift
+	     set -- -i "$file" "${@}"
+	   elif [ -f "$HOME/.ssh/${file}.pem" ]; then
+	     file="~/.ssh/${file}.pem"
+	     shift; shift
+	     set -- -i "$file" "${@}"
+           fi
+         fi
+	 ;;
+    esac
+  fi
+  echo + ssh "${@}"
+  \ssh "${@}"
+}
+
+efile() {
+  emacsclient -n "${@}" 2>/dev/null || emacs "${@}"
+}
+
+srm() {
+  echo "# running 'rm -P' ${@}"
+  \rm -P ${@}
+}
+
+# alias ssh="ssh_ges"

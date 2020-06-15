@@ -1,0 +1,8 @@
+# 'terra' type is anything with extension .tfstate
+--type-set=terra:ext:tfstate,backup
+
+# ack is not to ever search tfstate files
+--type=noterra
+
+# avoid searching .terraform/ directories
+--ignore-dir=.terraform

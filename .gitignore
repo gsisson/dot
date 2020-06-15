@@ -1,0 +1,78 @@
+# Windows Home Dirs/Files ----------------
+3D Objects/
+AppData/
+Application Data
+Atom Crashes/
+Contacts/
+Cookies
+Desktop/
+Documents/
+Downloads/
+Favorites/
+Games/
+Google Drive/
+Intel/
+IntelGraphicsProfiles/
+Local Settings
+Music/
+My Documents
+NetHood
+NTUSER.dat*
+NTUSER.ini*
+Pictures/
+PrintHood
+Recent
+Saved Games/
+Searches/
+SendTo
+Start Menu
+Templates
+Videos/
+
+# Tool Created ----------
+.(users gsisson)
+.android/
+.atom/
+.bash_history
+.config/
+.eclipse/
+.electron/
+.gem
+.lesshst
+.viminfo
+.vscode
+.MakeMKV
+OneDrive/
+hsperfdata_gsisson/
+
+# Ruby -------------------
+bin/ # Ruby Created Bins
+bin/
+
+# Emacs Created ----------
+.emacs.desktop*
+.recentf
+dot.emacs_mac
+dot.emacs_mac.LINK
+dot.emacs_pc
+dot.emacs_pc.LINK
+
+###############################
+
+# My Symlinks ----------------
+Dropbox
+lisp
+
+# My Git Sub-dirs ------------
+/.oh-my-zsh/
+/usr/bin/
+/usr/bin0/
+/usr/local/
+/usr/ruby/
+/usr/src/
+
+# Other -------------------
+.ssh/
+.aws/
+src/
+

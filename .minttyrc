@@ -1,0 +1,12 @@
+BoldAsFont=no
+CursorColour=128,255,0
+Term=xterm-256color
+CursorType=block
+ClicksPlaceCursor=no
+CopyOnSelect=no
+AllowBlinking=yes
+BackgroundColour=0,0,0
+ForegroundColour=255,255,255
+MiddleClickAction=enter
+CopyAsRTF=no
+ClipShortcuts=yes

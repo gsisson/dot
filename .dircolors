@@ -1,0 +1,131 @@
+_enter_dot_file
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Mac 'ls' uses BSD based ls, and uses LSCOLORS (which is less powerfull than Gnu 'ls')
+#
+#   COLORS: a=black   b=red     c=green  d=brown
+#           e=blue    f=magenta g=cyan   h=grey   x='default'
+#   COLORS: A=dk_grey B=RED     C=GREEN  D=YELLOW
+#           E=BLUE    F=MAGENTA G=CYAN   H=WHITE  X=???
+#
+#           CAPS => bold color
+#
+#           colors specified in pairs of letters: fg: foreground + background
+#
+  export LSCOLORS
+  LSCOLORS='CaCaCaCaCaCaCaCaCaCaCa'  # Green on Black test (all green except normal files)
+  LSCOLORS='GxHAFxxDCxDxDxHbHexDDc'
+#           ^^ directory                (Gx: CYAN/default)
+#             ^^ symlink                (HA: WHITE/dk_grey) Mac! dk_grey backgound does not work
+#               ^^ socket               (Fx: MAGENTA)
+#                 ^^ named pipe         (xD: black/YELLOW)
+#                   ^^ executable       (Cx: GREEN/default)
+#                     ^^ block device   (Dx: YEL/default)
+#                       ^^ char device  (Dx: YEL/default)
+#                         ^^ setuid     (Hb: WHITE/RED)
+#                           ^^ setgid   (He: WHITE/MAG)
+#                             ^^ dir writable to others, w/ sticky bit   (xD: default/YELLOW)
+#                               ^^ dir writable to others, no sticky bit (Dc: YELLOW/green)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Gnu 'ls' uses LS_COLORS variable
+# - more powerful than Mac's LSCOLORS because:
+#   - dk_grey as a background color works
+#   - you can specify a color for 'normal' files
+# - learn details at https://askubuntu.com/a/466203
+#
+# format is:  [styles;]fg_color:bg_color
+#   ex:      01;36                  bold white
+#   ex:      40;33                  orange/black (I think)
+#   ex:      1;4;31;42              bold+underlined red/green
+#   ex:   di=1;4;31;42  directories=bold+underlined;red/green
+
+_set_LS_COLORS() {
+
+  # styles (all work on Cygwin's mintty)
+  local    normal="00" #
+  local      bold="01" #
+  local       dim="02" # doesn't work on:           iTerm2
+  local    italic="03" # doesn't work on: Terminal
+  local underline="04" #
+  local     blink="05" #
+  local   reverse="07" #
+  local  overline="53" # doesn't work on: Terminal, iTerm2
+  
+  # - - - - - - foreground - - - - - - -
+  # colors           bright                background
+  # ------------     --------------------  ----------------
+  local blk="30";    local gry="90";       local _blk="40"    # blk      =   0%-white (black)
+  local red="31";    local RED="91";       local _red="41"    # bold+blk =  25%-white
+  local grn="32";    local GRN="92";       local _grn="42"
+  local yel="33";    local YEL="93";       local _yel="43"
+  local blu="34";    local BLU="94";       local _blu="44"
+  local mag="35";    local MAG="95";       local _mag="45"
+  local cyn="36";    local CYN="96";       local _cyn="46"
+  local whi="37";    local WHI="97";       local _whi="47"    # whi      =  50%-white (grey)
+  local def="39";                                             # WHI      = 100%-white (white)
+                                           local _gry="100"
+                                           local _RED="101"
+                                           local _GRN="102"
+                                           local _YEL="103"
+                                           local _BLU="104"
+                                           local _MAG="105"
+                                           local _CYN="106"
+                                           local _WHI="107"
+  # color aliases
+  local brn="$yel";  local BRN="$YEL";     local _brn="$_yel"
+  local ora="$yel";  local ORA="$YEL";     local _ora="$_yel"
+  local pur="$mag";  local PUR="$MAG";     local _pur="$_mag" ; local _PUR="$_MAG"
+  local tur="$cyn";  local TUR="$CYN";     local _tur="$_cyn" ; local _TUR="$_CYN"
+  # -------------------------------------------------------
+
+  # - - - - - good combinations - - - - -
+  # forground                  background
+  # ---------                  ----------
+  # WHI/YEL/GRN/CYN/MAG/RED    _blk
+  # WHI/YEL/GRN/CYN            _red
+  # WHI/YEL                    _grn
+  #     YEL/CYN                _yel
+  # WHI/YEL/GRN                _blu
+  # WHI/YEL/GRN                _mag
+  # WHI                        _cyn
+  # WHI/YEL/GRN/CYN/MAG/RED    _gry
+  # - - - - - - not good - - - - - - - -
+  #                            _whi     \
+  #                            _RED      \
+  #                            _GRN       \
+  #                            _YEL        \_ too bright for a background
+  #                            _BLU        /
+  #                            _MAG       /
+  #                            _CYN      /
+
+  local                normal="00"
+  local                  file="$bold;$WHI;$_blk"
+  local                   dir="$bold;$CYN;$_blk"
+  local                   sym="$bold;07;$WHI;$_blk" # better than "$blk;$_WHI"
+  local            orphan_sym="$blink;$bold;$RED;$_blk"
+  local       missing_tgt_sym="$blink;$blk;$_RED"
+  local                socket="$bold;$MAG"
+  local            named_pipe="$blk;$_yel"
+  local                   exe="$bold;$GRN;$_blk"
+  local          block_device="$bold;$YEL;$_yel"
+  local           char_device="$bold;$YEL;$_yel"
+  local               set_uid="07;$bold;$red;$_WHI" # better than $WHI;$_RED"
+  local              set_guid="07;$bold;$mag;$_WHI" # better than $WHI;$_MAG"
+  local sticky_other_writable="$blk;$_YEL" # ex: /dev/shm
+  local        other_writable="07;$RED;$_WHI" # better than $WHI;$_RED"
+  local                  door="$MAG"
+  local                sticky="$bold;$WHI;$_yel"
+  
+# local _type_colors=":*.tar=${RED}:*.tgz=${RED}:*.svgz=${RED}:*.arj=${RED}:*.taz=${RED}:*.lzh=${RED}:*.lzma=${RED}:*.zip=${RED}:*.z=${RED}:*.Z=${RED}:*.dz=${RED}:*.gz=${RED}:*.bz2=${RED}:*.bz=${RED}:*.tbz2=${RED}:*.tz=${RED}:*.deb=${RED}:*.rpm=${RED}:*.jar=${RED}:*.rar=${RED}:*.ace=${RED}:*.zoo=${RED}:*.cpio=${RED}:*.7z=${RED}:*.rz=${RED}:*.jpg=${MAG}:*.jpeg=${MAG}:*.gif=${MAG}:*.bmp=${MAG}:*.pbm=${MAG}:*.pgm=${MAG}:*.ppm=${MAG}:*.tga=${MAG}:*.xbm=${MAG}:*.xpm=${MAG}:*.tif=${MAG}:*.tiff=${MAG}:*.png=${MAG}:*.svg=${MAG}:*.mng=${MAG}:*.pcx=${MAG}:*.mov=${MAG}:*.mpg=${MAG}:*.mpeg=${MAG}:*.m2v=${MAG}:*.mkv=${MAG}:*.ogm=${MAG}:*.mp4=${MAG}:*.m4v=${MAG}:*.mp4v=${MAG}:*.vob=${MAG}:*.qt=${MAG}:*.nuv=${MAG}:*.wmv=${MAG}:*.asf=${MAG}:*.rm=${MAG}:*.rmvb=${MAG}:*.flc=${MAG}:*.avi=${MAG}:*.fli=${MAG}:*.gl=${MAG}:*.dl=${MAG}:*.xcf=${MAG}:*.xwd=${MAG}:*.yuv=${MAG}:*.aac=${cyn}:*.au=${cyn}:*.flac=${cyn}:*.mid=${cyn}:*.midi=${cyn}:*.mka=${cyn}:*.mp3=${cyn}:*.mpc=${cyn}:*.ogg=${cyn}:*.ra=${cyn}:*.wav=${cyn}:"
+
+  local _type_colors=":*.set_guid=${set_guid}:*.set_uid=${set_uid}:*.sticky_other_writable=${sticky_other_writable}:*.other_writable=${other_writable}:*.sticky=${sticky}:*.socket=${socket}:*.named_pipe=${named_pipe}:*.block_device=${block_device}::*.char_device=${char_device}"
+
+  export LS_COLORS
+  LS_COLORS="no=${normal}:fi=${file}:di=${dir}:ln=${sym}:pi=${named_pipe}:so=${socket}:do=${door}:bd=${block_device}:cd=${char_device}:or=${orphan_sym}:mi=${missing_tgt_sym}:su=${set_uid}:sg=${set_guid}:tw=${sticky_other_writable}:ow=${other_writable}:st=${sticky}:ex=${exe}${_type_colors}"
+
+}
+
+_set_LS_COLORS
+
+_leave_dot_file

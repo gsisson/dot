@@ -1,0 +1,1472 @@
+_enter_dot_file
+
+alias d=dirs
+alias tree=tree.com
+alias pwd="\pwd | cygdrivePathFix"
+
+for comp_script in ~/src/mashup_scripts/bin/completion/*; do
+  source $comp_script
+done
+
+cdw () {
+  d1=`p | grep -v '^$' | head -1 | sed -e 's|^file:///||' -e 's|^~|'${USERPROFILE_f}'|'`
+  d=$d1
+  if [ ! -d "$d" ]
+  then
+    d="`dirname "$d"`"
+    if [ ! -d "$d" -o "$d" = '.' ]
+    then
+      echo "Clipboard does not contain a directory =>$d1<="
+      return
+    fi
+  fi
+  newcd "$d"
+}
+
+start () {
+  ( local p
+    p="${1}"
+    shift
+    if [ -d "${p}" ]; then
+      explore "${p}"
+      return
+    fi
+    if [ ${#p} = 1 ]; then
+      if [ -d "${p}:/" ]; then
+        explore "${p}:/"
+        return
+      fi
+    fi
+    if [ ${#p} = 2 -a "${p:1:1}" = ':' ]; then
+      if [ -d "${p}/" ]; then
+        explore "${p}/"
+        return
+      fi
+    fi
+    # echo + cd \"`dirname "${p}"`\"
+             cd "`dirname "${p}"`"
+    local file
+    file="`basename "${p}"`"
+    if [ -f "$file" -a ! -x "$file" ]
+    then
+      chmod u+x "$file"
+    fi
+   #cmd /c start "`basename "${p}"`" "${@}" &
+    cmd /c "`basename "${p}"`" "${@}" &
+  )
+}
+
+run () {
+  echo + /usr/bin/run "$@"
+  /usr/bin/run "$@"
+}
+
+# Second arg is the name of the path variable (default: PATH)
+pathRemove () {
+  local IFS=':'
+  local NEWPATH
+  local DIR
+  local PATHVARIABLE=${2:-PATH}
+  for DIR in ${!PATHVARIABLE} ; do
+    if [ "$DIR" != "$1" ] ; then
+      NEWPATH="${NEWPATH:+$NEWPATH:}$DIR"
+    fi
+  done
+  export $PATHVARIABLE="$NEWPATH"
+}
+
+pathReplace () {
+  local PATHVARIABLE=${3:-PATH}
+  local IFS=':'
+  local NEWPATH
+  local DIR
+  for DIR in ${!PATHVARIABLE} ; do
+    if [ "$DIR" != "$1" ] ; then
+      NEWPATH="${NEWPATH:+$NEWPATH:}$DIR"
+    else
+      NEWPATH="${NEWPATH:+$NEWPATH:}$2"
+    fi
+  done
+  export $PATHVARIABLE="$NEWPATH"
+}
+
+# Second arg is the name of the path variable (default: PATH)
+pathPrepend () {
+  pathRemove "$1" "$2"
+  local PATHVARIABLE=${2:-PATH}
+  export $PATHVARIABLE="$1${!PATHVARIABLE:+:${!PATHVARIABLE}}"
+}
+
+# Second arg is the name of the path variable (default: PATH)
+pathAppend () {
+  pathRemove "$1" "$2"
+  local PATHVARIABLE=${2:-PATH}
+  export $PATHVARIABLE="${!PATHVARIABLE:+${!PATHVARIABLE}:}$1"
+}
+
+appendToPath () {
+  # First remove the directory
+  local IFS=':'
+  local NEWPATH
+  for DIR in $PATH; do
+     if [ "$DIR" != "$1" ]; then
+       NEWPATH="${NEWPATH:+$NEWPATH:}$DIR"
+     fi
+  done
+  # Then append the directory
+  if [ -d "$1" ] ; then
+    export PATH="$NEWPATH:$1"
+  fi
+}
+
+removeFromPath () {
+  # First remove the directory
+  local IFS=':'
+  local NEWPATH
+  for DIR in $PATH; do
+     if [ "$DIR" != "$1" ]; then
+       NEWPATH="${NEWPATH:+$NEWPATH:}$DIR"
+     fi
+  done
+  export PATH="$NEWPATH"
+}
+
+cygdrivePathFix () {
+  # change things like    /cygdrive/c/dir1/dir2   to   c:/dir1/dir2
+  if [ $# = 0 ]
+  then
+    cat
+  else
+    echo "$@"
+  fi | sed -e 's|/cygdrive/\([a-zA-Z]\)/|\1:/|g' \
+           -e 's|^/\([a-zA-Z]\)/|\1:/|g' \
+           -e 's|^/\([a-zA-Z]\)$|\1:|g'
+}
+
+path () {
+  echo $PATH | sed -e 's/:/|/g' | tr '|' '
+' | grep -v ^$ | sed -e 's|/cygdrive/\(.\)/|\1:/|' # | c -v
+  eval set -- `echo $PATH | sed -e 's/:/|/g' | tr '|' '
+' | grep -v ^$ | sed -e 's|/cygdrive/\(.\)/|\1:/|' | # c -v |
+    sed -e 's/^/"/' -e 's/$/"/';echo`
+#  typeset -a pathA
+#  eval pathA=($@)
+#  echo 'type pathA=($@) to set the pathA variable'
+#  echo 'the "${pathA[@]}" array (0 based) has been set' 1>&2
+}
+
+checkpath () {
+# path >/dev/null 2>/dev/null
+# echo $PATH | sed -e 's/;/" "/g' -e 's/^/"/' -e 's/$/"/'
+  eval set -- `echo $PATH | sed -e 's/;/" "/g' -e 's/^/"/' -e 's/$/"/'`
+  typeset -a pathA
+  pathA=($@)
+  if [ -z "${pathA[1]}" ]
+  then
+    echo 'pathA[@] array was not set correctly!'
+    return
+  fi
+  find "${pathA[@]}" -level    0 -type d >/dev/null
+  find "${pathA[@]}" -maxdepth 1 -type d >/dev/null
+  if [ $? = 0 ]
+  then
+    echo 'Every part of $PATH is fine.'
+  fi
+}
+
+tools () {
+  (
+    path 2>/dev/null | sort -u | while read pathItem
+    do
+      if [ ! -d "$pathItem" ]
+      then
+        echo 'Directory "'$pathItem'" does not exist!' 1>&2
+      else
+        pu "$pathItem"
+        find . -type f -level    0 | sed -e 's|^.|'"$pathItem"'|' | egrep -i '(\.bat$|\.cmd$|\.com$|\.exe$|\.ksh$|\.scr$|\.vbs$)'
+        find . -maxdepth 1 -type f | sed -e 's|^.|'"$pathItem"'|' | egrep -i '(\.bat$|\.cmd$|\.com$|\.exe$|\.ksh$|\.scr$|\.vbs$)'
+	po
+      fi
+    done
+      egrep '(^[a-zA-Z0-9_-]*\(\)|^alias)' ~/usr/functions* ~/.bash_profile ) | sed -e 's/().*$/()/' -e 's/\(alias.*\)=.*/\1/' | grep -v 'usage()' |
+  if [ $# = 0 ]
+  then
+    cat
+  else
+    grep "$@"
+  fi
+}
+
+iepath () {
+# file:///C:/data/gsisson/ProgramData/Topics/HowTo/CapturaForCableModemExpenses.ppt
+
+  # convert a local path passed in, to the appropriate path for a
+  # browser to find it
+  if [ $# = 0 ]
+  then
+    set -- `cat`
+  fi
+  for arg in "$@"
+  do
+    pwd2=$PWD
+    #echo "arg: $arg"
+    case "$arg" in
+      \\*)          ;;
+      /*)           ;;
+      [a-zA-Z]:/*)  ;;
+      [a-zA-Z]:\\*) ;;
+      ../*)         while [ "${arg#..}" != "$arg" ]
+		    do
+		      arg="${arg#../}"
+		      #echo "changed arg to: $arg"
+		      pwd2="${pwd2%/*}"
+		      #echo "changed pwd2 to: $pwd2"
+		    done
+                    arg="$pwd2/$arg"
+		    #echo "arg: $arg"
+		    ;;
+      *)            arg=$pwd2/$arg;;
+    esac
+    if [ -f "$arg" -o -d "$arg" ]
+    then
+      echo "$arg" | b2f | sed -e 's|^\(.\):|file:///\1:|'
+    else
+      echo "File \"$arg\" not found!" 1>&2
+    fi
+  done
+}
+
+alias pathtoie=iepath
+
+alias vdiff32=vdiff
+vdiff () {
+  for bc in "C:/Program Files/BeyondCompare/bc2.exe" \
+            "C:/Program Files/Beyond Compare/bc.exe" \
+            "C:/Program Files/Beyond Compare/bc2.exe" \
+            "C:/Program Files/Beyond Compare 4/BCompare.exe" \
+            "C:/Program Files/Beyond Compare 4/BComp.exe" \
+            "C:/Program Files/Beyond Compare 2/bc.exe" \
+            "C:/Program Files/Beyond Compare 2/bc2.exe" \
+            "C:/Program Files (x86)/Beyond Compare 3/BCompare.exe" \
+            "NOT_FOUND"
+  do
+    if [ ! -f "$bc" ]
+    then
+      if [ "$bc" = "NOT_FOUND" ]; then
+        echo "beyond compare executable was not found"
+        echo "(maybe you need to edit $(basename ${BASH_SOURCE[0]}))"
+        return 1
+      fi
+      continue
+    else
+      if [ ! -f "$bc" ]
+      then
+        echo "can't find Beyond Compare!" 1>&2
+        return 1
+      fi
+      if [ $# = 1 -a "$1" = "-" ]
+      then
+        echo "hit return when ready to copy first set of clipboard contents..."
+        read junk
+        echo "copying clipboard contents to c:/tmp/vdiff.1.txt..."
+        wpaste > c:/tmp/vdiff.1.txt
+        echo "done."
+        echo "hit return when ready to copy second clipboard contents..."
+        read junk
+        echo "copying clipboard contents to c:/tmp/vdiff.2.txt..."
+        wpaste > c:/tmp/vdiff.2.txt
+        echo "done."
+        set -- c:/tmp/vdiff.1.txt c:/tmp/vdiff.2.txt
+        echo vdiff $@
+      fi
+      if [ $# != 2 ]
+      then
+        echo 'usage: vdiff <file1> <file2>'
+        return 1
+      fi
+      if [ ! -f "$1" -a ! -d "$1" ]
+      then
+        echo "file/dir: \"$1\" not found!"
+        return 1
+      fi
+      if [ ! -f "$2" -a ! -d "$2" ]
+      then
+        echo "file/dir: \"$2\" not found!"
+        return 1
+      fi
+      arg1="$1"
+      arg2="$2"
+      case "$arg1" in
+        /cygdrive/a*) arg1="a:${1#/cygdrive/a}";;
+        /cygdrive/b*) arg1="b:${1#/cygdrive/b}";;
+        /cygdrive/c*) arg1="c:${1#/cygdrive/c}";;
+        /cygdrive/d*) arg1="d:${1#/cygdrive/d}";;
+        /cygdrive/e*) arg1="e:${1#/cygdrive/e}";;
+        /cygdrive/f*) arg1="f:${1#/cygdrive/f}";;
+        /cygdrive/g*) arg1="g:${1#/cygdrive/g}";;
+        /cygdrive/h*) arg1="h:${1#/cygdrive/h}";;
+        /cygdrive/i*) arg1="i:${1#/cygdrive/i}";;
+        /cygdrive/j*) arg1="j:${1#/cygdrive/j}";;
+        /cygdrive/k*) arg1="k:${1#/cygdrive/k}";;
+        /cygdrive/l*) arg1="l:${1#/cygdrive/l}";;
+        /cygdrive/m*) arg1="m:${1#/cygdrive/m}";;
+        /cygdrive/n*) arg1="n:${1#/cygdrive/n}";;
+        /cygdrive/o*) arg1="o:${1#/cygdrive/o}";;
+        /cygdrive/p*) arg1="p:${1#/cygdrive/p}";;
+        /cygdrive/q*) arg1="q:${1#/cygdrive/q}";;
+        /cygdrive/r*) arg1="r:${1#/cygdrive/r}";;
+        /cygdrive/s*) arg1="s:${1#/cygdrive/s}";;
+        /cygdrive/t*) arg1="t:${1#/cygdrive/t}";;
+        /cygdrive/u*) arg1="u:${1#/cygdrive/u}";;
+        /cygdrive/v*) arg1="v:${1#/cygdrive/v}";;
+        /cygdrive/w*) arg1="w:${1#/cygdrive/w}";;
+        /cygdrive/x*) arg1="x:${1#/cygdrive/x}";;
+        /cygdrive/y*) arg1="y:${1#/cygdrive/y}";;
+        /cygdrive/z*) arg1="z:${1#/cygdrive/z}";;
+        /a/*)         arg1="a:${1#/a}";;
+        /b/*)         arg1="b:${1#/b}";;
+        /c/*)         arg1="c:${1#/c}";;
+        /d/*)         arg1="d:${1#/d}";;
+        /e/*)         arg1="e:${1#/e}";;
+        /f/*)         arg1="f:${1#/f}";;
+        /g/*)         arg1="g:${1#/g}";;
+        /h/*)         arg1="h:${1#/h}";;
+        /i/*)         arg1="i:${1#/i}";;
+        /j/*)         arg1="j:${1#/j}";;
+        /k/*)         arg1="k:${1#/k}";;
+        /l/*)         arg1="l:${1#/l}";;
+        /m/*)         arg1="m:${1#/m}";;
+        /n/*)         arg1="n:${1#/n}";;
+        /o/*)         arg1="o:${1#/o}";;
+        /p/*)         arg1="p:${1#/p}";;
+        /q/*)         arg1="q:${1#/q}";;
+        /r/*)         arg1="r:${1#/r}";;
+        /s/*)         arg1="s:${1#/s}";;
+        /t/*)         arg1="t:${1#/t}";;
+        /u/*)         arg1="u:${1#/u}";;
+        /v/*)         arg1="v:${1#/v}";;
+        /w/*)         arg1="w:${1#/w}";;
+        /x/*)         arg1="x:${1#/x}";;
+        /y/*)         arg1="y:${1#/y}";;
+        /z/*)         arg1="z:${1#/z}";;
+      esac
+      case "$arg2" in
+        /cygdrive/a*) arg2="a:${2#/cygdrive/a}";;
+        /cygdrive/b*) arg2="b:${2#/cygdrive/b}";;
+        /cygdrive/c*) arg2="c:${2#/cygdrive/c}";;
+        /cygdrive/d*) arg2="d:${2#/cygdrive/d}";;
+        /cygdrive/e*) arg2="e:${2#/cygdrive/e}";;
+        /cygdrive/f*) arg2="f:${2#/cygdrive/f}";;
+        /cygdrive/g*) arg2="g:${2#/cygdrive/g}";;
+        /cygdrive/h*) arg2="h:${2#/cygdrive/h}";;
+        /cygdrive/i*) arg2="i:${2#/cygdrive/i}";;
+        /cygdrive/j*) arg2="j:${2#/cygdrive/j}";;
+        /cygdrive/k*) arg2="k:${2#/cygdrive/k}";;
+        /cygdrive/l*) arg2="l:${2#/cygdrive/l}";;
+        /cygdrive/m*) arg2="m:${2#/cygdrive/m}";;
+        /cygdrive/n*) arg2="n:${2#/cygdrive/n}";;
+        /cygdrive/o*) arg2="o:${2#/cygdrive/o}";;
+        /cygdrive/p*) arg2="p:${2#/cygdrive/p}";;
+        /cygdrive/q*) arg2="q:${2#/cygdrive/q}";;
+        /cygdrive/r*) arg2="r:${2#/cygdrive/r}";;
+        /cygdrive/s*) arg2="s:${2#/cygdrive/s}";;
+        /cygdrive/t*) arg2="t:${2#/cygdrive/t}";;
+        /cygdrive/u*) arg2="u:${2#/cygdrive/u}";;
+        /cygdrive/v*) arg2="v:${2#/cygdrive/v}";;
+        /cygdrive/w*) arg2="w:${2#/cygdrive/w}";;
+        /cygdrive/x*) arg2="x:${2#/cygdrive/x}";;
+        /cygdrive/y*) arg2="y:${2#/cygdrive/y}";;
+        /cygdrive/z*) arg2="z:${2#/cygdrive/z}";;
+        /a/*)         arg2="a:${2#/a}";;
+        /b/*)         arg2="b:${2#/b}";;
+        /c/*)         arg2="c:${2#/c}";;
+        /d/*)         arg2="d:${2#/d}";;
+        /e/*)         arg2="e:${2#/e}";;
+        /f/*)         arg2="f:${2#/f}";;
+        /g/*)         arg2="g:${2#/g}";;
+        /h/*)         arg2="h:${2#/h}";;
+        /i/*)         arg2="i:${2#/i}";;
+        /j/*)         arg2="j:${2#/j}";;
+        /k/*)         arg2="k:${2#/k}";;
+        /l/*)         arg2="l:${2#/l}";;
+        /m/*)         arg2="m:${2#/m}";;
+        /n/*)         arg2="n:${2#/n}";;
+        /o/*)         arg2="o:${2#/o}";;
+        /p/*)         arg2="p:${2#/p}";;
+        /q/*)         arg2="q:${2#/q}";;
+        /r/*)         arg2="r:${2#/r}";;
+        /s/*)         arg2="s:${2#/s}";;
+        /t/*)         arg2="t:${2#/t}";;
+        /u/*)         arg2="u:${2#/u}";;
+        /v/*)         arg2="v:${2#/v}";;
+        /w/*)         arg2="w:${2#/w}";;
+        /x/*)         arg2="x:${2#/x}";;
+        /y/*)         arg2="y:${2#/y}";;
+        /z/*)         arg2="z:${2#/z}";;
+      esac
+#     if cmp "$@" >/dev/null
+      if cmp "$arg1" "$arg2" >/dev/null
+      then
+        echo "no difference!" 1>&2
+        return
+      fi
+#     "$bc" "$@" &
+      "$bc" "$arg1" "$arg2" &
+      break
+    fi
+  done
+}
+
+fdiff () {
+  for file in "$@"
+  do
+    fls.exe "$file" >/dev/null
+    if fls.exe "$file" >/dev/null 2>/dev/null
+    then
+      # FCM file found
+      fco.exe -p "$file" > c:/tmp/${file##*/}_base
+      if diff "c:/tmp/${file##*/}_base" "${file}" 1>/dev/null 2>&1
+      then
+        echo "No differences" 1>&2
+      else
+        vdiff "c:/tmp/${file##*/}_base" "${file}"
+      fi
+    else
+      # FCM file NOT found
+      echo "file \"$file\" was NOT found."
+    fi
+  done
+}
+
+fatal () {
+  echo "fatal error: $1"
+  exit 1
+}
+
+fatal_read () {
+  echo "fatal error: $1"
+  echo "type a key to end..."
+  read junk
+  exit 1
+}
+
+# convert backslashes to forward slashes
+b2f () {
+  if [ $# = 0 ]
+  then
+    cat       | sed -e 's:\\:/:g'
+  else
+    echo "$@" | sed -e 's:\\:/:g'
+  fi
+}
+
+# convert forward slashes to back slashes
+f2b () {
+  if [ $# = 0 ]
+  then
+    cat       | sed -e 's:/:\\:g'
+  else
+    echo "$@" | sed -e 's:/:\\:g'
+  fi
+}
+
+# convert forward, or back, slashes to equal signs
+# p2e (): path to equal signs
+p2e () {
+  cat | b2f | sed -e 's:/:=:g' -e 's/://g' -e 's: ::g'
+}
+
+PATHb2f () {
+  # convert backslashes to forward slashes
+
+  # The MKS way (as seen in c:/mksnt/mksnt/etc/profile.ksh)
+  #echo  'PATH="${PATH//\\/\/}"' #this is _really_ slow for some reason!
+
+  PATH="`echo -E "$PATH" | sed -e 's:\\\\:/:g'`"
+  return
+
+  #My old way
+  tmpf=$TMP/pathfix
+  set | grep -i ^PATH= |
+    sed -e 's:\\:/:g' -e 's://*:/:g' -e 's/;;*/;/g' > "$tmpf"
+  if [ -f "$tmpf" ]
+  then
+    . "$tmpf"
+    updatepath "$@"
+  else
+    echo "can't find the fixed path!"
+  fi
+}
+
+# resolves spaces in arg array passed in, and
+# returns the result in an array called fixSpacesOut
+# typical use:
+#   $ fixSpaces "$@"
+#   $ set -- "${fixSpacesOut[@]}"
+#
+typeset -a fixSpacesOut
+fixSpaces () {
+  typeset -a dirArgs
+  dirArgs=($@)
+  typeset -i n=0
+  unset dir
+  for d in "${dirArgs[@]}"
+  do
+    if [ -d "${d}" -o -f "${d}" ]
+    then
+      dir[$n]="$d"
+      let "n=n+1"
+    else
+      if [ -z "${dir[$n]}" ]
+      then
+        dir[$n]="$d"
+      else
+        dir[$n]="${dir[$n]} $d"
+	if [ -d "${dir[$n]}" -o -f "${dir[$n]}" ]
+	then
+          let "n=n+1"
+	fi
+      fi
+    fi
+  done
+  if [ "${#dir[@]}" = 1 -a ! -d "${dir[*]}" ]
+  then
+    fixSpacesOut=($@)
+  else
+    fixSpacesOut=("${dir[@]}")
+  fi
+}
+
+pathReduce () {
+  echo "$@" | sed \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[\.]/|/|g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' \
+    -e 's|/[^/][^/]*/\.\.||g' 
+}
+
+# use the following like so:
+#   touch "XYZZY 1" "XYZZY 2"
+#   fails: ls.exe -l `find . -level 0 | grep XYZZY`
+#   works: set --    `find . -level 0 | grep XYZZY`
+#          fixSpacesPP
+#          ls.exe -l "$@"
+
+alias fixSpacesPP='fixSpaces "${@}";set -- "${fixSpacesOut[@]}"'
+alias fixCommandLine='fixSpaces "${@}"; set -- "${fixSpacesOut[@]}"'
+alias fixArgs=fixCommandLine
+alias fixargs=fixCommandLine
+alias fll='fls -l '
+
+ps1 () {
+  if [ "$ps1flag" = t ]
+  then
+    ps1flag=
+    newcd
+  else
+    ps1flag=t
+    PS1='$myPWD 
+$ '
+  fi
+}
+
+le ()
+{
+  eval "$@" 2>&1 | less
+}
+
+cdo () {
+  typeset -l cdo_pwd="$PWD"
+  case $cdo_pwd in
+    */lib/inc*) cdo_suffix=${cdo_pwd##*/lib/inc}
+                cdo_prefix=${cdo_pwd%$cdo_suffix}
+                cdo_prefix=${cdo_prefix%/lib/inc}
+                cdo_proj=${cdo_prefix}/lib/src${cdo_suffix}
+    ;;
+    */lib/src*) cdo_suffix=${cdo_pwd##*/lib/src}
+                cdo_prefix=${cdo_pwd%$cdo_suffix}
+                cdo_prefix=${cdo_prefix%/lib/src}
+                cdo_proj=${cdo_prefix}/lib/inc${cdo_suffix}
+    ;;
+    *) echo "Not in an appropriate directory!"
+       return 1
+    ;;
+  esac
+  if [ -d "$cdo_proj" ]
+  then
+    newcd "$cdo_proj"
+  else
+    echo "$cdo_proj DNE!"
+  fi
+  return 0
+}
+
+cdx ()
+{
+  if [ -z "$1" ]
+  then
+    echo "usage: cdx <project>"
+    return
+  fi
+  if [ "$1" = toe ]
+  then
+     set -- "${toe#${COMservers}}"
+  fi
+  if [ "$1" = vr ]
+  then
+    #set -- Velociraptor/app
+     set -- ${vr#${srcdrive}/app/}
+  fi
+  if [ "$1" = vrp ]
+  then
+    #set -- VelociraptorPlus/app
+     set -- ${vrp#${srcdrive}/app/}
+  fi
+  if [ "$1" = vrpvb ]
+  then
+     set -- ${vrpvb#${srcdrive}/app/}
+  fi
+  newdir=`ls.exe -1d "${COMservers}/$1" ${olesrvr}/$1 ${srcdrive}/app/$1 ${srcdir}/$1 ${srcdir}/Velociraptor/lib/$1 2>/dev/null`
+  if [ -z "${newdir}" ]
+  then
+    newdir=`ls.exe -1d ${srcdir}/*/$1 2>/dev/null`
+  fi
+  if [ -z "${newdir}" ]
+  then
+    newdir=`ls.exe -1d ${srcdir}/*/*/$1 2>/dev/null`
+  fi
+  if [ -z "${newdir}" ]
+  then
+    echo "can't find project \"$1\""
+    return 1
+  fi
+  for newdir in "$newdir"
+  do
+    case "$newdir" in
+      ${srcdrive}/inc/*)
+          ;;
+      *)
+          if [ -d "$newdir/src" ]
+          then
+            newdir="$newdir/src"
+            break
+          fi
+          if [ -d "$newdir" ]
+          then
+            break
+          fi
+          ;;
+    esac
+  done
+  export lastproj="$PWD"
+  newcd $newdir || return 1
+}
+
+pux ()
+{
+  # a combo of "pu" and "cdx"
+  cdx $1
+  newcd - > /dev/null || return 1
+  pu $OLDPWD
+}
+
+cdldv ()
+{
+  newcd w:/pl1n/rd/test/ldv || return 1
+}
+
+wset () {
+  eval ${data%%:*}:
+  wpwd=${PWD#$data}
+  wpwd=${PWD#/winword/html/r+d/}
+  wpwd=w:/pl1n/rd/rdinfo/webpages/$wpwd
+  w:
+  newcd $wpwd || return 1
+  echo $PWD
+  eval ${data%%:*}:
+}
+
+pickup () {
+  pickupLoc="$PWD"
+  typeset -a tmpit
+# pickupFiles="${@}"
+  n=0
+  for arg in "$@"
+  do
+    echo 'pickupFiles['$n']='"$arg"
+    pickupFiles[$n]="$arg"
+    let "n=n+1"
+  done
+}
+
+drop () {
+  dropLocn="$PWD"
+  if [ -d "${pickupLoc}" ]
+  then
+    pu "${pickupLoc}"
+    mv "${pickupFiles[@]}" "${dropLocn}"
+    po
+  fi
+}
+
+dropcopy () {
+  dropLocn="$PWD"
+  if [ -d "${pickupLoc}" ]
+  then
+    pu "${pickupLoc}"
+    cp -p "${pickupFiles[@]}" "${dropLocn}"
+    po
+  fi
+}
+
+setfilesall () {
+# set -- `find . -level    0 | tail +2 | sed -e 's/^..//'`
+  set -- `find . -maxdepth 1 | tail +2 | sed -e 's/^..//'`
+  files="$@"
+}
+
+setdirs () {
+  set -- `find . -type d -level    0 | tail +2 | sed -e 's/^..//'`
+  set -- `find . -maxdepth 1 -type d | tail +2 | sed -e 's/^..//'`
+  files="$@"
+}
+
+setdir () {
+  if [ $# -gt 1 ]
+  then
+    echo 'setdir [existing_local_dir]'
+    return
+  fi
+  if [ ! -d $PWD/$1 ]
+  then
+    echo \"$PWD/$1\"' is not a directory!'
+    return
+  fi
+  dir=$PWD/$1
+}
+
+setfilesforgrep () {
+  unset files
+  files=`ls.exe -1 | while read file
+  do
+    files="${files}|${file}"
+    echo $files
+  done | tail -1`
+  files='('"${files#|}"')'
+# echo $files
+}
+
+setdirs () {
+  files=`find . -type d -level    0 | tail +2 | sed -e 's/^..//'`
+  files=`find . -maxdepth 1 -type d | tail +2 | sed -e 's/^..//'`
+}
+
+cdback () {
+  if [ $# -gt 1 ]
+  then
+    echo "usage: cdback"
+    echo '       cdover [<machine>] (name machine only when local)'
+    return
+  fi
+  case $PWD in
+      [A-Z]:*)#cdover //MITsoftware
+	       cdover //hpsdges.dhcp.sdd.hp.com
+	       return;;
+      //*)     typeset -l cdOverDriveLower
+	       cdOverPC=${PWD#//}
+	       cdOverPC=//${cdOverPC%%/*}
+	       cdOverDrive=${PWD#$cdOverPC/}
+	       cdOverDrive=${cdOverDrive%%/*}
+               cdOverDriveLower=$cdOverDrive
+	       case $cdOverDrive in
+	         hd_*) cdLclDrive=${cdOverDrive#hd_};;
+	         ??)   cdLclDrive=${cdOverDrive%?};;
+	       esac
+               echo + cd $cdOverPC/$cdOverDrive $cdLclDrive:
+                   newcd $cdOverPC/$cdOverDrive $cdLclDrive:
+               unset cdOverDrive cdOverDriveLower cdOverTarget cdLclDrive
+	       ;;
+  esac
+}
+
+cdover () {
+  if [ "$#" = 0 ]
+  then
+    cdback
+    return
+  fi
+  if [ "$#" != 1 ]
+  then
+    echo 'usage: cdover [<machine>] (name machine only when local)'
+    echo '       cdback (to return)'
+    return
+  fi
+  case $PWD in
+      [A-Z]:*) 
+               case "$1" in
+	         $shadow) newcd $spc $shadow
+			  return;;
+	       esac
+	       typeset -l cdOverDriveLower
+	       cdOverTarget=${1%/}
+	       cdOverTarget=//${cdOverTarget#//}
+	       cdOverDrive=${PWD%%:*}
+               cdOverDriveLower=$cdOverDrive
+               if [ -d "${cdOverTarget}/hd_$cdOverDriveLower" ]
+	       then
+                 echo + cd $cdOverDrive: ${cdOverTarget}/hd_$cdOverDriveLower
+                     newcd $cdOverDrive: ${cdOverTarget}/hd_$cdOverDriveLower
+	       else
+                 if [ -d "${cdOverTarget}/$cdOverDriveLower\$" ]
+		 then
+                   echo + cd $cdOverDrive: ${cdOverTarget}/$cdOverDriveLower\$
+                       newcd $cdOverDrive: ${cdOverTarget}/$cdOverDriveLower\$
+		 else
+                   echo "can't find directory: ${cdOverTarget}/$cdOverDriveLower\$"
+		   return
+		 fi
+	       fi
+               unset cdOverDrive cdOverDriveLower cdOverTarget
+	       ;;
+      *)       echo 'usage: cdover [<machine>] (name machine only when local)'
+               return;;
+  esac
+}
+
+grepcd () {
+  grepcdDIR=`grep "$@" | line`
+  grepcdDIR=`dirname "${grepcdDIR}"`
+  if [ ! -d "${grepcdDIR}" ]
+  then
+    echo "no directory: ${grepcdDIR}" 1>&2
+  else
+    newcd "${grepcdDIR}"
+  fi
+}
+
+unset -f new_wcopy 2>/dev/null
+new_wcopy () {
+  if [ "$#" != 0 ]
+  then
+    print -n "$@" | wcopy
+    return
+  fi
+  wcopy.exe "$@"
+}
+
+wpasteto () {
+  if [ $# != 1 ]
+  then
+    echo 'usage: wpasteto <host>' 1>&2
+    return
+  fi
+  wpaste > //$1/c$/.clipboardinbound.txt
+}
+
+wcopyin () {
+  if [ -f c:/.clipboardinbound.txt ]
+  then
+    :
+  else
+    echo 'file "c:/.clipboardinbound.txt" not found!' 1>&2
+    return
+  fi
+  cat c:/.clipboardinbound.txt | wcopy
+}
+
+pwdcopy () {
+  #copy the PWD to the clipboard
+  echo 'running "echo $PWD | wcopy -q"'
+  echo $PWD | sed -e 's:/:\\:g' -e 's:$:\\:' -e 's:\\\\*$:\\:' | wcopy -q
+}
+
+simplePath () {
+  set -- `echo "$PATH" | wc`
+  simplePathLenBefore=$3
+  if [ "$3" -gt 250 ]
+  then
+    # make path short and simple
+    simplePathTmp="$PATH"
+    PATH=
+    PATH="$PATH;~/bin"
+    PATH="$PATH;c:/bin/local"
+    PATH="$PATH;c:/mksnt/mksnt/mksnt"
+    PATH="$PATH;C:/WINNT/SYSTEM32"
+    PATH="$PATH;C:/WINNT"
+    PATH="$PATH;C:/PROGRAM FILES/RESOURCE PRO KIT/"
+  else
+    # restore path
+    PATH="$simplePathTmp"
+  fi
+  set -- `echo "$PATH" | wc`
+  simplePathLenAfter=$3
+  echo "path length changed from $simplePathLenBefore to $simplePathLenAfter"
+}
+
+listreadonlyfiles () {
+  if [ "$1" = '-?' ]
+  then
+    echo 'listreadonlyfiles [-r]'
+    return 0
+  fi
+  if [ "$1" = '-r' ]
+  then
+    level=""
+  else
+    level="-level    0"
+    level="-maxdepth 1"
+  fi
+  find . $level ! -perm -=w -type f |
+    egrep -vi '(vssver.scc)' | sed -e 's:^./::'
+}
+
+listwriteablefiles () {
+  if [ "$1" = '-?' ]
+  then
+    echo 'listwriteablefiles [-r]'
+    return 0
+  fi
+  if [ "$1" = '-r' ]
+  then
+    level=""
+  else
+    level="-level    0"
+    level="-maxdepth 1"
+  fi
+  find . $level -perm -=w -type f |
+    egrep -vi '(vssver.scc)' | sed -e 's:^./::'
+}
+
+view () {
+  # view the incoming data in the pipe in Notepad (typically full-screen)
+  cat > c:/_/.efile.tmp.txt
+  set -- c:/_/.efile.tmp.txt
+  if [ ! -s c:/_/.efile.tmp.txt ]
+  then
+    echo "(no input)" 1>&2
+  else
+    notepad $@ &
+  fi
+}
+
+efile_UNUSED () {
+  touch "$h/lisp/glenn.el"
+  if [ "$#" = 0 ]
+  then
+    echo "Copying clipboard to $TMP/.efile.tmp.txt..." 1>&2
+    wpaste > $TMP/.efile.tmp.txt
+    set -- $TMP/.efile.tmp.txt
+    if [ ! -s $TMP/.efile.tmp.txt ]
+    then
+      echo "(no input)" 1>&2
+    fi
+  else
+    if [ "x$*" = x- ]
+    then
+      cat > $TMP/.efile.tmp.txt
+      set -- $TMP/.efile.tmp.txt
+      if [ ! -s $TMP/.efile.tmp.txt ]
+      then
+        echo "(no input)" 1>&2
+      fi
+    fi
+  fi
+  (
+    focus.to.frame.cmd
+    for file in "$@"
+    do
+      file="${file/\/cygdrive\/c\//c:/}"
+      file="${file/\/cygdrive\/d\//d:/}"
+      file="${file/\/cygdrive\/e\//e:/}"
+      file="${file/\/cygdrive\/f\//f:/}"
+      file="${file/\/cygdrive\/g\//g:/}"
+      file="${file/\/cygdrive\/h\//h:/}"
+      file="${file/\/cygdrive\/i\//i:/}"
+      file="${file/\/cygdrive\/j\//j:/}"
+      file="${file/\/cygdrive\/k\//k:/}"
+      file="${file/\/cygdrive\/l\//l:/}"
+      file="${file/\/cygdrive\/m\//m:/}"
+      file="${file/\/cygdrive\/n\//n:/}"
+      file="${file/\/cygdrive\/o\//o:/}"
+      file="${file/\/cygdrive\/p\//p:/}"
+      file="${file/\/cygdrive\/q\//q:/}"
+      file="${file/\/cygdrive\/r\//r:/}"
+      file="${file/\/cygdrive\/s\//s:/}"
+      file="${file/\/cygdrive\/t\//t:/}"
+      file="${file/\/cygdrive\/u\//u:/}"
+      file="${file/\/cygdrive\/v\//v:/}"
+      file="${file/\/cygdrive\/w\//w:/}"
+      file="${file/\/cygdrive\/x\//x:/}"
+      file="${file/\/cygdrive\/y\//y:/}"
+      file="${file/\/cygdrive\/z\//z:/}"
+      efile.exe "$file"
+      if [ "$?" != 0 ]
+      then
+        MsgBox.exe "Efile failed!" "Did you see an \"Unable to Connect to Mailslot\" error?  If so, then \"(load-library \""gnuserv\"")\" didn't run when emacs started, so there must be a problem in your .emacs file, or the lisp/*.elc files (check for emacs startup errors in the emacs *Compile-Log* window)"
+      fi
+    done
+  ) # & #wait for the efile.exe to see if it has an error
+        #(cygwin change: I'm not running in background cause it
+        #always spits up a message about the backgroup process completing )
+}
+
+lld () {
+  if [ "$#" = 0 ]
+  then
+    set -- *
+  fi
+  colSorter="c -v"
+  args=
+  for arg in "$@"
+  do
+    case $arg in
+      --) shift;break;;
+      -1) args="${args# } $arg"
+          colSorter=cat
+	  shift;;
+      -*) args="${args# } $arg"
+	  shift;;
+    esac
+  done
+  ls -1Fd "$@" | grep /$ | sed -e 's:/*::g' | eval $colSorter
+}
+
+ll_d () { #used to be named ll!d
+  if [ "$#" = 0 ]
+  then
+    set -- *
+  fi
+  ls -1Fd "$@" | grep -v /$ | sed -e 's:/*::g' | c -v
+}
+
+newemacs () {
+ touch "$h/lisp/glenn.el"
+ c:/emacs/bin/runemacs.real.exe "$@" &
+}
+
+unalias reread 2>/dev/null
+unset -f reread
+reread ()
+{
+  unset environksh
+  ps1
+  echo + . ~/.bash_profile
+         . ~/.bash_profile
+  for i in  ~/usr/functions*
+  do
+    echo + . $i
+           . $i
+  done
+}
+
+lnkToPath () {
+  # read in a *.lnk file, and output path that it takes you to
+  strings -a "$1" | tail -3 | head -1 | b2f | (
+    read share
+    read dir
+    case "$dir" in
+      //*)  share="$dir";dir=""
+    esac
+    share="${share%/}"
+    dir="${dir%/}"
+    src="${share}/${dir}"
+    src="${src%/}"
+    echo "$src"
+  )
+}
+
+# set--fromStdin () {
+#   eval set -- `cat | sed -e 's/^/"/' -e 's/$/"/' | tr '
+# ' ' ' | sed -e 's/". /" /g'`
+# }
+# 
+# alias textxxx='eval set -- `quoteInput`'
+# 
+# quoteInput () {
+#   sed -e 's/^/"/' -e 's/$/"/' | tr '
+# ' ' ' | sed -e 's/". /" /g'
+# }
+
+llln () {
+echo 'listing files that have multiple links to them...' 1>&2
+echo '(warning: if -R used, the directory will not be identified!)' 1>&2
+  ls.exe -lnFL "$@" | egrep '(^..........  *[2-9] |^..........  *[0-9][0-9]+ )'
+}
+
+rmln () {
+  #Windows command is 'linkd <symlink> /d'
+  #  bash function is 'lnrm  <symlink>'
+  if [ $# = 1 -a \( -f "$1" -o -d "$1" \) ]; then
+echo linkd "$1" /d
+    linkd "$1" /d >/dev/null 2>/dev/null
+    if [ ! -f "$1" -a ! -d "$1" ]; then
+      return 0
+    fi
+  fi
+echo rm "$@"
+  \rm "$@"
+}
+
+linkfn () {
+  #
+  #For symlinks:
+  #  Windows command is 'mklink /d              <new>      <existing-dir>'
+  #                 (or 'mklink                 <new>      <existing-file> )'
+  #                 (or 'mklink /j              <new>      <existing> )'
+  #    bash function is 'linkfn -s              <existing> <new>'
+  #
+  #For hardlinks:
+  #  Windows command is 'mklink /h              <new>      <existing>'
+  #    bash function is 'linkfn                 <existing> <new>'
+  #
+  if [ $# = 3 -a "$1" = '-s' ]; then
+    #soft, symbolic, link
+    shift
+    cmd=mklink.bat
+    here=`echo "$PWD/" | cygdrivePathFix | f2b`
+    case $1 in
+      [a-zA-Z]:*) one=`echo "$1/"      | cygdrivePathFix | f2b`;;
+      *)          one=`echo "$PWD/$1/" | cygdrivePathFix | f2b`;;
+    esac
+    case $2 in
+      [a-zA-Z]:*) two=`echo "$2/"      | cygdrivePathFix | f2b`;;
+      *)          two=`echo "$PWD/$2/" | cygdrivePathFix | f2b`;;
+    esac
+    if [ -f "$1" ]; then
+      args=
+      one=${one%\\}
+      two=${two%\\}
+    else
+      args=/d
+    fi
+    echo $cmd $args "$two" "$one"
+         $cmd $args "$two" "$one"
+    return 0
+  fi
+  if [ $# = 2 ]; then
+    #hard link
+
+    cmd=mklink.bat
+    args=/h
+    case $1 in
+      [a-zA-Z]:*) one=`echo "$1"      |                          cygdrivePathFix | f2b`;;
+      ~*)         one=`echo "$1"      | sed -e 's|^~|'$HOME'|' | cygdrivePathFix | f2b`;;
+      *)          one=`echo "$PWD/$1" |                          cygdrivePathFix | f2b`;;
+    esac
+    case $2 in
+      [a-zA-Z]:*) two=`echo "$2"      |                          cygdrivePathFix | f2b`;;
+      ~*)         two=`echo "$2"      | sed -e 's|^~|'$HOME'|' | cygdrivePathFix | f2b`;;
+      *)          two=`echo "$PWD/$2" |                          cygdrivePathFix | f2b`;;
+    esac
+    echo '\ln' "$one" "$two"
+    \ln "$one" "$two"
+    if [ $? != 0 ]; then
+      echo -e "\033[1;41mFAILED\033[0m"
+    fi
+    return 0;
+  fi
+  echo 'usage: ln [-s] target linkname'
+  return 1;
+}
+
+alias ln=linkfn
+
+viid () {
+  echo 'http://defect-tracking.cv.hp.com/viwebdev/default.asp?type=incident&name='"$1" | wcopy
+  echo 'URL is on the clipboard'
+}
+
+alias dtsid="viid"
+
+cdswap () {
+  newcd "${PWD/$1/$2}"
+}
+
+scd () {
+  cdswap "${@}"
+}
+
+puw () {
+  d=`p | sed -e 's|^~|'${USERPROFILE_f}'|'`
+  if [ -d "$d" ]
+  then
+    pushd_new "$d"
+  else
+    echo "Clipboard does not contain a directory"
+  fi
+}
+
+function downCaseArg {
+ echo "${@}" | tr "[:upper:]" "[:lower:]"
+}
+
+lsln () {
+  ls.exe -lF "$@" | grep '@ -> ' | cut -c69-1000 | sed -e 's:^\(.*\)@ .. \(.*\):ln -s "\2" "\1":'
+}
+
+alias cd=newcd
+newcd () {
+  if [ $# = 0 ]
+  then
+    # a simple cd to $HOME
+    \cd
+  else
+    # a cd to somewhere else
+    set -- "`reMapCertainCdArgs "$@"`"
+    # do the actual directory change
+    if [ ! -d "$@" -a -f "$@" ]; then
+      echo "thats a file, but I'll go to the parent directory" 1>&2
+      set -- "$(dirname "$@")"
+    fi
+    \cd "${@}" # calls the cd() function in .bashrc.functions
+    cd_ret="$?"
+    if [ "$cd_ret" != 0 ]
+    then
+      #if the cd failed, then return
+      return $cd_ret
+    fi
+  fi
+  # The cd worked, so now, update our shell prompt.  We want the PWD in our
+  # prompt, but we want to simplify it a bit, so that is what we do here.
+  PWD2="${PWD}"
+  if [ "${PWD2/\/cygdrive\//}" != "$PWD2" ]
+  then
+    PWD2="${PWD2/\/cygdrive\//}"
+    if [ ${#PWD2} = 1 ]
+    then
+      PWD2="${PWD2}:/"
+    else
+      PWD2="${PWD2/\//:/}"
+    fi
+  fi
+# PWD2=`cygdrivePathFix "$PWD"`
+  if [[ "$USERPROFILE_f" = "${PWD2:0:${#USERPROFILE_f}}" ]]
+  then
+    PWD2="~${PWD2:${#USERPROFILE_f}}"
+  fi
+  if [ "${PWD2}" = "/" ]
+  then
+    PWD2="c:/cygwin"
+  fi
+  BOX="\u"
+  BOX=
+  SPACE=" "
+  SPACE=
+  case "$PWD2" in
+    //*) # create a path prefix, based on the machine and drive
+         ;;
+    *:/cygwin*) 
+       subd=${PWD2}
+       cygyellow='\[\e[1;93m\]' # bold yellow
+       grn='\[\e[1;32m\]' # green
+       PS1="\[$grn$suon$cygyellow\]$BOX[\[$NORMAL\]$suon$cygyellow"'$subd'"$suoff\[$grn$suon\]]\$$SPACE\[$NORMAL\]"
+       PS1="${grn}${suon}${cygyellow}$BOX[\[$NORMAL\]${suon}${cygyellow}"'$subd'"${suoff}${grn}${suon}]\$$SPACE\[$NORMAL\]"
+       ;;
+    *) 
+       subd=${PWD2}
+       cyn='\[\e[1;96m\]' # cyan
+       PS1="\[$grn$suon\]${BOX}[\[$NORMAL\]$suon"'$subd'"$suoff\[$grn$suon\]]\$$SPACE\[$NORMAL\]"
+       PS1="${grn}${suon}${BOX}[\[${NORMAL}\]$suon"'$subd'"${suoff}${grn}${suon}]\$$SPACE\[$NORMAL\]"
+       PS1="${cyn}${suon}${BOX}[$suon"'$subd'"${suoff}${cyn}${suon}]\$$SPACE\[$NORMAL\]"
+       ;;
+  esac
+}
+
+alias po=popd_new
+alias popd=popd_new
+popd_new () {
+  # builtin popd "$@" | cygdrivePathFix | sed -e 's|'$spc'|$spc|'
+  set -- `reMapCertainCdArgs "$@"`
+  \popd "$@" >/dev/null
+  if [ $? = 0 ]
+  then
+    cd .
+    d
+  fi
+}
+
+alias pushd=pushd_new
+alias pu=pushd_new
+alias pd=pushd_new
+pushd_new () {
+  # this next line doesn't seem to work!  the pushd never happens!
+# builtin pushd "$@" > /dev/null # this will do the pu, but next line doesn't!
+# builtin pushd "$@" | cat > /dev/null
+# builtin pushd "$@" | cygdrivePathFix | sed -e 's|'$spc'|$spc|' ; cd .
+  set -- `reMapCertainCdArgs "$@"`
+  \pushd "$@" >/dev/null
+  if [ $? = 0 ]
+  then
+    cd .
+    d
+  fi
+}
+
+alias d=d_new
+d_new () {
+  \dirs "$@" | cygdrivePathFix | sed -e 's|'$spc'|$spc|' 
+}
+
+reMapCertainCdArgs () {
+  # changes an argument to 'cd' or 'pu' or 'po'
+  up=`echo $USERPROFILE | tr A-Z a-z`
+  if [ ! -d "$@" ] 2>$nul
+  then
+    case "$@" in
+      [dD]esktop)         set -- "$up/Desktop" ;;
+      [dD]ocuments)       set -- "$up/Documents";;
+      [sS]end[tT]o)       set -- "$up/SendTo";;
+      [sS]tart\ [mM]enu)  set -- "$up/Start Menu";;
+      [sS]tart[mM]enu)    set -- "$up/Start Menu";;
+      /a/*)               set -- "${@/\/a\//a:/}";;
+      /b/*)               set -- "${@/\/b\//b:/}";;
+      /c/*)               set -- "${@/\/c\//c:/}";;
+      /d/*)               set -- "${@/\/d\//d:/}";;
+      /e/*)               set -- "${@/\/e\//e:/}";;
+      /f/*)               set -- "${@/\/f\//f:/}";;
+      /g/*)               set -- "${@/\/g\//g:/}";;
+      /h/*)               set -- "${@/\/h\//h:/}";;
+      /i/*)               set -- "${@/\/i\//i:/}";;
+      /j/*)               set -- "${@/\/j\//j:/}";;
+      /k/*)               set -- "${@/\/k\//k:/}";;
+      /l/*)               set -- "${@/\/l\//l:/}";;
+      /m/*)               set -- "${@/\/m\//m:/}";;
+      /n/*)               set -- "${@/\/n\//n:/}";;
+      /o/*)               set -- "${@/\/o\//o:/}";;
+      /p/*)               set -- "${@/\/p\//p:/}";;
+      /q/*)               set -- "${@/\/q\//q:/}";;
+      /r/*)               set -- "${@/\/r\//r:/}";;
+      /s/*)               set -- "${@/\/s\//s:/}";;
+      /t/*)               set -- "${@/\/t\//t:/}";;
+      /u/*)               set -- "${@/\/u\//u:/}";;
+      /v/*)               set -- "${@/\/v\//v:/}";;
+      /w/*)               set -- "${@/\/w\//w:/}";;
+      /x/*)               set -- "${@/\/x\//x:/}";;
+      /y/*)               set -- "${@/\/y\//y:/}";;
+      /z/*)               set -- "${@/\/z\//z:/}";;
+    esac
+  fi
+  echo "$@"
+}
+
+# This function is to get ONE and just ONE ssh_agent running.  The agent is used to hold the
+# passphrases used to secure ssh keys.  Thus, you only need to enter the passphrase once, and the
+# agent remembers it for future use.  This is based on the following article:
+#
+#   http://corlewsolutions.com/articles/article-11-guide-to-setting-up-ssh-on-windows-7
+#
+# But, it doesn't seem to work.  The agent doesn't seem to ever get the keys.  Git doesn't seem to
+# be communicating the keys to the agent, so git ends up always asking for the passphrase :-(
+#
+function ssh_agent_connect () {
+  agent_pid=$(ps -ef | grep /ssh-agent | sed -e 's:  *: :g' | cut -d ' ' -f 3)
+  agents_running_ps=$(echo $agent_pid | wc -w)
+  if [ "$agents_running_ps" -gt 1 ]; then
+    echo "ERROR: multiple ssh-agent.exe processes running!"    
+    return
+  fi
+  if [ "$agents_running_ps" == 0 ]; then
+    rm -rf /tmp/ssh-*
+  fi
+  agents_running_ls=$(ls -1 /tmp/ssh-*/agent.* 2>/dev/null | wc -l)
+
+  echo "$agents_running_ps ssh-agent processes found running"
+  echo "$agents_running_ls /tmp/ssh-\* agent files found"
+
+  if [ "$agents_running_ls" != "$agents_running_ps" ]; then
+    echo "ERROR: inconsistency:"
+    echo "       $agents_running_ps ssh-agent processes found running, but"
+    echo "       $agents_running_ls /tmp/ssh-\* agent files found!"
+    return
+  fi
+  if [ "$agents_running_ps" = 0 ]; then
+    echo 'not running... starting...'
+    eval $(ssh-agent.exe -s)
+  fi
+  if [ "$agents_running_ps" = 1 ]; then
+    echo 'already running'
+    echo $agent_pid
+    export SSH_AUTH_SOCK=$(echo /tmp/ssh-*/agent.*)
+    export SSH_AGENT_PID=$agent_pid
+  fi
+  echo SSH_AUTH_SOCK=$SSH_AUTH_SOCK
+  echo SSH_AGENT_PID=$SSH_AGENT_PID
+}
+#ssh_agent_connect
+
+add_ruby_binstubs_to_path () {
+  if [ -f /usr/bin/ruby -a ! -f /usr/bin/ruby_executable_hooks ]; then
+    \cd /usr/bin/ >/dev/null
+    \ln ruby ruby_executable_hooks
+    \cd - >/dev/null
+  fi
+  # add to our path, all the binstubs
+  gemdir=/cygdrive/c/users/gsisson/.gem/ruby/gems
+  if [ -d $gemdir ]; then
+    \cd $gemdir >/dev/null
+    eval $(
+      find . -type d | egrep '(/exe$|/bin$)' | cut -c2-2000 | while read d
+      do
+        echo PATH=\"\$PATH:${gemdir}${d}/\"
+      done
+    )
+    \cd - >/dev/null
+  fi
+}
+
+video_name_fix () {
+  getclip | tr A-Z a-z | sed -e 's: :.:g' | putclip
+}
+
+atom () {
+  #echo + $HOME/AppData/Local/atom/atom.exe "`cygdrivePathFix $PWD`" '>/dev/null 2>&1 &'
+          $HOME/AppData/Local/atom/atom.exe "`cygdrivePathFix $PWD`" >/dev/null 2>&1 &
+}
+
+_leave_dot_file

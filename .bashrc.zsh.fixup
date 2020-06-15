@@ -1,0 +1,15 @@
+_enter_dot_file
+
+# add grep options
+
+  alias "$(alias grep | sed -e "s:\'::g") -s"
+  # add one more grep option (not in ~/.oh-my-zsh/lib/grep.zsh
+  if \grep --exclude=file "" < /dev/null >/dev/null 2>&1 ;then
+    alias "$(alias grep | sed -e "s:\'::g") --exclude={.zsh_history,.viminfo}"
+  fi
+
+# repair ls aliases
+
+_source_dot_file ~/.bashrc.aliases
+
+_leave_dot_file

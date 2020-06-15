@@ -1,0 +1,19 @@
+### From: https://gist.github.com/sos4nt/3187620
+###
+### This only works for iTerm2 on Mac if:
+###   * "italic text allowed" is selected in the preferences
+###   * you choose a font that supports italics, such as "Menlo" (comes with Mac)
+
+# A xterm-256color based TERMINFO that adds the escape sequences for italic.
+#
+# Install:
+#
+#   tic xterm-256color-italic.terminfo
+#
+# Usage:
+#
+#   export TERM=xterm-256color-italic
+#
+xterm-256color-italic|xterm with 256 colors and italic,
+	sitm=\E[3m, ritm=\E[23m,
+	use=xterm-256color,

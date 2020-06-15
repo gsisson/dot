@@ -1,0 +1,15 @@
+# If this file (.dotfiles_debug_sentinal) exists in the
+# $HOME directory, it will cause, when a shell starts,
+# for functions in ~/usr/bin/functions/dotfile.tracker.fn
+# to be run when each dotfile (.bashrc, .profile, etc) is
+# loaded, thus showing you what dotfiles are loading.
+# 
+# In addition, when each dotfile is loaded, this file will
+# be sourced.  Put code in here and it will run when each
+# dotfile is entered and exited.  Here are a few exaples
+# you can uncomment to watch the PATH variable or watch
+# a directory
+# 
+#    echo -en "\033[38;05;214m"      # colorize output
+#      echo EDITOR:$EDITOR
+#    echo -en "\033[0m"              # stop colorizing

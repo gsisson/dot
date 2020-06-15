@@ -1,0 +1,13 @@
+function gpr () { git pull --rebase; }
+function prep () { git pull --rebase; bundle; bundle exec rake db:migrate db:seed db:test:prepare; }
+function gitgo() { git pull --rebase; bundle; bundle exec rake db:migrate db:test:prepare; }
+
+alias ll="ls -la"
+alias c='pbcopy'
+alias p='pbpaste'
+alias pu='pushd'
+alias po='popd'
+alias cdw='cd "`pbpaste|sed -e s:~:$HOME:`"'
+alias k9='kill -9 $(lsof -i tcp:3000 -t)'
+alias be='bundle exec'
+alias proxy\?='proxy status' # proxy() is a function in ./functions file

@@ -1,0 +1,276 @@
+# .bashrc.mac
+_enter_dot_file
+
+#_source_dot_file ~/.bashrc.functions
+
+function start() {
+  echo use \"open\"
+}
+
+# Don't use ^D to exit
+  set -o ignoreeof
+# Don't use history expansion (so "echo x!" will work as expected)
+  set +o histexpand
+  if [ "$0" = bash ]; then
+    # Use case-insensitive filename globbing
+    shopt -s nocaseglob
+    # Use case-insensitive something-or-other
+    shopt -s nocasematch
+  fi
+
+#--------------------------------------------------------------------------------
+
+case "$TERM_PROGRAM" in
+  iTerm.app)
+    # two ways that work perfectly for iTerm2
+    alias cls="osascript -e 'if application \"iTerm\" is frontmost then tell application \"System Events\" to keystroke \"k\" using command down'"
+    alias cls="printf '\033]50;ClearScrollback\a'"
+    ;;
+  Apple_Terminal)
+    # two ways that don't quite work perfectly for Terminal
+    # this leaves a few non-blank garbage lines in buffer
+    alias cls="printf '\033[3J' && clear"
+    # this leaves some blank lines in buffer
+    alias cls="osascript -e 'if application \"Terminal\" is frontmost then tell application \"System Events\" to keystroke \"k\" using command down'"
+    ;;
+esac
+
+#alias Emacs=/usr/bin/emacs
+#alias Emacs="emacsclient -nw"
+#alias emacs="emacsclient -n"
+#alias efile="emacsclient -n"
+alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
+alias chrome='/usr/bin/open -a '\''/Applications/Google Chrome.app'\'''
+alias firefox='/usr/bin/open -a '\''/Applications/Firefox.app'\'''
+alias w="pbpaste|sed -e 's:^o	::'|pbcopy"
+alias rubymine='/usr/bin/open -a '\''/Applications/RubyMine.app'\'''
+alias gitx='/usr/bin/open -a '\''/Applications/Gitx.app'\'''
+alias gitx='echo use "fork"'
+alias fork='/usr/bin/open -a '\''/Applications/Fork.app'\'''
+alias bc3="wine '/Users/gsisson/.wine/drive_c/Program Files/Beyond Compare 3/bcomp.exe'"
+alias bc4="'/Applications/Beyond Compare.app/Contents/MacOS/BCompare'"
+alias banner=figlet # banner=~/usr/bin/banner
+alias path="echo \$PATH | ruby -e \"puts gets.split(':')\""
+alias scms="cd ~/Sites/simple_cms"
+alias vdiff="bComp" # install 'bcomp' with 'install command line utils' in BC GUI menu
+alias hp='~/src/mashup_hpcs/script/dave_staas/hpcs/cmds/hp.rb'
+alias ucb='cd /Users/gsisson/Sites/ucb.2014/cs169.2x/hwE.performance'
+alias wahoo='cd $HOME/src/wahoo'
+      neon="$HOME/src/neon_web"
+alias neon='cd $neon'
+      lpp="$HOME/src/lpp-api-doc"
+alias lpp='cd $lpp'
+      ldj="$HOME/src/link-developer-jar"
+alias ldj='cd $lpj'
+      ldjs="$HOME/src/link-developer-jar/src/main/java/com/hp/linkdeveloper"
+alias ldjs='cd $lpjs'
+      play="$HOME/src/playground/lpapi_exemplar_java/"
+alias play='cd $play'
+alias aws-region-us-west-1="echo + export AWS_DEFAULT_REGION=us-west-1;export AWS_DEFAULT_REGION=us-west-1"
+alias aws-region-us-west-2="echo + export AWS_DEFAULT_REGION=us-west-2;export AWS_DEFAULT_REGION=us-west-2"
+alias aws-region-us-east-1="echo + export AWS_DEFAULT_REGION=us-east-1;export AWS_DEFAULT_REGION=us-east-1"
+alias aws-region-CLEAR="echo + unset AWS_DEFAULT_REGION; unset AWS_DEFAULT_REGION"
+alias aws-access-key-id-CLEAR="echo + unset AWS_ACCESS_KEY_ID; unset AWS_ACCESS_KEY_ID"
+alias aws-secret-access-key-CLEAR="echo + unset AWS_SECRET_ACCESS_KEY; unset AWS_SECRET_ACCESS_KEY"
+alias aws-default-profile-CLEAR="echo + unset AWS_DEFAULT_PROFILE; unset AWS_DEFAULT_PROFILE"
+alias rbenv-versions="rbenv install --list | egrep -v '(rbx|ree|jruby|maglev|mruby|topaz|1\.8\.)'"
+
+#These are also in goguide...aliases
+#alias be='bundle exec'
+#alias proxy?='proxy status' # proxy() is a function in ./functions file
+alias c=pbcopy
+alias p=pbpaste
+#alias gdiff='git diff'
+alias gpr2='git checkout Gemfile.lock && git stash && gpr && git stash pop -q && git status -s'
+alias gitgo2='gpr2 && bundle && bundle exec rake db:migrate db:test:prepare'
+
+#PATH=/Applications/Emacs.app/Contents/MacOS
+export PATH="/usr/local/Cellar/emacs/24.3/bin:$PATH"
+export PATH="/usr/local/heroku/bin:$PATH" # Added by the Heroku Toolbelt
+#export awsebcli="~/Downloads/a/AWS/AWS-ElasticBeanstalk-CLI-2.6.3"
+#export PATH="${awsebcli}/eb/macosx/python2.7:$PATH"
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH" # brew doctor said to add /usr/local/sbin/
+export PATH="~/usr/bin:$PATH"
+export PATH="~/usr/bin0:$PATH"
+PATH=${PATH//\~/$HOME} # replace all ~ with $HOME value (zsh issue)
+export PATH="$PATH:$HOME/src/link_docker"
+
+export SLIC3R_PATH=/Applications/Slic3r.app/Contents/MacOS/slic3r
+
+export basic_auth='OWk3ZjIzN3luZnpsNHo5bW9qcXFzMWM4M3Y4eHJ4Zzk6R3N0Z3A2NVpjZ2c0WFRqY0JEOHdKM2s4VHg1b3U5ZXo='
+
+
+export EDITOR=/Applications/Emacs.app/Contents/MacOS/Emacs
+export EDITOR='emacsclient -n'
+export EDITOR="$HOME/usr/bin/edit"
+export EDITOR_FOR_DIRS=code
+export EDITOR_FOR_FILES='emacsclient -n'
+export BUNDLER_EDITOR="/Applications/RubyMine.app/bin/... hmmm"
+
+# 'brew install ruby-build' says:
+# - ruby-build installs a non-Homebrew OpenSSL for each Ruby version installed and 
+#   these are never upgraded.
+# - To link Rubies to Homebrew's OpenSSL 1.1 (which is upgraded) add the following
+#   to your ~/.zshrc:
+    export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+# - Note: this may interfere with building old versions of Ruby (e.g <2.4) that use
+#   OpenSSL <1.1.
+
+export SVN_EDITOR=$EDITOR
+export PROMPT_COMMAND='history -a;'
+
+export GOROOT=$HOME/go
+export PATH=$PATH:$GOROOT/bin
+
+# Ways to deal with gems that won't build on Mavericks
+   export ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future
+#  sudo -E bundle ...
+
+function emacs
+{
+    if [ ! -e "$@" ]
+    then
+        touch "$@"
+    fi
+    command open -a /Applications/Emacs.app "${@}"
+}
+
+function ps1 {
+  # Note: ZSH !!
+  #       ZSH sets PS1 in the ~/.oh-my-zsh/themes/glenn.zsh-theme
+  # Note: ZSH !!
+  if [ "$0" == bash ]
+  then
+    if [ "$PS1" = '$ ' ]
+    then
+      local        BLUE="\[\033[0;34m\]"
+      local         RED="\[\033[0;31m\]"
+      local   LIGHT_RED="\[\033[1;31m\]"
+      local       GREEN="\[\033[0;32m\]"
+      local LIGHT_GREEN="\[\033[1;32m\]"
+      local      YELLOW="\[\033[0;33m\]"
+      local   BG_YELLOW="\[\033[0;43m\]"
+      local        CYAN="\[\033[1;36m\]"
+      local     LT_CYAN="\[\033[0;36m\]"
+      local       WHITE="\[\033[1;37m\]"
+      local  LIGHT_GRAY="\[\033[0;37m\]"
+      local        GRAY="\[\033[1;30m\]"
+      local       RESET="\[\033[0m\]"
+  
+      local    BG_GREEN="\[\033[0;42m\]"
+     #export PS1="$RESET\u@\h: \w$GREEN\$(parse_git_branch)$RESET$ "
+  #   export PS1="$RESET$BG_YELLOW$GRAY\u$RESET@\h: \w$GREEN\$(parse_git_branch 2>/dev/null)$RESET$ "
+      local proxysym='☼'
+      if [ -n "${http_proxy}${https_proxy}${HTTP_PROXY}${HTTPS_PROXY}${ALL_PROXY}" ]; then
+        local umbrella='☂'
+        proxysym="$umbrella"
+      fi
+      proxysym='' # do not show (confuses bash editor on width)
+      #      PS1= proxy symbol, my name (yellow on gray) @ machine : pwd (git branch) $
+      export PS1="${proxysym}$RESET$BG_YELLOW$GRAY\u$RESET@\h: \w$GREEN\$(git branch -a 2>/dev/null| grep origin-bb >/dev/null|| git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')$RESET$ "
+    else
+      PS1='$ '
+    fi
+  fi
+}
+
+## We want to set the prompt ($PS1) after calling proxy() so the PROXY icon is shown in $PS1
+## To do that, we must remap proxy() to be _proxy()
+## and then rewrite proxy() to call _proxy() then reset the prompt
+## But we want the code to be re-entrant, so only do this if we haven't done it already
+#if ! typeset -f _proxy >/dev/null ; then
+#  # rename proxy() to be _proxy()
+#  eval "$(echo "_proxy()"; declare -f proxy | sed -e 's:proxy on;:_proxy on:' -e 's:proxy off;:_proxy off:' | tail -n +2);"
+#  # rewrite proxy() so it will set the PS1 prompt
+#  proxy() { _proxy "$@"; ps1; ps1; }
+#fi
+
+# this will swap network from HP to Wireless (this should be contribued to goguide)
+net-swap() {
+  proxy status|grep 'not set'>/dev/null 2>&1
+  if [ $? == 0 ]; then
+    # proxy variables are not set, so we must not be on wired (HP) network
+    # turn wired (HP) network => on
+    net-hp on || return
+    # turn wireless network   => off
+    net-wl off
+    sleep 1 # let network changes take effect
+    proxy
+  else
+    # turn wired (HP) network => off
+    net-hp off
+    # turn wireless network   => on 
+    net-wl on
+    sleep 1 # let network changes take effect
+    proxy
+  fi
+}
+
+set-lpp-auth() {
+  if [ ! -n "$basic_auth" ]; then
+    echo '$basic_auth variable is not set!'
+    return
+  fi
+  source ~/usr/bin0/lpp-wm.sh.auth.txt > ~/usr/bin0/lpp-wm.sh.auth.txt.out
+  export access_token=$(cat ~/usr/bin0/lpp-wm.sh.auth.txt.out | sed -e 's|","scope".*||' -e 's:.*"::')
+  echo   access_token=\"$access_token\"
+}
+
+auth_proj() {
+  proj="$1"
+  api=https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0
+  cmd=tokens
+  curl -X POST -H "Content-Type: application/json" $api/$cmd -d '
+   {
+      "auth":{
+          "apiAccessKeyCredentials":{
+              "accessKey":"43UKH1D9YAV82V86ARPP",
+              "secretKey":"C89nHDSrHwfNXIRp2edm3QOrcNW1bqWDEaXL5/lP"
+          },
+        "tenantId":"'$proj'"
+      }
+   }' 2>&1 | grep HPAuth | sed -e 's:.*\(HPAuth.*\)",:\1:'
+}
+
+auth() {
+  case "$1" in
+    mashup)       export mashup_proj=10683160506093
+             echo export mashup_proj=$mashup_proj
+                  export mashup_token=`auth_proj $mashup_proj`
+             echo export mashup_token=$mashup_token
+	     ;;
+    olympia)      export olympia_proj=10491439604343
+             echo export olympia_proj=$olympia_proj
+                  export olympia_token=`auth_proj $olympia_proj`
+             echo export olympia_token=$olympia_token
+	     ;;
+    *)       echo 'usage: auth mashup|olympia';;
+  esac
+}
+
+#ps1
+#ps1
+#--------------------------------------------------------------------------------
+# These are also in gouide...paths
+if [ "$(uname)" = Darwin ]; then
+  : ${GREP_OPTIONS:='--color=auto'}
+  : ${GREP_COLOR:='1;36'}
+  export GREP_OPTIONS GREP_COLOR
+fi
+
+if [ "$0" = bash ]; then
+  if [ -f ~/.git-completion.bash       ]; then
+    _source_dot_file ~/.git-completion.bash
+  fi
+  if [ -f ~/.bash_completion.d/hpcloud ]; then
+    _source_dot_file ~/.bash_completion.d/hpcloud
+  fi
+fi
+
+# rbenv alias --auto # see instructions at https://github.com/tpope/rbenv-aliases
+#~/usr/bin0/bashcheck
+
+NPM_PACKAGES=/Users/gsisson/.npm-packages
+
+_leave_dot_file

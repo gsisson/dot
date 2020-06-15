@@ -1,0 +1,50 @@
+_enter_dot_file
+
+# establish ls aliases
+
+  set_ls_aliases() {
+    # check if gnu ls is available as 'gls'
+    local g=""
+    if command -v gls >/dev/null 2>&1; then
+      g=g
+    fi
+    # see if ls (or gls) takes --color option, to ensure it is gnu ls
+    if ${g}ls --color >/dev/null 2>&1; then
+      local when=always
+      local when=auto
+      # Some shortcuts for different directory listings
+      # alias ls="${g}ls -hF --color=tty"                 # classify files in colour
+        alias ls="${g}ls --color=$when"                   #(.exe)
+        alias lsc="${g}ls --color=always -CLF"            #(.exe)
+      # alias dir="${g}ls --color=$when --format=vertical"
+      # alias vdir="${g}ls --color=$when --format=long"
+      # alias ll="${g}ls -lG"                             # long list, no groups
+        alias ll="${g}ls --color=$when -lF"               # long list, show file types
+        alias llc="${g}ls --color=always -lnLF"           # long list, show sym links,types #(.exe)
+      # alias la="${g}ls -A"                              # all but . and ..
+      # alias l="${g}ls -CF"                              #
+        alias l="${g}ls --color"                          # (.exe)
+    fi
+  }
+  set_ls_aliases
+  unset -f set_ls_aliases
+
+# use gnu grep (ggrep) instead of grep, if gnu grep installed
+
+  if command -v ggrep >/dev/null 2>&1; then
+    if alias grep > /dev/null 2>&1; then
+      alias "$(alias grep | sed -e "s:\'::g" -e "s:=grep:=ggrep:")"
+    fi
+  fi
+
+alias datex='date +%Y-%m-%d_%H-%M-%S'
+alias gs='git status'
+alias gsx='git -c color.status=always status | grep -v "deleted:.*_mac"'
+
+case "$(uname)" in
+  *CYGWIN*) ;;
+  *Darwin*) alias rm='echo -e "\033[1;41m   Use \"rmtrash\" or \"\\\\rm\"    \033[0m"';;
+esac
+
+_leave_dot_file
+
