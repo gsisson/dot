@@ -1,4 +1,4 @@
-# Windows Home Dirs/Files ----------------
+# Windows Home Dirs ----------------
 3D Objects/
 AppData/
 Application Data
@@ -29,21 +29,42 @@ Start Menu
 Templates
 Videos/
 
-# Tool Created ----------
+# Mac Home Dirs ----------------
+Applications/
+Library/
+Movies/
+Public/
+
+# Tool Created Dirs/Files ----------
 .(users gsisson)
+.*history
+.CFUserTextEncoding
+.MakeMKV
 .android/
+.anyconnect
 .atom/
-.bash_history
+.aws-sam/
+.awsp
+.cisco/
 .config/
+.docker/
+.dropbox/
 .eclipse/
 .electron/
 .gem
+.isengardcli-cert.pem
 .lesshst
+.local/
+.midway/
+.npm/
+.toolbox/
 .viminfo
 .vscode
-.MakeMKV
+.zcompdump*
 OneDrive/
+com.googlecode.iterm2.plist
 hsperfdata_gsisson/
+isengard/
 
 # Ruby -------------------
 bin/ # Ruby Created Bins

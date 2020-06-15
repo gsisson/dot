@@ -3,9 +3,13 @@
 #   win: ln -s .gitconfig_pc  .gitconfig
 #   mac: ln -s .gitconfig_mac .gitconfig
 
+[credential]
+	helper = !aws codecommit credential-helper $@
+	UseHttpPath = true
 [user]
 	name = Glenn Sisson
-	email = glenn.sisson@gmail.com
+	#email = glenn.sisson@gmail.com
+	#email = glennaws@amazon.com
 [alias]
 	st = status
 	ci = commit

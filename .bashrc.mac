@@ -69,8 +69,8 @@ alias rbenv-versions="rbenv install --list | egrep -v '(rbx|ree|jruby|maglev|mru
 alias c=pbcopy
 alias p=pbpaste
 #alias gdiff='git diff'
-alias gpr2='git checkout Gemfile.lock && git stash && gpr && git stash pop -q && git status -s'
-alias gitgo2='gpr2 && bundle && bundle exec rake db:migrate db:test:prepare'
+alias sam=/Users/glennaws/Library/Python/3.7/bin/sam
+alias awsp="source _awsp"
 
 #PATH=/Applications/Emacs.app/Contents/MacOS
 export PATH="/usr/local/Cellar/emacs/24.3/bin:$PATH"
@@ -83,6 +83,9 @@ export PATH="~/usr/bin:$PATH"
 export PATH="~/usr/bin0:$PATH"
 PATH=${PATH//\~/$HOME} # replace all ~ with $HOME value (zsh issue)
 export PATH="$PATH:$HOME/src/link_docker"
+export PATH="$HOME/.toolbox/bin:${PATH}"
+export PATH="/usr/local/opt/node@10/bin:$PATH"
+export PATH=$HOME/usr/bin:$PATH
 
 export EDITOR=/Applications/Emacs.app/Contents/MacOS/Emacs
 export EDITOR='emacsclient -n'
