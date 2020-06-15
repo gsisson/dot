@@ -4,9 +4,9 @@ alias d=dirs
 alias tree=tree.com
 alias pwd="\pwd | cygdrivePathFix"
 
-for comp_script in ~/src/squishup_scripts/bin/completion/*; do
-  source $comp_script
-done
+#for comp_script in ~/src/squishup_scripts/bin/completion/*; do
+#  source $comp_script
+#done
 
 cdw () {
   d1=`p | grep -v '^$' | head -1 | sed -e 's|^file:///||' -e 's|^~|'${USERPROFILE_f}'|'`
