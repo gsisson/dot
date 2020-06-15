@@ -40,6 +40,7 @@ _enter_dot_file
 alias datex='date +%Y-%m-%d_%H-%M-%S'
 alias gs='git status'
 alias gsx='git -c color.status=always status | grep -v "deleted:.*_mac"'
+alias gpr="git pull --rebase"
 
 case "$(uname)" in
   *CYGWIN*) ;;
