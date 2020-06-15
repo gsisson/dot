@@ -14,7 +14,7 @@ fi
 #
 #if [ "$(uname)" = Darwin ]; then
 #  if [ -z "$scripts_dir" ]; then
-#    _source_dot_file ~/src/mashup_scripts/lib/profile/example_profile
+#    _source_dot_file ~/src/squishup_scripts/lib/profile/example_profile
 #    unset LSCOLORS
 #    unset LS_COLORS
 #  fi

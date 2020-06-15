@@ -29,7 +29,6 @@ BUNDLED_COMMANDS=(rubocop)
 plugins=(glenn wd gem git bundler brew heroku rake rails) # rbenv #rake-fast rake per-directory-history
 
 # Handle problems of oh-my-zsh overriding things ----------------------------------------------
-  #type gst > /dev/null && eval alias _$(alias gst)            # save mashup's 'gst' alias    |
   _LSCOLORS="$LSCOLORS"                                        # save LSCOLORS
   # Now load oh-my-zsh stuff
   if [ ! -f ~/.oh-my-zsh/plugins/glenn/glenn.plugin.zsh -o \
@@ -73,29 +72,28 @@ unset file
 
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
-# Mashup Scripts ------------------------------------------------------------------------------
+# Squishup Scripts ------------------------------------------------------------------------------
   # this stuff moved here from .profile (and was also in .bashrc) because otherwise           |
-  # errors come from mashup_scripts's example_profile when the bash-style command completion  |
+  # errors come from squishup_scripts's example_profile when the bash-style command completion  |
   # commands are run.  Putting it here ensures that .oh-my-zsh/oh-my-zsh.sh has been          |
   # loaded and the support for bash-style command completion will work.                       |
   #
   if [ "$(uname)" = Darwin ]; then
-   #_source_dot_file ~/src/mashup_scripts/lib/profile/example_profile 2>&1 | grep -v GREP_OPTIONS
-   #_source_dot_file ~/src/mashup_scripts/lib/profile/example_profile
+   #_source_dot_file ~/src/squishup_scripts/lib/profile/example_profile 2>&1 | grep -v GREP_OPTIONS
+   #_source_dot_file ~/src/squishup_scripts/lib/profile/example_profile
    #unset GREP_OPTIONS # depricated for Gnu grep
-   #export mash_check1="net.rb, ~/usr/bin, ~/src/mashup_scripts/bin"
-   #export mash_check2="net.rb, ~/usr/ruby/lib, ~/src/mashup_scripts/lib"
-   #export mash_check3="string_colorize.rb, ~/usr/ruby/lib, ~/src/mashup_scripts/lib"
-   #_source_dot_file ~/src/mashup_scripts/lib/profile/example_profile 2>&1 | grep -v GREP_OPTIONS
-    local _EDITOR=$EDITOR  # save EDITOR, which mashup scripts profile changes
-    _source_dot_file ~/src/mashup_scripts/lib/profile/example_profile
-    unset GREP_OPTIONS # depricated for Gnu grep
-    if [ -f ~/.profile_reveal_NO_CHECKIN ]; then
-      _source_dot_file ~/.profile_reveal_NO_CHECKIN
+   #export mash_check1="net.rb, ~/usr/bin, ~/src/squishup_scripts/bin"
+   #export mash_check2="net.rb, ~/usr/ruby/lib, ~/src/squishup_scripts/lib"
+   #export mash_check3="string_colorize.rb, ~/usr/ruby/lib, ~/src/squishup_scripts/lib"
+   #_source_dot_file ~/src/squishup_scripts/lib/profile/example_profile 2>&1 | grep -v GREP_OPTIONS
+    local _EDITOR=$EDITOR  # save EDITOR, which squishup scripts profile changes
+    if [ -f ~/src/squishup_scripts/lib/profile/example_profile ]; then
+      _source_dot_file ~/src/squishup_scripts/lib/profile/example_profile
     fi
+    unset GREP_OPTIONS # depricated for Gnu grep
     EDITOR=$_EDITOR  # restore EDITOR
   fi
-# Mashup Scripts ------------------------------------------------------------------------------
+# Squishup Scripts ------------------------------------------------------------------------------
 
 _source_dot_file ~/.bashrc.zsh.fixup # fix things zsh messed up
 

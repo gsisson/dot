@@ -4,7 +4,7 @@ alias d=dirs
 alias tree=tree.com
 alias pwd="\pwd | cygdrivePathFix"
 
-for comp_script in ~/src/mashup_scripts/bin/completion/*; do
+for comp_script in ~/src/squishup_scripts/bin/completion/*; do
   source $comp_script
 done
 
@@ -807,78 +807,6 @@ setdirs () {
   files=`find . -maxdepth 1 -type d | tail +2 | sed -e 's/^..//'`
 }
 
-cdback () {
-  if [ $# -gt 1 ]
-  then
-    echo "usage: cdback"
-    echo '       cdover [<machine>] (name machine only when local)'
-    return
-  fi
-  case $PWD in
-      [A-Z]:*)#cdover //MITsoftware
-	       cdover //hpsdges.dhcp.sdd.hp.com
-	       return;;
-      //*)     typeset -l cdOverDriveLower
-	       cdOverPC=${PWD#//}
-	       cdOverPC=//${cdOverPC%%/*}
-	       cdOverDrive=${PWD#$cdOverPC/}
-	       cdOverDrive=${cdOverDrive%%/*}
-               cdOverDriveLower=$cdOverDrive
-	       case $cdOverDrive in
-	         hd_*) cdLclDrive=${cdOverDrive#hd_};;
-	         ??)   cdLclDrive=${cdOverDrive%?};;
-	       esac
-               echo + cd $cdOverPC/$cdOverDrive $cdLclDrive:
-                   newcd $cdOverPC/$cdOverDrive $cdLclDrive:
-               unset cdOverDrive cdOverDriveLower cdOverTarget cdLclDrive
-	       ;;
-  esac
-}
-
-cdover () {
-  if [ "$#" = 0 ]
-  then
-    cdback
-    return
-  fi
-  if [ "$#" != 1 ]
-  then
-    echo 'usage: cdover [<machine>] (name machine only when local)'
-    echo '       cdback (to return)'
-    return
-  fi
-  case $PWD in
-      [A-Z]:*) 
-               case "$1" in
-	         $shadow) newcd $spc $shadow
-			  return;;
-	       esac
-	       typeset -l cdOverDriveLower
-	       cdOverTarget=${1%/}
-	       cdOverTarget=//${cdOverTarget#//}
-	       cdOverDrive=${PWD%%:*}
-               cdOverDriveLower=$cdOverDrive
-               if [ -d "${cdOverTarget}/hd_$cdOverDriveLower" ]
-	       then
-                 echo + cd $cdOverDrive: ${cdOverTarget}/hd_$cdOverDriveLower
-                     newcd $cdOverDrive: ${cdOverTarget}/hd_$cdOverDriveLower
-	       else
-                 if [ -d "${cdOverTarget}/$cdOverDriveLower\$" ]
-		 then
-                   echo + cd $cdOverDrive: ${cdOverTarget}/$cdOverDriveLower\$
-                       newcd $cdOverDrive: ${cdOverTarget}/$cdOverDriveLower\$
-		 else
-                   echo "can't find directory: ${cdOverTarget}/$cdOverDriveLower\$"
-		   return
-		 fi
-	       fi
-               unset cdOverDrive cdOverDriveLower cdOverTarget
-	       ;;
-      *)       echo 'usage: cdover [<machine>] (name machine only when local)'
-               return;;
-  esac
-}
-
 grepcd () {
   grepcdDIR=`grep "$@" | line`
   grepcdDIR=`dirname "${grepcdDIR}"`
@@ -1216,13 +1144,6 @@ linkfn () {
 }
 
 alias ln=linkfn
-
-viid () {
-  echo 'http://defect-tracking.cv.hp.com/viwebdev/default.asp?type=incident&name='"$1" | wcopy
-  echo 'URL is on the clipboard'
-}
-
-alias dtsid="viid"
 
 cdswap () {
   newcd "${PWD/$1/$2}"
