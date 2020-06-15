@@ -12,9 +12,9 @@ if which nodenv > /dev/null 2>&1; then eval "$(nodenv init -)"; fi
 # #_source_dot_file ~/src/squishup_scripts/lib/profile/example_profile 2>&1 | grep -v GREP_OPTIONS
 # #_source_dot_file ~/src/squishup_scripts/lib/profile/example_profile 2>&1
 # #unset GREP_OPTIONS # depricated for Gnu grep
-# #export mash_check1="net.rb, ~/usr/bin, ~/src/squishup_scripts/bin"
-# #export mash_check2="net.rb, ~/usr/ruby/lib, ~/src/squishup_scripts/lib"
-# #export mash_check3="string_colorize.rb, ~/usr/ruby/lib, ~/src/squishup_scripts/lib"
+# #export s_check1="net.rb, ~/usr/bin, ~/src/squishup_scripts/bin"
+# #export s_check2="net.rb, ~/usr/ruby/lib, ~/src/squishup_scripts/lib"
+# #export s_check3="string_colorize.rb, ~/usr/ruby/lib, ~/src/squishup_scripts/lib"
 # #_source_dot_file ~/src/squishup_scripts/lib/profile/example_profile 2>&1 | grep -v GREP_OPTIONS
 #  _source_dot_file ~/src/squishup_scripts/lib/profile/example_profile 2>&1
 #fi

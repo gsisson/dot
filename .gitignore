@@ -1,3 +1,5 @@
+OneDrive/
+
 # Windows Home Dirs ----------------
 3D Objects/
 AppData/
@@ -40,29 +42,49 @@ Public/
 .*history
 .CFUserTextEncoding
 .MakeMKV
+.Xauthority
 .android/
 .anyconnect
 .atom/
 .aws-sam/
 .awsp
+.bash_sessions/
+.bundle/
 .cisco/
 .config/
+.cups/
 .docker/
 .dropbox/
 .eclipse/
 .electron/
+.emacs.d/
 .gem
+.gnupg/
+.gradle/
+.gsutil/
 .isengardcli-cert.pem
+.kube/
 .lesshst
 .local/
+.m2/
 .midway/
+.mono/
+.node-gyp/
 .npm/
+.oracle_jre_usage/
+.packer.d/
+.plugman/
+.rbenv/
+.rnd
+.ruby-version
+.terraform.d/
 .toolbox/
+.usage-stats/
 .viminfo
 .vscode
 .zcompdump*
-OneDrive/
 com.googlecode.iterm2.plist
+find.txt*
 hsperfdata_gsisson/
 isengard/
 
@@ -86,6 +108,7 @@ lisp
 
 # My Git Sub-dirs ------------
 /.oh-my-zsh/
+/.vim
 /usr/bin/
 /usr/bin0/
 /usr/local/
