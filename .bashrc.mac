@@ -115,11 +115,19 @@ export PATH=$PATH:$GOROOT/bin
 
 function emacs
 {
-    if [ ! -e "$@" ]
-    then
+    local tty
+    if [[ "${1}" == '-nw' ]]; then
+      tty=true
+      shift
+    fi
+    if [ ! -e "$@" ]; then
         touch "$@"
     fi
-    command open -a /Applications/Emacs.app "${@}"
+    if [[ "$tty" == true ]]; then
+       /Applications/Emacs.app/Contents/MacOS/Emacs -nw ${*}
+    else
+       command open -a /Applications/Emacs.app "${@}"
+    fi
 }
 
 function ps1 {
