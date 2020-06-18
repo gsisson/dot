@@ -48,6 +48,7 @@ node_modules/
 .Trashes
 ._*
 .byebug_history
+.cache/
 .metadata/
 .picasa.ini
 .subversion
