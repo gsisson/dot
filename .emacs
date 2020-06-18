@@ -22,3 +22,17 @@
              "~/My Documents/Cloud/Dropbox/_Settings/lisp/")
    (load "dot.emacs_pc")
 )
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (org-bullets use-package))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(mode-line ((t (:background "grey50" :foreground "Black" :box 1 :weight extra-bold :height 1.0))))
+ '(mode-line-buffer-id ((t (:background "LightBlue" :foreground "Black" :weight bold :height 1.1))))
+ '(mode-line-emphasis ((t (:background "Magenta" :foreground "Black" :slant italic)))))
