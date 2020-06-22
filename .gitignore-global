@@ -1,4 +1,4 @@
-# Visual Studio Created -------------------------
+# Visual Studio Created -------------------
 *AssemblyAttributes.cs
 .idea/
 .vs/
@@ -13,10 +13,13 @@ coverage/
 # Node related ----------------------------
 node_modules/
 
+# Terraform related -----------------------
+*.tfvar
 .terraform/
+terraform.tfstate
 terraform.tfstate.backup
 
-# Others ----------------------------
+# Others ----------------------------------
 **/.vscode/launch.json
 **/.subversion/
 **/.svn/
