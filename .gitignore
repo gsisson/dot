@@ -78,6 +78,7 @@ Public/
 .rnd
 .ruby-version
 .terraform.d/
+.terraformrc
 .toolbox/
 .usage-stats/
 .viminfo
@@ -119,4 +120,3 @@ lisp
 .ssh/
 .aws/
 src/
-

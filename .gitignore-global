@@ -13,6 +13,9 @@ coverage/
 # Node related ----------------------------
 node_modules/
 
+.terraform/
+terraform.tfstate.backup
+
 # Others ----------------------------
 **/.vscode/launch.json
 **/.subversion/
