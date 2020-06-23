@@ -43,6 +43,7 @@ Public/
 .CFUserTextEncoding
 .MakeMKV
 .Xauthority
+.anaconda/
 .android/
 .anyconnect
 .atom/
@@ -51,6 +52,7 @@ Public/
 .bash_sessions/
 .bundle/
 .cisco/
+.condarc
 .config/
 .cups/
 .docker/
@@ -62,7 +64,10 @@ Public/
 .gnupg/
 .gradle/
 .gsutil/
+.ipynb_checkpoints/
+.ipython/
 .isengardcli-cert.pem
+.jupyter/
 .kube/
 .lesshst
 .local/
