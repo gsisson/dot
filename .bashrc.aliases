@@ -41,7 +41,12 @@ alias datex='date +%Y-%m-%d_%H-%M-%S'
 alias gs='git status'
 alias gsx='git -c color.status=always status | grep -v "deleted:.*_mac"'
 alias gpr="git pull --rebase"
+alias cdw='cd "`pbpaste|sed -e s:~:$HOME:`"'
 alias tf="terraform"
+alias pu='pushd'
+alias po='popd'
+alias k9='kill -9 $(lsof -i tcp:3000 -t)'
+alias be='bundle exec'
 
 case "$(uname)" in
   *CYGWIN*) ;;
