@@ -8,8 +8,8 @@
 	UseHttpPath = true
 [user]
 	name = Glenn Sisson
+	email = glennaws@amazon.com
 	#email = glenn.sisson@gmail.com
-	#email = glennaws@amazon.com
 [alias]
 	st = status
 	ci = commit
@@ -22,6 +22,7 @@
 	excludesfile = ~/.gitignore-global
 	mergeoptions = --no-edit
 	autocrlf = input
+	pager = less -MRi-+F-+X
 [hub]
 	protocol = https
 [push]
@@ -39,33 +40,23 @@
 	interactive = auto
 [color "diff"]
 	plain = normal
-#	meta = bold
-	meta = ul
+	meta = white blue bold reverse
 	frag = cyan
-#	old = red
 	old = red bold
-#	new = green
 	new = green bold
 	commit = yellow
 	whitespace = normal red
 [color "branch"]
-#	current = green
 	current = green bold
 	local = normal
-#	remote = red
 	remote = red bold
 	plain = normal
 [color "status"]
 	header = normal
-#	added = red
 	added = red bold
-#	updated = green
 	updated = green bold
-#	changed = red
 	changed = red bold
-#	untracked = red
 	untracked = cyan bold
-#	nobranch = red
 	nobranch = red bold
 [color "grep"]
 	match = normal

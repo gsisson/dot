@@ -20,7 +20,9 @@ fi
 #  fi
 #fi
 
-export LESS=-R # allow less to pass colors through
+export PAGER=/usr/local/bin/less # brew 'less' (uses ~/.lesskey; allows key remaping)
+export PAGER=less                # apple 'less' (doesn't use ~/.lesskey)
+export LESS=-MRi-+X-+F
 
 _source_dot_file ~/.bashrc.colors
 _source_dot_file ~/.bashrc.functions

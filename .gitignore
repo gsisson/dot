@@ -36,6 +36,7 @@ Applications/
 Library/
 Movies/
 Public/
+Amazon WorkDocs Drive/
 
 # Tool Created Dirs/Files ----------
 .(users gsisson)
@@ -80,8 +81,10 @@ Public/
 .packer.d/
 .plugman/
 .rbenv/
+.rest-client/
 .rnd
 .ruby-version
+.runtimes/
 .terraform.d/
 .terraformrc
 .toolbox/

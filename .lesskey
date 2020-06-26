@@ -1,0 +1,8 @@
+# run '/usr/local/bin/lesskey' (homebrew installed) to have this
+# ~/.lesskey file processed, and the output placed into the binary
+# file ~/.less
+#
+# but be aware that 'export LESS=options' works just fine too
+
+#env
+LESS = -MRi-+X-+F

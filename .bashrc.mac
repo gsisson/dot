@@ -84,7 +84,7 @@ export PATH="~/usr/bin0:$PATH"
 PATH=${PATH//\~/$HOME} # replace all ~ with $HOME value (zsh issue)
 export PATH="$PATH:$HOME/src/link_docker"
 export PATH="$HOME/.toolbox/bin:${PATH}"
-export PATH="/usr/local/opt/node@10/bin:$PATH"
+export PATH="/usr/local/opt/node@12/bin:$PATH"
 export PATH=$HOME/usr/bin:$PATH
 
 export EDITOR=/Applications/Emacs.app/Contents/MacOS/Emacs
