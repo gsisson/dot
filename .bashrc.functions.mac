@@ -41,6 +41,9 @@ ssh_ges () {
   \ssh "${@}"
 }
 
+#alias cdw='cd "`pbpaste|sed -e s:~:$HOME:`"'
+cdw () { cd "`pbpaste|sed -e s:~:$HOME:`" }
+
 efile() {
   emacsclient -n "${@}" 2>/dev/null || emacs "${@}"
 }
