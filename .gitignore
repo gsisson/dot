@@ -92,6 +92,7 @@ Amazon WorkDocs Drive/
 .viminfo
 .vscode
 .zcompdump*
+VSCode Crashes/
 com.googlecode.iterm2.plist
 find.txt*
 hsperfdata_gsisson/
