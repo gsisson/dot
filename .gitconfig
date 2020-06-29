@@ -24,7 +24,7 @@
 	autocrlf = input
 	pager = less -MRi-+F-+X
 [hub]
-	protocol = https
+	protocol = ssh
 [push]
 	default = simple
 [merge]
