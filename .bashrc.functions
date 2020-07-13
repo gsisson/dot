@@ -173,4 +173,24 @@ paa() {
   done | column -t -x -s '	'
 }
 
+aws.profile.export () {
+  if [ "$1" = "" ]; then
+    echo "INFO: choices:"
+    grep "\[" ~/.aws/credentials --color=always | sed -e 's:^:  :'
+    return
+  fi
+  if ! grep "\[$1\]" ~/.aws/credentials > /dev/null ; then
+    echo "ERROR: '[$1]' not found"
+    echo "INFO: close matches:"
+    grep "$1" ~/.aws/credentials --color=always | sed -e 's:^:  :'
+    return
+  fi
+  cmd="export AWS_ACCESS_KEY_ID=`aws configure get $1.aws_access_key_id`"
+  echo + $cmd
+  eval $cmd
+  cmd="export AWS_SECRET_ACCESS_KEY=`aws configure get $1.aws_secret_access_key`"
+  echo + $cmd
+  eval $cmd
+}
+
 _leave_dot_file

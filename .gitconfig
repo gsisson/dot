@@ -40,7 +40,7 @@
 	interactive = auto
 [color "diff"]
 	plain = normal
-	meta = white blue bold reverse
+	meta = blue white bold reverse
 	frag = cyan
 	old = red bold
 	new = green bold
@@ -82,3 +82,5 @@
 	trustExitCode = true
 [pull]
 	rebase = false
+[http]
+	sslVerify = false

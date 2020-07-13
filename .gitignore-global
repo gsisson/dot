@@ -20,7 +20,7 @@ terraform.tfstate
 terraform.tfstate.backup
 
 # Others ----------------------------------
-**/.vscode/launch.json
+**/.vscode/
 **/.subversion/
 **/.svn/
 **/bin/debug/

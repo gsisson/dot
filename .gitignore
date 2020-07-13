@@ -90,7 +90,6 @@ Amazon WorkDocs Drive/
 .toolbox/
 .usage-stats/
 .viminfo
-.vscode
 .zcompdump*
 VSCode Crashes/
 com.googlecode.iterm2.plist
