@@ -50,7 +50,10 @@ zle -N down-line-or-beginning-search
 bindkey "^P"   up-line-or-beginning-search
 bindkey "^N" down-line-or-beginning-search
 
-setopt share_history
+# Appends every command to the history file once it is executed
+  setopt inc_append_history
+# Reloads the history whenever you use it
+unsetopt share_history
 
 # allow pound sign to start comments when in interactive shell
 setopt interactivecomments
