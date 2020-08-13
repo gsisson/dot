@@ -10,6 +10,11 @@ _enter_dot_file
 
 # repair ls aliases
 
+# undo git aliases
+
+  unalias gp
+  unalias gb
+
 _source_dot_file ~/.bashrc.aliases
 
 _leave_dot_file

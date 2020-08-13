@@ -17,10 +17,12 @@ bureau_git_prompt_glenn () {
 ruby_env () { # the ruby version
   local ruby_env=''
   if which rvm-prompt &> /dev/null; then
-    ruby_env=' ‹$(rvm-prompt i v g)›%{$reset_color%}'
+    #ruby_env=' ‹$(rvm-prompt i v g)›%{$reset_color%}'
+     ruby_env='$(rvm-prompt i v g)'
   else
     if which rbenv &> /dev/null; then
-      ruby_env=" ‹$(rbenv version-name)›%{$reset_color%}"
+      #ruby_env=" ‹$(rbenv version-name)›%{$reset_color%}"
+       ruby_env="$(rbenv version-name)"
     fi
   fi
   echo $ruby_env

@@ -76,7 +76,6 @@ alias awsp="source _awsp"
 export PATH="/usr/local/Cellar/emacs/24.3/bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH" # Added by the Heroku Toolbelt
 #export awsebcli="~/Downloads/a/AWS/AWS-ElasticBeanstalk-CLI-2.6.3"
-#export PATH="${awsebcli}/eb/macosx/python2.7:$PATH"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH" # brew doctor said to add /usr/local/sbin/
 export PATH="~/usr/bin:$PATH"
@@ -89,6 +88,7 @@ export PATH=$HOME/usr/bin:$PATH
 
 export EDITOR=/Applications/Emacs.app/Contents/MacOS/Emacs
 export EDITOR='emacsclient -n'
+export EDITOR='emacsclient'
 export EDITOR="$HOME/usr/bin/edit"
 export EDITOR_FOR_DIRS=code
 export EDITOR_FOR_FILES='emacsclient -n'

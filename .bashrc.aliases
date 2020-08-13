@@ -40,7 +40,10 @@ _enter_dot_file
 alias datex='date +%Y-%m-%d_%H-%M-%S'
 alias gs='git status'
 alias gsx='git -c color.status=always status | grep -v "deleted:.*_mac"'
+alias gfa='git fetch -a && git branch -a --color=always | cat'
 alias gpr="git pull --rebase"
+alias gp="git pull"
+alias gb="git branch -a --color=always | cat"
 alias tf="terraform"
 alias pu='pushd'
 alias po='popd'

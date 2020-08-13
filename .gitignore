@@ -129,3 +129,8 @@ lisp
 .aws/
 src/
 .io.ganeshrvel/
+.pyenv/
+.pylint.d/
+.hgignore_global
+.iterm2/
+.iterm2_shell_integration.zsh

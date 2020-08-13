@@ -23,10 +23,10 @@ unset AWS_PROFILE
 unset AWS_ACCESS_KEY_ID
 unset AWS_SECRET_ACCESS_KEY
 
-# virtualenv for python
-# if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+# allow multiple Pythons and python environments
+#   see ~/usr/bin/help.python.install
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
 _leave_dot_file

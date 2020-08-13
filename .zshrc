@@ -102,7 +102,12 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
 
+# iterm2 shell integration
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
 # zsh fixup -------------------------------------------------------------------------------------
 _source_dot_file ~/.bashrc.zsh.fixup # fix things zsh messed up
 
 _leave_dot_file
+
+
