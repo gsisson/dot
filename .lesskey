@@ -5,5 +5,4 @@
 # but be aware that 'export LESS=options' works just fine too
 
 #env
-#LESS = -MRi-+X-+F  # -+F: never quit-if-one-screen
- LESS = -MRi-+X-F   #  -F:       quit-if-one-screen
+LESS = -MRi-+X-+F  # -+F: never quit-if-one-screen
