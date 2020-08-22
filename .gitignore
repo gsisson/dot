@@ -68,6 +68,8 @@ Amazon WorkDocs Drive/
 .ipynb_checkpoints/
 .ipython/
 .isengardcli-cert.pem
+.iterm2/
+.iterm2_shell_integration.zsh
 .jupyter/
 .kube/
 .lesshst
@@ -80,6 +82,8 @@ Amazon WorkDocs Drive/
 .oracle_jre_usage/
 .packer.d/
 .plugman/
+.pyenv/
+.pylint.d/
 .rbenv/
 .rest-client/
 .rnd
@@ -129,8 +133,4 @@ lisp
 .aws/
 src/
 .io.ganeshrvel/
-.pyenv/
-.pylint.d/
 .hgignore_global
-.iterm2/
-.iterm2_shell_integration.zsh

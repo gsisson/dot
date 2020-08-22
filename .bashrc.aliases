@@ -52,7 +52,8 @@ alias be='bundle exec'
 
 case "$(uname)" in
   *CYGWIN*) ;;
-  *Darwin*) alias rm='echo -e "\033[1;41m   Use \"rmtrash\" or \"\\\\rm\"    \033[0m"'
+  *Darwin*) alias rm=_rmtrash_file
+            alias rmdir=_rmtrash_dir
             # if you want to use ~/.lesskey for less key remappings, use hte brew installed less
             # alias less=/usr/local/bin/less
             ;;

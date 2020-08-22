@@ -1,4 +1,7 @@
 . ~/usr/bin/functions/dotfile.tracker.fn
+if [ -n "$SLASH_ETC_ZSHRC_PROCESSED" ]; then
+  _say_something "[GLOBAL /etc/zshrc just finished loading]"
+fi
 _enter_dot_file
 
 # Path to your oh-my-zsh installation.

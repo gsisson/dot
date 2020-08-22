@@ -53,3 +53,118 @@ srm() {
   echo "# running 'rm -P' ${@}"
   \rm -P ${@}
 }
+
+# alias rm='echo -e "\033[1;41m   Use \"rmtrash\" or \"\\\\rm\"    \033[0m"'
+_rmtrash() {
+  # run 'rmtrash' to remove dirs and files
+  #
+  # test code:
+  #   touch xyz ; rm xyz
+  #     + rmtrash xyz
+  #   touch -- -xyz ; rm -xyz
+  #     ERROR: rmtrash does not support '-xyz'
+  #       exiting...
+  #   touch -- -xyz ; rm -- -xyz
+  #     + rmtrash -- -xyz
+  #   mkdir xyz ; rmdir xyz dne
+  #     rmdir: dne: No such file or directory
+  #     + rmtrash xyz
+  #   mkdir .xyz ; rmdir .xyz
+  #     + rmtrash .xyz
+  #   mkdir -p xyz/abc ; touch xyz/abc/file ; rmdir xyz/abc ; rmdir xyz
+  #     + rmtrash xyz/abc
+  #     + rmtrash xyz
+  #   mkdir -p .xyz/.abc ; touch .xyz/.abc/.file ; rmdir .xyz/.abc ; rmdir .xyz
+  #     + rmtrash .xyz/.abc
+  #     + rmtrash .xyz
+  local err=""
+  local type=""
+  local dashdash=""
+  case "$1" in
+    -f)type=f;;
+    -d)type=d;;
+    *) echo "INTERNAL ERROR: _rmtrash(): first arg is not '-d' or '-f'"; return 1;;
+  esac
+  shift
+  case "$1" in
+    --) dashdash="--"
+        shift
+        ;;
+    -*) echo "ERROR: rmtrash does not support '$1'"
+        echo "       exiting..."
+        return 1
+        ;;
+    *);;
+  esac
+  for i in "${@}" ; do
+    if [ -h "${i}" ]; then
+      # direct removal of symlinks
+      echo '+ \\rm '"${i}"
+               \rm -- "${i}"
+      continue
+    fi
+    if [ ! -e "${i}" -a "$type" = f ]; then
+      # missing file; let 'rm' fail with proper error message
+      echo '+ \\rm '"${i}"
+               \rm -- "${i}"
+      err=true
+    fi
+    if [ ! -e "${i}" -a "$type" = d ]; then
+      # missing dir; let 'rmdir' fail with proper error message
+      echo '+ \\rmdir '"${i}"
+               \rmdir -- "${i}"
+      err=true
+    fi
+  done
+  for i in "${@}" ; do
+    if [ ! -e "${i}" ]; then
+      continue # handled earlier
+    fi
+    # check that target files do NOT exist
+    local dname=$(dirname -- ${i})
+    local bname=$(basename -- ${i})
+    local mvsrc="${i}"
+    local mvtgt=""
+    if [ "$dname" = . ]; then
+      mvtgtfile="${PWD//\//=}=${bname//\//=}"
+    else
+      mvtgtfile="${PWD//\//=}=${dname//\//=}=${bname//\//=}"
+    fi
+    mvtgtfile="$(date +%Y-%m-%d_%H.%M.%S)__${mvtgtfile#=}"
+    mvtgt="${dname}/${mvtgtfile}"
+    #echo mvsrc:"${i}"
+    #echo mvtgt:"${mvtgt}"
+    if [ -f "${mvtgt}" -o -d "${mvtgt}" -o -h "${mvtgt}" ]; then
+      echo "ERROR: _rmtrash target file collision!" 1>&2
+      echo "       exists: '${mvtgt}'"
+      echo "       (exiting...)"
+      return 1
+    fi
+    #echo + mv "${mvsrc}" "${mvtgt}"
+    mv -- "${mvsrc}" "${mvtgt}"
+    echo + rmtrash $dashdash "${i}"
+    #echo + rmtrash $dashdash "${mvtgt}"
+    rmtrash $dashdash "${mvtgt}"
+  done
+  if [ "$err" = true ]; then
+    return 1
+  fi
+}
+_rmtrash_file() {
+  if ! which rmtrash >/dev/null 2>&1 ; then
+    echo "WARNING: 'rmtrash' not installed!"
+    echo "         (removing with 'rm')"
+    \rm "${@}"
+    return 1
+  fi
+  _rmtrash -f "${@}"
+}
+_rmtrash_dir() {
+  if ! which rmtrash >/dev/null 2>&1 ; then
+    echo "WARNING: 'rmtrash' not installed!"
+    echo "         (removing with 'rmdir')"
+    \rmdir "${@}"
+    return 1
+  fi
+  _rmtrash -d "${@}"
+}

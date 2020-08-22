@@ -1,4 +1,7 @@
 . ~/usr/bin/functions/dotfile.tracker.fn
+if [ -n "$SLASH_ETC_BASHRC_PROCESSED" ]; then
+  _say_something "[GLOBAL /etc/bashrc just finished loading]"
+fi
 _enter_dot_file
 
 # allow expanding aliases in functions
@@ -22,8 +25,9 @@ fi
 
 export PAGER=/usr/local/bin/less # brew 'less' (uses ~/.lesskey; allows key remaping)
 export PAGER=less                # apple 'less' (doesn't use ~/.lesskey)
-export LESS=-MRi-+X-+F # -+F: never quit-if-one-screen
-export LESS=-MRi-+X-F  #  -F:       quit-if-one-screen
+#export LESS=-MRi-+X-F  #  -F:       quit-if-one-screen
+ export LESS=-MRi-+X-+F # -+F: never quit-if-one-screen
+
 
 
 _source_dot_file ~/.bashrc.colors
