@@ -37,13 +37,13 @@ _enter_dot_file
     fi
   fi
 
-alias datex='date +%Y-%m-%d_%H-%M-%S'
+alias datex='x=`date +%Y-%m-%d_%H-%M-%S`; echo "$x # date +%Y-%m-%d_%H-%M-%S"'
 alias gs='git status'
 alias gsx='git -c color.status=always status | grep -v "deleted:.*_mac"'
-alias gfa='git fetch -a && git branch -a --color=always | cat'
-alias gpr="git pull --rebase"
-alias gp="git pull"
-alias gb="git branch -a --color=always | cat"
+alias  gf='echo + git fetch         1>&2; git fetch '
+alias  gp='echo + git pull          1>&2; git pull '
+alias gpr='echo + git pull --rebase 1>&2; git pull --rebase '
+alias  gb='echo + git branch        1>&2; git branch --color=always | cat'
 alias tf="terraform"
 alias pu='pushd'
 alias po='popd'

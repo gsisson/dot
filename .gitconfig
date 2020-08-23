@@ -15,9 +15,12 @@
 	ci = commit
 	co = checkout
 	br = branch
-	log1 = log --graph --decorate --oneline --abbrev-commit --all
-	logg = log --pretty=format:'%C(auto)%h %ad | %d%s [%an]' --graph --date=short
+	log0  = log --graph --decorate --oneline --abbrev-commit --all
+	log1  = log --graph --date=short --pretty=format:'%C(auto)%h %ad | %d%s [%an]'
+	logg = log --graph --abbrev-commit --decorate --format=format:'%C(cyan)%h%C(reset) - %C(green)(%ar)%C(reset) %C(bold white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+
 	undo-commit = reset --soft HEAD^
+	conflicts = diff --name-only --diff-filter=U
 [core]
 	excludesfile = ~/.gitignore-global
 	mergeoptions = --no-edit

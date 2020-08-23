@@ -47,7 +47,8 @@ module.exports = {
             },
             {
                 // Open any url that includes the string "workplace" in Firefox
-                match: /workplace/,
+//              match: /workplace/,
+                match: /expenses.corp.amazon.com/,
                 browser: "Firefox"
             },
             {
@@ -58,14 +59,14 @@ module.exports = {
                 ],
                 browser: "Google Chrome"
             },
-            {
-                match: /concursolutions.com/,
-                browser: "Firefox"
-            },
-            {
-                match: finicky.matchHostnames(["broadcast.amazon.com"]),
-                browser: "/Applications/Safari.app"
-            },
+//          {
+//              match: /concursolutions.com/,
+//              browser: "Firefox"
+//          },
+//          {
+//              match: finicky.matchHostnames(["broadcast.amazon.com"]),
+//              browser: "/Applications/Safari.app"
+//          },
             {
                 match: ({
                     url
