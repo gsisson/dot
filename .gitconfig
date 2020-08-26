@@ -26,11 +26,12 @@
 	mergeoptions = --no-edit
 	autocrlf = input
         pager = less -MRi-+F-+X # -+F: never quit-if-one-screen
-        #pager = less -MRi-F-+X # -+F: never quit-if-one-screen
+       #pager = less -MRi-F-+X  #  -F:       quit-if-one-screen # best for work
 [hub]
 	protocol = ssh
 [push]
-	default = simple
+       #default = simple   # doesn't auto track remote branches
+	default = current  # does auto track
 [merge]
 	summary = true
 	tool = bc3
