@@ -33,7 +33,8 @@ export GREP_COLORS='ms=01;46:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 46 = cy
 #                                     ^^
 export GREP_COLORS='ms=00;30;42:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 30;42 = black on green
 export GREP_COLORS='ms=01;30;46:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 30;46 = black on cyan
-#                            ^^ foreground color
-#                         ^^ background color (optional)
+export GREP_COLORS='ms=01;00;42:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 00;42 = white on green
+#                            ^^ background color (optional)
+#                         ^^ foreground color
 
 _leave_dot_file

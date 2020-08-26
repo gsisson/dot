@@ -46,8 +46,7 @@ module.exports = {
                 browser: "Safari"
             },
             {
-                // Open any url that includes the string "workplace" in Firefox
-//              match: /workplace/,
+                // Open AWS "expenses" site in Firefox (image uploads hang for me in Chrome)
                 match: /expenses.corp.amazon.com/,
                 browser: "Firefox"
             },
@@ -59,10 +58,6 @@ module.exports = {
                 ],
                 browser: "Google Chrome"
             },
-//          {
-//              match: /concursolutions.com/,
-//              browser: "Firefox"
-//          },
 //          {
 //              match: finicky.matchHostnames(["broadcast.amazon.com"]),
 //              browser: "/Applications/Safari.app"
