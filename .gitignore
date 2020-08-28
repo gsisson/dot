@@ -73,6 +73,7 @@ Amazon WorkDocs Drive/
 .jupyter/
 .kube/
 .lesshst
+.less
 .local/
 .m2/
 .midway/
