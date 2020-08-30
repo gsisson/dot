@@ -17,8 +17,8 @@ _source_dot_file ~/.dircolors
 
 #  '38;5;0' to '38;5;255' for 88-color and 256-color modes foreground colors,
 #  '48;5;0' to '48;5;255' for 88-color and 256-color modes background colors.
-#                      vv-- 1: bold, 3: underline, 5: blink, 7: inverse
-#                         vv-- grep color
+#                      vv-- 1: bold, 3: italics, 5: blink, 7: inverse (optional)
+#                         vv-- grep foreground color (00: white, 01: bold white, ...)
 export GREP_COLORS='ms=01;31:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 31 = red
 export GREP_COLORS='ms=01;41:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 41 = red background
 export GREP_COLORS='ms=01;32:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 32 = green
@@ -30,11 +30,13 @@ export GREP_COLORS='ms=01;36:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 36 = cy
 export GREP_COLORS='ms=01;46:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 46 = cyan background
 #                   ^^ ms: non-empty text in selected line (used only when -v not used)
 #                            ^^ mc: non-empty text in context line (used only when -v used)
-#                                     ^^
+#                                             ^^ fn: color of file names
 export GREP_COLORS='ms=00;30;42:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 30;42 = black on green
 export GREP_COLORS='ms=01;30;46:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 30;46 = black on cyan
-export GREP_COLORS='ms=01;00;42:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 00;42 = white on green
-#                            ^^ background color (optional)
-#                         ^^ foreground color
+export GREP_COLORS='ms=01;01;42:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 00;42 = white on green
+#                            ^-- bg/fg (3: fg, 4: bg)
+#                             ^-- color (1: red, 2: green, 3: yellow, 5: cyan, ...)
+#                         ^^-- grep foreground color (00: white, 01: bold white, ...)
+#                      ^^-- 1: bold, 3: italics, 5: blink, 7: inverse
 
 _leave_dot_file

@@ -32,6 +32,7 @@ export PAGER=less                # apple 'less' (doesn't use ~/.lesskey)
 
 _source_dot_file ~/.bashrc.colors
 _source_dot_file ~/.bashrc.functions
+_source_dot_file ~/.bashrc.completions
 _source_dot_file ~/.bashrc.aliases
 
 case "$(uname)" in

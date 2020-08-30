@@ -25,8 +25,8 @@
 	excludesfile = ~/.gitignore-global
 	mergeoptions = --no-edit
 	autocrlf = input
-        pager = less -MRi-+F-+X # -+F: never quit-if-one-screen
-       #pager = less -MRi-F-+X  #  -F:       quit-if-one-screen # best for work
+       #pager = less -MRi-+F-+X # -+F: never quit-if-one-screen
+        pager = less -MRi-F-+X  #  -F:       quit-if-one-screen # best for work
 [hub]
 	protocol = ssh
 [push]

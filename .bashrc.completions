@@ -1,0 +1,8 @@
+# load up my completions
+if type compdef >/dev/null 2>&1; then
+  if [ -d "${HOME}/usr/bin/functions/completion/" ]; then
+    . ${HOME}/usr/bin/functions/completion/*
+  else
+    echo "WARNING: dir '${HOME}/usr/bin/functions/completion/' missing!" 1>&2
+  fi
+fi

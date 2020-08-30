@@ -7,9 +7,9 @@ user_email="glenn.sisson@gmail.com"
 user_name="Glenn Sisson"
 
 if [ "$(uname)" != Darwin ]; then
-  _source_dot_file  ~/.bash_profile_pc
-  _leave_dot_file
-  return
+    _source_dot_file  ~/.bash_profile_pc
+    _leave_dot_file
+    return
 fi
 
 _source_dot_file  ~/.bashrc

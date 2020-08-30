@@ -135,16 +135,5 @@ cd .
 #fi
 #------------------------------------------------------------------
 
-for f in ${HOME}/usr/bin/functions/completion/*; do
-  if [ "$f" == "${HOME}/usr/bin/functions/completion/*" ]; then
-    echo "ERROR: unable to find completion functions" 1>&2
-    echo "       missing dir: ${HOME}/usr/bin/functions/completion/" 1>&2
-    break
-  fi
-  if [ -e "$f" ]; then
-    _source_dot_file "$f"
-  fi
-done
-
 _say_something "running as USER:$USER"
 _leave_dot_file
