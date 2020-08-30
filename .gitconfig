@@ -30,6 +30,7 @@
     #pager = less -FRSX      # supposedly git default
 [pager]
 	branch = false  # don't use less for 'git branch'
+	stash = false   # don't use less for 'git stash'
 	blame = less -S # truncate long lines for 'blame'
 [hub]
 	protocol = ssh
