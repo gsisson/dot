@@ -29,7 +29,8 @@
     #pager = less -MRi-F-+X  #  -F:       quit-if-one-screen # best for work
     #pager = less -FRSX      # supposedly git default
 [pager]
-	branch = false
+	branch = false  # don't use less for 'git branch'
+	blame = less -S # truncate long lines for 'blame'
 [hub]
 	protocol = ssh
 [push]
