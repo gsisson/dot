@@ -29,13 +29,31 @@ _enter_dot_file
   set_ls_aliases
   unset -f set_ls_aliases
 
-# use gnu grep (ggrep) instead of grep, if gnu grep installed
+# grep -------------------------------------------------------------
 
-  if command -v ggrep >/dev/null 2>&1; then
-    if alias grep > /dev/null 2>&1; then
-      alias "$(alias grep | sed -e "s:\'::g" -e "s:=grep:=ggrep:")"
+case "$(uname)" in
+  *CYGWIN*)
+    # use color always, and have option to toss stderr
+    _grep()  { \grep --color=always "${@}" ; } # color always
+    _grep2() { _grep "${@}" 2>/dev/null    ; } # color always, and toss stderr
+    alias grep=_grep
+    alias grep2=_grep2
+  ;;
+  *Darwin*)
+    # use gnu grep (ggrep) instead of grep, if gnu grep installed
+    if command -v ggrep >/dev/null 2>&1; then
+      if alias grep > /dev/null 2>&1; then
+        echo "NOTE TO SELF (in .bashrc.aliases)"
+        echo "  re-aliasing grep here"
+        echo "  think about _grep() and _grep2() in .bashrc.functions"
+        alias "$(alias grep | sed -e "s:\'::g" -e "s:=grep:=ggrep:")"
+      fi
     fi
-  fi
+  ;;
+esac
+
+# ------------------------------------------------------------------
+
 
 alias datex='x=`date +%Y-%m-%d_%H-%M-%S`; echo "$x # date +%Y-%m-%d_%H-%M-%S"'
 alias gs='git status'
