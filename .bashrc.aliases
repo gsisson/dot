@@ -38,6 +38,7 @@ case "$(uname)" in
     _grep2() { _grep "${@}" 2>/dev/null    ; } # color always, and toss stderr
     alias grep=_grep
     alias grep2=_grep2
+    alias 2grep=_grep2
   ;;
   *Darwin*)
     # use gnu grep (ggrep) instead of grep, if gnu grep installed
