@@ -33,9 +33,9 @@ _enter_dot_file
 
 case "$(uname)" in
   *CYGWIN*)
-    # use color always, and have option to toss stderr
-    _grep()  { \grep --color=always "${@}" ; } # color always
-    _grep2() { _grep "${@}" 2>/dev/null    ; } # color always, and toss stderr
+    # always use color; skip certain files/dirs; toss stderr
+    _grep()  { \grep -E --color=always --exclude-dir=.git --exclude=.bash_history "${@}" ; }
+    _grep2() { _grep "${@}" 2>/dev/null ; }
     alias grep=_grep
     alias grep2=_grep2
     alias 2grep=_grep2
