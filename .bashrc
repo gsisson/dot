@@ -42,5 +42,10 @@ esac
 
 export PC=glenn
 
+#G_ENABLE_DIAGNOSTIC=0 # 1
+#GTK_THEME=Adwaita
+ GTK_THEME="Adwaita:dark"
+
 _leave_dot_file
+
 

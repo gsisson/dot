@@ -25,7 +25,7 @@ unset AWS_SECRET_ACCESS_KEY
 
 # allow multiple Pythons and python environments
 #   see ~/usr/bin/help.python.install
-if pyenv > /dev/null 2>&1; then
+if pyenv --version > /dev/null 2>&1; then
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
   export PYENV_VIRTUALENV_DISABLE_PROMPT=1

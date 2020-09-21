@@ -14,3 +14,4 @@
      echo EDITOR:$EDITOR
      echo -en "\033[0m"              # stop colorizing
 #
+# 

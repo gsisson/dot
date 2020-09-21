@@ -34,12 +34,11 @@
 	blame = less -S # truncate long lines for 'blame'
 [hub]
 	protocol = ssh
+[commit]
+	template = /Users/glennaws/.stCommitMsg
 [push]
     #default = simple   # doesn't auto track remote branches
 	default = current  # does auto track
-[merge]
-	summary = true
-	tool = bc3
 [color] #
 # colors: normal, black, red, green, yellow, blue, magenta, cyan, or white
 # other: ul (underline), bold
@@ -75,8 +74,6 @@
 	header = normal
 	help = normal
 	error = normal
-#[http]
-#	proxy = http://web-proxy:8088
 [filter "media"]
 	required = true
 	clean = git media clean %f
@@ -86,19 +83,19 @@
 	smudge = git-lfs smudge -- %f
 	required = true
 	process = git-lfs filter-process
-[diff]
-	tool = bc3
-[mergetool "bc3"]
-	trustExitCode = true
 [pull]
 	rebase = false
+#[http]
+#	proxy = http://web-proxy:8088
 [http]
 	sslVerify = false
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+[diff]
+	tool = bc3
+[difftool]
+	prompt = false
+[merge]
+	summary = true
+	tool = bc3
+[mergetool "bc3"]
+	prompt = false
 	trustExitCode = true
-[commit]
-	template = /Users/glennaws/.stCommitMsg

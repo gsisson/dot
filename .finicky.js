@@ -41,6 +41,10 @@ module.exports = {
     handlers:
         [
             {
+                match: /zoom.us\/j\//,
+                browser: "/Applications/zoom.us.app"
+            },
+            {
                 // Open apple.com and example.org urls in Safari
                 match: ["apple.com*", "example.org*"],
                 browser: "Safari"

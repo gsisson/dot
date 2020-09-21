@@ -92,7 +92,9 @@ export EDITOR='emacsclient'
 export EDITOR="$HOME/usr/bin/edit"
 export EDITOR_FOR_DIRS=code
 export EDITOR_FOR_FILES='emacsclient -n'
-export BUNDLER_EDITOR="/Applications/RubyMine.app/bin/... hmmm"
+
+export GEM_HOME=~/.gem
+export GEM_PATH=~/.gem
 
 # 'brew install ruby-build' says:
 # - ruby-build installs a non-Homebrew OpenSSL for each Ruby version installed and 

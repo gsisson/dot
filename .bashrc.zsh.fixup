@@ -14,6 +14,7 @@ _enter_dot_file
 
   unalias gp
   unalias gb
+  unalias g
 
 # re-load things that don't work before zsh init, or which zsh init messes up
 _source_dot_file ~/.bashrc.completions

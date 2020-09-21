@@ -6,3 +6,6 @@
 
 # avoid searching .terraform/ directories
 --ignore-dir=.terraform
+--ignore-dir=themes/learn
+--ignore-dir=static/css
+--ignore-dir=static/diagrams
