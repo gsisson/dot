@@ -2,11 +2,12 @@ _enter_dot_file
 
 # add grep options
 
-  alias "$(alias grep | sed -e "s:\'::g") -s"
-  # add one more grep option (not in ~/.oh-my-zsh/lib/grep.zsh
-  if \grep --exclude=file "" < /dev/null >/dev/null 2>&1 ;then
-    alias "$(alias grep | sed -e "s:\'::g") --exclude={.zsh_history,.viminfo}"
-  fi
+#  alias "$(alias grep | sed -e "s:\'::g") -s"
+#  # add --exclude option (if supported), since it is not in ~/.oh-my-zsh/lib/grep.zsh
+#  if \grep --exclude=file "" < /dev/null >/dev/null 2>&1 ;then
+#    #alias "$(alias grep | sed -e "s:\'::g") --exclude={.zsh_history,.viminfo,.zcomdump,.terraform}"
+#    alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform} --exclude={.zsh_history,.viminfo}"
+#  fi
 
 # repair ls aliases
 

@@ -35,23 +35,24 @@ case "$(uname)" in
   *CYGWIN*)
     # always use color; skip certain files/dirs; toss stderr
     _grep()  { \grep -E --color=always --exclude-dir=.git --exclude=.bash_history "${@}" ; }
-    _grep2() { _grep "${@}" 2>/dev/null ; }
-    alias grep=_grep
-    alias grep2=_grep2
-    alias 2grep=_grep2
   ;;
   *Darwin*)
+    GREP_OPTIONS="--color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform} --exclude={.zsh_history,.viminfo,.bash_history}"
     # use gnu grep (ggrep) instead of grep, if gnu grep installed
     if command -v ggrep >/dev/null 2>&1; then
-      if alias grep > /dev/null 2>&1; then
-        echo "NOTE TO SELF (in .bashrc.aliases)"
-        echo "  re-aliasing grep here"
-        echo "  think about _grep() and _grep2() in .bashrc.functions"
-        alias "$(alias grep | sed -e "s:\'::g" -e "s:=grep:=ggrep:")"
-      fi
+      _grep() { eval \ggrep $GREP_OPTIONS "${@}" ; }
+    else
+      _grep() { eval  \grep $GREP_OPTIONS "${@}" ; }
     fi
+    # vvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    # see also, .bashrc.zsh.fixup
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   ;;
 esac
+_grep2() { _grep "${@}" 2>/dev/null ; }
+alias grep=_grep
+alias grep2=_grep2
+alias 2grep=_grep2
 
 # ------------------------------------------------------------------
 
@@ -69,6 +70,7 @@ alias po='popd'
 alias k9='kill -9 $(lsof -i tcp:3000 -t)'
 alias be='bundle exec'
 alias zload=". ~/.zshenv; . ~/.zprofile; . ~/.zshrc"
+alias em='emacsclient -nw '
 
 case "$(uname)" in
   *CYGWIN*) ;;
