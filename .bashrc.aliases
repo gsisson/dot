@@ -37,12 +37,13 @@ case "$(uname)" in
     _grep()  { \grep -E --color=always --exclude-dir=.git --exclude=.bash_history "${@}" ; }
   ;;
   *Darwin*)
-    GREP_OPTIONS="--color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform} --exclude={.zsh_history,.viminfo,.bash_history}"
+    unset GREP_OPTIONS # dericated: use alias or function
+    declare -a G_OPTIONS=(-E --color=always --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform} --exclude={.zsh_history,.viminfo,.bash_history})
     # use gnu grep (ggrep) instead of grep, if gnu grep installed
     if command -v ggrep >/dev/null 2>&1; then
-      _grep() { eval \ggrep $GREP_OPTIONS "${@}" ; }
+      _grep() { \ggrep $G_OPTIONS "${@}" ; }
     else
-      _grep() { eval  \grep $GREP_OPTIONS "${@}" ; }
+      _grep() {  \grep $G_OPTIONS "${@}" ; }
     fi
     # vvvvvvvvvvvvvvvvvvvvvvvvvvvv
     # see also, .bashrc.zsh.fixup

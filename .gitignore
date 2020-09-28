@@ -136,3 +136,5 @@ lisp
 src/
 .io.ganeshrvel/
 .hgignore_global
+.github*token*
+
