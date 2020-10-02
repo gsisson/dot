@@ -19,6 +19,14 @@ _leave_dot_file
 # used by bash AND zsh (but incompatible formats!)
 #HISTFILE=$HOME/tmp/.bash_history
 
+# allow multiple Pythons and python environments
+#   see ~/usr/bin/help.python.install
+if pyenv --version > /dev/null 2>&1; then
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+  export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+fi
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/opt/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"

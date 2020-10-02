@@ -28,8 +28,7 @@ export PAGER=less                # apple 'less' (doesn't use ~/.lesskey)
 #export LESS=-MRi-+X-F  #  -F:       quit-if-one-screen
  export LESS=-MRi-+X-+F # -+F: never quit-if-one-screen
 
-
-
+_source_dot_file ~/.bashrc.pyenv
 _source_dot_file ~/.bashrc.colors
 _source_dot_file ~/.bashrc.functions
 _source_dot_file ~/.bashrc.completions
