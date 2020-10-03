@@ -175,7 +175,7 @@ paa() {
   done | column -t -x -s '	'
 }
 
-aws.profile.export () {
+aws_profile_export () {
   if [ "$1" = "" ]; then
     echo "INFO: choices:"
     grep "\[" ~/.aws/credentials --color=always | sed -e 's:^:  :'
