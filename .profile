@@ -1,5 +1,5 @@
 . ~/usr/bin/functions/dotfile.tracker.fn
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 
 export NODENV_ROOT=/usr/local/var/nodenv
 if which rbenv  > /dev/null 2>&1; then eval "$(rbenv  init -)"; fi
@@ -31,4 +31,4 @@ if pyenv --version > /dev/null 2>&1; then
   export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 fi
 
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true

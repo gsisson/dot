@@ -1,4 +1,4 @@
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Mac 'ls' uses BSD based ls, and uses LSCOLORS (which is less powerfull than Gnu 'ls')
@@ -128,4 +128,4 @@ _set_LS_COLORS() {
 
 _set_LS_COLORS
 
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true

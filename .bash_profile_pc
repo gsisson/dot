@@ -1,4 +1,4 @@
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 _say_something "running as USER:$USER"
 
 #------------------------------------------------------------------
@@ -24,10 +24,10 @@ _say_something "running as USER:$USER"
 # ~/.bash_profile: executed by bash for login shells.
 
 # source the system wide bashrc if it exists
-_source_dot_file /etc/bash.bashrc
+_source_dot_file /etc/bash.bashrc 2>/dev/null || true
 
 # source the users bashrc if it exists
-_source_dot_file ~/.bashrc
+_source_dot_file ~/.bashrc 2>/dev/null || true
 
 # Set PATH so it includes user's private bin if it exists
 # if [ -d "${HOME}/bin" ] ; then
@@ -136,4 +136,4 @@ cd .
 #------------------------------------------------------------------
 
 _say_something "running as USER:$USER"
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true

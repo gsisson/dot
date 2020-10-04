@@ -1,11 +1,11 @@
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 
 # ????
 if [ -f "/etc/dircolors" ] ; then
   eval $(dircolors -b /etc/dircolors)
 fi
 
-_source_dot_file ~/.dircolors
+_source_dot_file ~/.dircolors 2>/dev/null || true
 
 # GREP_COLOR is depricated
 #   export GREP_COLOR='1;35;40'  # majenta on black
@@ -39,4 +39,4 @@ export GREP_COLORS='ms=01;01;42:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 00;4
 #                         ^^-- grep foreground color (00: white, 01: bold white, ...)
 #                      ^^-- 1: bold, 3: italics, 5: blink, 7: inverse
 
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true

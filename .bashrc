@@ -2,7 +2,7 @@
 if [ -n "$SLASH_ETC_BASHRC_PROCESSED" ]; then
   _say_something "[GLOBAL /etc/bashrc just finished loading]"
 fi
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 
 # allow expanding aliases in functions
 if [ -n "$BASH_VERSION" ]; then
@@ -28,15 +28,15 @@ export PAGER=less                # apple 'less' (doesn't use ~/.lesskey)
 #export LESS=-MRi-+X-F  #  -F:       quit-if-one-screen
  export LESS=-MRi-+X-+F # -+F: never quit-if-one-screen
 
-_source_dot_file ~/.bashrc.pyenv
-_source_dot_file ~/.bashrc.colors
-_source_dot_file ~/.bashrc.functions
-_source_dot_file ~/.bashrc.completions
-_source_dot_file ~/.bashrc.aliases
+_source_dot_file ~/.bashrc.pyenv       2>/dev/null || true
+_source_dot_file ~/.bashrc.colors      2>/dev/null || true
+_source_dot_file ~/.bashrc.functions   2>/dev/null || true
+_source_dot_file ~/.bashrc.completions 2>/dev/null || true
+_source_dot_file ~/.bashrc.aliases     2>/dev/null || true
 
 case "$(uname)" in
-  *CYGWIN*) _source_dot_file ~/.bashrc.pc;;
-  *Darwin*) _source_dot_file ~/.bashrc.mac;;
+  *CYGWIN*) _source_dot_file ~/.bashrc.pc  2>/dev/null || true;;
+  *Darwin*) _source_dot_file ~/.bashrc.mac 2>/dev/null || true;;
 esac
 
 export PC=glenn
@@ -45,6 +45,6 @@ export PC=glenn
 #GTK_THEME=Adwaita
  GTK_THEME="Adwaita:dark"
 
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true
 
 

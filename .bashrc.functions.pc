@@ -1,4 +1,4 @@
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 
 alias d=dirs
 alias tree=tree.com
@@ -1390,4 +1390,4 @@ atom () {
           $HOME/AppData/Local/atom/atom.exe "`cygdrivePathFix $PWD`" >/dev/null 2>&1 &
 }
 
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true

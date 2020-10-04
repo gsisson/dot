@@ -1,4 +1,4 @@
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 
 # establish ls aliases
 
@@ -82,5 +82,5 @@ case "$(uname)" in
             ;;
 esac
 
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true
 

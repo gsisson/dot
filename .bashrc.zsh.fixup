@@ -1,4 +1,4 @@
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 
 # add grep options
 
@@ -18,7 +18,7 @@ _enter_dot_file
   unalias g
 
 # re-load things that don't work before zsh init, or which zsh init messes up
-_source_dot_file ~/.bashrc.completions
-_source_dot_file ~/.bashrc.aliases
+_source_dot_file ~/.bashrc.completions 2>/dev/null || true
+_source_dot_file ~/.bashrc.aliases 2>/dev/null || true
 
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true

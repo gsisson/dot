@@ -1,7 +1,7 @@
 # .bashrc.mac
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 
-#_source_dot_file ~/.bashrc.functions
+#_source_dot_file ~/.bashrc.functions 2>/dev/null || true
 
 function start() {
   echo use \"open\"
@@ -182,7 +182,7 @@ fi
 
 if [ "$0" = bash ]; then
   if [ -f ~/.git-completion.bash       ]; then
-    _source_dot_file ~/.git-completion.bash
+    _source_dot_file ~/.git-completion.bash 2>/dev/null || true
   fi
 fi
 
@@ -191,4 +191,4 @@ fi
 
 NPM_PACKAGES=/Users/gsisson/.npm-packages
 
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true

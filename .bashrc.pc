@@ -1,5 +1,5 @@
 # .bashrc_pc
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 
 ulimit -c 0
 
@@ -267,5 +267,5 @@ umask u=rwx,g=,o=
 
 add_ruby_binstubs_to_path
 
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true
 

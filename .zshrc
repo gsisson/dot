@@ -2,7 +2,7 @@
 if [ -n "$SLASH_ETC_ZSHRC_PROCESSED" ]; then
   _say_something "[GLOBAL /etc/zshrc just finished loading]"
 fi
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -39,7 +39,7 @@ plugins=(glenn wd gem git bundler brew heroku rake rails) # rbenv #rake-fast rak
     echo "WARNING: unable to find ~/.oh-my-zsh/glenn* files!"
     echo "         (maybe you need to run ~/.zsh/add.symlinks.to.oh-my-zsh)"
   fi
-  _source_dot_file $ZSH/oh-my-zsh.sh
+  _source_dot_file $ZSH/oh-my-zsh.sh 2>/dev/null || true
   LSCOLORS="$_LSCOLORS"                                        # restore LSCOLORS
   #type _gst > /dev/null && eval alias gst=$(alias _gst|sed -e 's:.*=::') # restore
   #type _gst > /dev/null && unalias _gst                                  # restore           |
@@ -94,7 +94,7 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
    #_source_dot_file ~/src/squishup_scripts/lib/profile/example_profile 2>&1 | grep -v GREP_OPTIONS
     local _EDITOR=$EDITOR  # save EDITOR, which squishup scripts profile changes
     if [ -f ~/src/squishup_scripts/lib/profile/example_profile ]; then
-      _source_dot_file ~/src/squishup_scripts/lib/profile/example_profile
+      _source_dot_file ~/src/squishup_scripts/lib/profile/example_profile 2>/dev/null || true
     fi
     unset GREP_OPTIONS # depricated for Gnu grep
     EDITOR=$_EDITOR  # restore EDITOR
@@ -109,8 +109,8 @@ complete -o nospace -C /usr/local/bin/terraform terraform
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # zsh fixup -------------------------------------------------------------------------------------
-_source_dot_file ~/.bashrc.zsh.fixup # fix things zsh messed up
+_source_dot_file ~/.bashrc.zsh.fixup 2>/dev/null || true # fix things zsh messed up
 
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true
 
 

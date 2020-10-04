@@ -1,9 +1,9 @@
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 
 case "$(uname)" in
-  *CYGWIN*) _source_dot_file ~/.bashrc.functions.pc
-            _source_dot_file ~/.bashrc.functions.pc.exif;;
-  *Darwin*) _source_dot_file ~/.bashrc.functions.mac;;
+  *CYGWIN*) _source_dot_file ~/.bashrc.functions.pc      2>/dev/null || true
+            _source_dot_file ~/.bashrc.functions.pc.exif 2>/dev/null || true;;
+  *Darwin*) _source_dot_file ~/.bashrc.functions.mac     2>/dev/null || true;;
 esac
 
 # functions used in ~/.oh-my-zsh/themes/glenn.zsh-theme
@@ -195,4 +195,4 @@ aws_profile_export () {
   eval $cmd
 }
 
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true

@@ -1,20 +1,20 @@
 . ~/usr/bin/functions/dotfile.tracker.fn
-_enter_dot_file
+_enter_dot_file 2>/dev/null || true
 
-_source_dot_file  ~/.profile
+_source_dot_file  ~/.profile 2>/dev/null || true
 
 user_email="glenn.sisson@gmail.com"
 user_name="Glenn Sisson"
 
 if [ "$(uname)" != Darwin ]; then
-    _source_dot_file  ~/.bash_profile_pc
-    _leave_dot_file
+    _source_dot_file  ~/.bash_profile_pc 2>/dev/null || true
+    _leave_dot_file 2>/dev/null || true
     return
 fi
 
-_source_dot_file  ~/.bashrc
+_source_dot_file ~/.bashrc 2>/dev/null || true
 
-_leave_dot_file
+_leave_dot_file 2>/dev/null || true
 
 # used by bash AND zsh (but incompatible formats!)
 #HISTFILE=$HOME/tmp/.bash_history
