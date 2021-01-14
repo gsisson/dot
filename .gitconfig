@@ -25,6 +25,7 @@
 	excludesfile = ~/.gitignore-global
 	mergeoptions = --no-edit
 	autocrlf = input
+	editor = vi
     #pager = less -MRi-+F-+X # -+F: never quit-if-one-screen
     #pager = less -MRi-F-+X  #  -F:       quit-if-one-screen # best for work
     #pager = less -FRSX      # supposedly git default
@@ -34,8 +35,8 @@
 	blame = less -S # truncate long lines for 'blame'
 [hub]
 	protocol = ssh
-[commit]
-	template = /Users/glennaws/.stCommitMsg
+#[commit]
+	#template = /Users/glennaws/.stCommitMsg
 [push]
     #default = simple   # doesn't auto track remote branches
 	default = current  # does auto track

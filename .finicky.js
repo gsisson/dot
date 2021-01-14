@@ -62,10 +62,10 @@ module.exports = {
                 ],
                 browser: "Google Chrome"
             },
-//          {
-//              match: finicky.matchHostnames(["broadcast.amazon.com"]),
-//              browser: "/Applications/Safari.app"
-//          },
+            {
+                match: finicky.matchHostnames(["broadcast.amazon.com"]),
+                browser: "/Applications/Safari.app"
+            },
             {
                 match: ({
                     url

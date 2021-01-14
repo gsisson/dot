@@ -29,8 +29,9 @@ HIST_STAMPS="yyyy-mm-dd"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 BUNDLED_COMMANDS=(rubocop)
-plugins=(glenn wd gem git bundler brew heroku rake rails) # rbenv #rake-fast rake per-directory-history
-
+#plugins=(zsh-syntax-highlighting zsh-autosuggestions)
+#plugins=(glenn wd gem git bundler brew heroku rake rails) # rbenv #rake-fast rake per-directory-history
+ plugins=(glenn wd     git         brew                  ) # rbenv #rake-fast rake per-directory-history
 # Handle problems of oh-my-zsh overriding things ----------------------------------------------
   _LSCOLORS="$LSCOLORS"                                        # save LSCOLORS
   # Now load oh-my-zsh stuff

@@ -69,7 +69,7 @@ alias rbenv-versions="rbenv install --list | egrep -v '(rbx|ree|jruby|maglev|mru
 alias c=pbcopy
 alias p=pbpaste
 #alias gdiff='git diff'
-alias sam=/Users/glennaws/Library/Python/3.7/bin/sam
+#alias sam=/Users/glennaws/Library/Python/3.7/bin/sam
 alias awsp="source _awsp"
 
 #PATH=/Applications/Emacs.app/Contents/MacOS
@@ -78,6 +78,7 @@ export PATH="/usr/local/heroku/bin:$PATH" # Added by the Heroku Toolbelt
 #export awsebcli="~/Downloads/a/AWS/AWS-ElasticBeanstalk-CLI-2.6.3"
 export PATH="/usr/local/opt/openjdk/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH" # brew doctor said to add /usr/local/sbin/
+export PATH="~/src/gitlab-aws/bin:$PATH"
 export PATH="~/usr/bin:$PATH"
 export PATH="~/usr/bin0:$PATH"
 PATH=${PATH//\~/$HOME} # replace all ~ with $HOME value (zsh issue)

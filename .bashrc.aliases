@@ -38,12 +38,12 @@ case "$(uname)" in
   ;;
   *Darwin*)
     unset GREP_OPTIONS # dericated: use alias or function
-    declare -a G_OPTIONS=(-E --color=always --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform} --exclude={.zsh_history,.viminfo,.bash_history})
+    declare -ag G_OPTIONS=(-E --color=always --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform} --exclude={.sh_history,.zsh_history,.viminfo,.bash_history})
     # use gnu grep (ggrep) instead of grep, if gnu grep installed
     if command -v ggrep >/dev/null 2>&1; then
-      _grep() { \ggrep $G_OPTIONS "${@}" ; }
+      _grep() { \ggrep $G_OPTIONS "${@}" }
     else
-      _grep() {  \grep $G_OPTIONS "${@}" ; }
+      _grep() {  \grep $G_OPTIONS "${@}" }
     fi
     # vvvvvvvvvvvvvvvvvvvvvvvvvvvv
     # see also, .bashrc.zsh.fixup

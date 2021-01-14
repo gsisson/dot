@@ -13,6 +13,9 @@ coverage/
 # Node related ----------------------------
 node_modules/
 
+# Python related ----------------------------
+__pycache__/
+
 # Terraform related -----------------------
 *.tfvar
 .terraform/

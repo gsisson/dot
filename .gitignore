@@ -138,3 +138,10 @@ src/
 .hgignore_global
 .github*token*
 
+.cdk/
+.serverless/
+.serverlessrc
+VirtualBoxVMs/
+WorkDocs Drive/
+wrk
+work
