@@ -1,5 +1,3 @@
-OneDrive/
-
 # Windows Home Dirs ----------------
 3D Objects/
 AppData/
@@ -21,6 +19,7 @@ My Documents
 NetHood
 NTUSER.dat*
 NTUSER.ini*
+OneDrive/
 Pictures/
 PrintHood
 Recent
@@ -32,84 +31,83 @@ Templates
 Videos/
 
 # Mac Home Dirs ----------------
-Applications/
 Library/
-Movies/
-Public/
-Amazon WorkDocs Drive/
+# Applications/
+# Movies/
+# Public/
+# Amazon WorkDocs Drive/
 
 # Tool Created Dirs/Files ----------
-.(users gsisson)
+# .(users gsisson)
+# .CFUserTextEncoding
+# .MakeMKV
+# .Xauthority
+# .anaconda/
+# .android/
+# .anyconnect
+# .atom/
+# .aws-sam/
+# .awsp
+# .bundle/
+# .cisco/
+# .condarc
+# .config/
+# .cups/
+# .docker/
+# .dropbox/
+# .eclipse/
+# .electron/
+# .emacs.d/
+# .gem
+# .gnupg/
+# .gradle/
+# .gsutil/
+# .ipynb_checkpoints/
+# .ipython/
+# .isengardcli-cert.pem
+# .iterm2/
+# .iterm2_shell_integration.zsh
+# .jupyter/
+# .kube/
+# .less
+# .local/
+# .m2/
+# .midway/
+# .mono/
+# .node-gyp/
+# .npm/
+# .packer.d/
+# .plugman/
+# .pyenv/
+# .pylint.d/
+# .rbenv/
+# .rest-client/
+# .rnd
+# .ruby-version
+# .runtimes/
+# .toolbox/
+# .usage-stats/
+# .viminfo
+# find.txt*
+# hsperfdata_gsisson/
+# isengard/
 .*history
-.CFUserTextEncoding
-.MakeMKV
-.Xauthority
-.anaconda/
-.android/
-.anyconnect
-.atom/
-.aws-sam/
-.awsp
 .bash_sessions/
-.bundle/
-.cisco/
-.condarc
-.config/
-.cups/
-.docker/
-.dropbox/
-.eclipse/
-.electron/
-.emacs.d/
-.gem
-.gnupg/
-.gradle/
-.gsutil/
-.ipynb_checkpoints/
-.ipython/
-.isengardcli-cert.pem
-.iterm2/
-.iterm2_shell_integration.zsh
-.jupyter/
-.kube/
-.less
 .lesshst
-.less
-.local/
-.m2/
-.midway/
-.mono/
-.node-gyp/
-.npm/
 .oracle_jre_usage/
-.packer.d/
-.plugman/
-.pyenv/
-.pylint.d/
-.rbenv/
-.rest-client/
-.rnd
-.ruby-version
-.runtimes/
 .terraform.d/
 .terraformrc
-.toolbox/
-.usage-stats/
-.viminfo
 .zcompdump*
 VSCode Crashes/
 com.googlecode.iterm2.plist
-find.txt*
-hsperfdata_gsisson/
-isengard/
 
 # Ruby -------------------
-bin/ # Ruby Created Bins
-bin/
+# bin/ # Ruby Created Bins
+# bin/
 
 # Emacs Created ----------
-.emacs.desktop*
-.recentf
+# .emacs.desktop*
+# .recentf
 dot.emacs_mac
 dot.emacs_mac.LINK
 dot.emacs_pc
@@ -118,30 +116,30 @@ dot.emacs_pc.LINK
 ###############################
 
 # My Symlinks ----------------
-Dropbox
-lisp
+# Dropbox
+# lisp
 
 # My Git Sub-dirs ------------
-/.oh-my-zsh/
-/.vim
-/usr/bin/
-/usr/bin0/
-/usr/local/
-/usr/ruby/
-/usr/src/
+# /.oh-my-zsh/
+# /.vim
+# /usr/bin/
+# /usr/bin0/
+# /usr/local/
+# /usr/ruby/
+# /usr/src/
 
 # Other -------------------
-.ssh/
-.aws/
-src/
-.io.ganeshrvel/
-.hgignore_global
+# .ssh/
+# .aws/
+# src/
+# .io.ganeshrvel/
+# .hgignore_global
 .github*token*
 
-.cdk/
-.serverless/
-.serverlessrc
-VirtualBoxVMs/
-WorkDocs Drive/
-wrk
-work
+# .cdk/
+# .serverless/
+# .serverlessrc
+# VirtualBoxVMs/
+# WorkDocs Drive/
+# wrk
+# work

@@ -168,3 +168,5 @@ _rmtrash_dir() {
   fi
   _rmtrash -d "${@}"
 }
+
+source /Users/glennaws/.config/broot/launcher/bash/br
