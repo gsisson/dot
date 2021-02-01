@@ -115,3 +115,9 @@ _source_dot_file ~/.bashrc.zsh.fixup 2>/dev/null || true # fix things zsh messed
 _leave_dot_file 2>/dev/null || true
 
 
+# leave window title alone, but set tab titles
+DISABLE_AUTO_TITLE="true"   # print -Pn "\e]2;WINDOW\a"   ;  print -Pn "\e]1;TAB\a"
+precmd() {
+  # sets the tab title to current dir
+  echo -ne "\e]1;${PWD##*/}\a"
+}

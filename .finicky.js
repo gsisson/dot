@@ -49,11 +49,12 @@ module.exports = {
                 match: ["apple.com*", "example.org*"],
                 browser: "Safari"
             },
-            {
-                // Open AWS "expenses" site in Firefox (image uploads hang for me in Chrome)
-                match: /expenses.corp.amazon.com/,
-                browser: "Firefox"
-            },
+//            {
+//                // Open AWS "expenses" site in Firefox
+//                // since image uploads hang for me in Chrome
+//                match: /expenses.corp.amazon.com/,
+//                browser: "Firefox"
+//            },
             {
                 // Open google.com and *.google.com urls in Google Chrome
                 match: [
