@@ -29,35 +29,6 @@ _enter_dot_file 2>/dev/null || true
   set_ls_aliases
   unset -f set_ls_aliases
 
-# grep -------------------------------------------------------------
-
-case "$(uname)" in
-  *CYGWIN*)
-    # always use color; skip certain files/dirs; toss stderr
-    _grep()  { \grep -E --color=always --exclude-dir=.git --exclude=.bash_history "${@}" ; }
-  ;;
-  *Darwin*)
-    unset GREP_OPTIONS # dericated: use alias or function
-    declare -ag G_OPTIONS=(-E --color=always --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform} --exclude={.sh_history,.zsh_history,.viminfo,.bash_history})
-    # use gnu grep (ggrep) instead of grep, if gnu grep installed
-    if command -v ggrep >/dev/null 2>&1; then
-      _grep() { \ggrep $G_OPTIONS "${@}" }
-    else
-      _grep() {  \grep $G_OPTIONS "${@}" }
-    fi
-    # vvvvvvvvvvvvvvvvvvvvvvvvvvvv
-    # see also, .bashrc.zsh.fixup
-    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  ;;
-esac
-_grep2() { _grep "${@}" 2>/dev/null ; }
-alias grep=_grep
-alias grep2=_grep2
-alias 2grep=_grep2
-
-# ------------------------------------------------------------------
-
-
 alias datex='x=`date +%Y-%m-%d_%H-%M-%S`; echo "$x # date +%Y-%m-%d_%H-%M-%S"'
 alias gs='git status'
 alias gsx='git -c color.status=always status | grep -v "deleted:.*_mac"'
@@ -82,5 +53,45 @@ case "$(uname)" in
             ;;
 esac
 
+# grep -------------------------------------------------------------
+
+_grep2() { _grep "${@}" 2>/dev/null ; }
+alias grep=_grep
+alias grep2=_grep2
+alias 2grep=_grep2
+
+# separte the case statements, or else on Windows bash, the
+# case won't run when it sees the '_grep()' under Darwin section
+case "$(uname)" in
+  *CYGWIN*)
+    # always use color; skip certain files/dirs; toss stderr
+    _grep()  { \grep -E --color=always --exclude-dir=.git --exclude=.bash_history "${@}" ; }
+    # echo this is the last line to be processed on CYGWIN
+  ;;
+esac
+# on CYGWIN, the script aborts here, as it can't seem to parse the '_grep ()' lines below :-(
+case "$(uname)" in
+  *Darwin*)
+    unset GREP_OPTIONS # dericated: use alias or function
+    declare -ag G_OPTIONS=(-E --color=always --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform} --exclude={.sh_history,.zsh_history,.viminfo,.bash_history})
+    # use gnu grep (ggrep) instead of grep, if gnu grep installed
+    if command -v ggrep >/dev/null 2>&1; then
+      :
+      # this next line breaks CYGWIN if uncommented (cygwin exits this file when it enters this case stmt)
+      _grep() { \ggrep "$G_OPTIONS" "${@}" }
+    else
+      :
+      # this next line breaks CYGWIN if uncommented (cygwin exits this file when it enters this case stmt)
+      _grep() {  \grep "$G_OPTIONS" "${@}" }
+    fi
+    # vvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    # see also, .bashrc.zsh.fixup
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ;;
+esac
+
+# ------------------------------------------------------------------
+
+echo 2-----------2
 _leave_dot_file 2>/dev/null || true
 
