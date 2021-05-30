@@ -151,7 +151,7 @@ TEMP="${TMP}"
   alias wpc="wpaste|u2d|wcopy"
   alias w="wpaste|sed -e 's:^o	::'|u2d|wcopy"
   alias gdiff='git diff'
-  alias regjump='c:/users/gsisson/usr/bin0/pc/SysInternals/regjump.exe'
+  alias regjump='c:/users/gsisson/usr/local/SysInternals/regjump.exe'
   alias help='~/usr/bin/help'
 
   alias a:="cd a: || return 1"
