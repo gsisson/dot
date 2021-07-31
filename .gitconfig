@@ -55,7 +55,7 @@
 	old = red bold
 	new = green bold
 	commit = yellow
-	whitespace = normal red
+	whitespace = red reverse
 [color "branch"]
 	current = green bold
 	local = normal
@@ -92,6 +92,7 @@
 	sslVerify = false
 [diff]
 	tool = bc3
+	wsErrorHighlight = all
 [difftool]
 	prompt = false
 [merge]
@@ -100,3 +101,8 @@
 [mergetool "bc3"]
 	prompt = false
 	trustExitCode = true
+#[branch]
+	#autosetupmerge = always
+	#autosetuprebase = always
+[init]
+	defaultBranch = main

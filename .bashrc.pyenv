@@ -5,6 +5,7 @@ _enter_dot_file 2>/dev/null || true
 #   see ~/usr/bin/help.python.install
 if pyenv --version > /dev/null 2>&1; then
   eval "$(pyenv init -)"
+  eval "$(pyenv init --path)"
   eval "$(pyenv virtualenv-init -)"
   export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 fi

@@ -1,6 +1,7 @@
 // https://github.com/johnste/finicky
 module.exports = {
-    defaultBrowser: "Google Chrome",
+  //defaultBrowser: "Google Chrome",
+    defaultBrowser: "Firefox",
     rewrite:
         [
             {
@@ -55,18 +56,18 @@ module.exports = {
 //                match: /expenses.corp.amazon.com/,
 //                browser: "Firefox"
 //            },
-            {
-                // Open google.com and *.google.com urls in Google Chrome
-                match: [
-                    "google.com*", // match google.com urls
-                    finicky.matchDomains(/.*\.google.com/) // use helper function to match on domain only
-                ],
-                browser: "Google Chrome"
-            },
-            {
-                match: finicky.matchHostnames(["broadcast.amazon.com"]),
-                browser: "/Applications/Safari.app"
-            },
+//            {
+//                // Open google.com and *.google.com urls in Google Chrome
+//                match: [
+//                    "google.com*", // match google.com urls
+//                    finicky.matchDomains(/.*\.google.com/) // use helper function to match on domain only
+//                ],
+//                browser: "Google Chrome"
+//            },
+//            {
+//                match: finicky.matchHostnames(["broadcast.amazon.com"]),
+//                browser: "/Applications/Safari.app"
+//            },
             {
                 match: ({
                     url

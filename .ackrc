@@ -9,3 +9,4 @@
 --ignore-dir=themes/learn
 --ignore-dir=static/css
 --ignore-dir=static/diagrams
+--ignore-dir=.tox

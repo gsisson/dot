@@ -97,6 +97,7 @@ Library/
 .oracle_jre_usage/
 .terraform.d/
 .terraformrc
+*.swp
 .zcompdump*
 VSCode Crashes/
 com.googlecode.iterm2.plist

@@ -195,4 +195,9 @@ aws_profile_export () {
   eval $cmd
 }
 
+function tojq() {
+  sed -e 's:^"::' -e 's:"$::' -e 's:\\n:\n:g' -e 's:\\":":g'  -e 's:\\":":g' | jq
+  #sed -e 's:^"::' -e 's:"$::' -e 's:\\":":g' | jq
+}
+
 _leave_dot_file 2>/dev/null || true
