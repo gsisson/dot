@@ -55,7 +55,7 @@
 	old = red bold
 	new = green bold
 	commit = yellow
-	whitespace = red reverse
+	whitespace = "#700000 reverse"
 [color "branch"]
 	current = green bold
 	local = normal
@@ -106,3 +106,4 @@
 	#autosetuprebase = always
 [init]
 	defaultBranch = main
+	templateDir = /Users/glennaws/.git-template
