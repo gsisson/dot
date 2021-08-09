@@ -85,7 +85,7 @@
 	required = true
 	process = git-lfs filter-process
 [pull]
-	rebase = false
+	rebase = true
 #[http]
 #	proxy = http://web-proxy:8088
 [http]
@@ -107,3 +107,5 @@
 [init]
 	defaultBranch = main
 	templateDir = /Users/glennaws/.git-template
+[rebase]
+	autoStash = true
