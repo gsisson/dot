@@ -107,5 +107,5 @@
 [init]
 	defaultBranch = main
 	templateDir = /Users/glennaws/.git-template
-[rebase]
-	autoStash = true
+#[rebase]
+	#autoStash = true
