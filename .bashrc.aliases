@@ -85,11 +85,13 @@ case "$(uname)" in
     if command -v ggrep >/dev/null 2>&1; then
       :
       # this next line breaks CYGWIN if uncommented (cygwin exits this file when it enters this case stmt)
-      _grep() { \ggrep "$G_OPTIONS" "${@}" }
+      #_grep() { \ggrep "$G_OPTIONS" "${@}" }
+       _grep() { \ggrep  $G_OPTIONS  "${@}" }
     else
       :
       # this next line breaks CYGWIN if uncommented (cygwin exits this file when it enters this case stmt)
-      _grep() {  \grep "$G_OPTIONS" "${@}" }
+      #_grep() {  \grep "$G_OPTIONS" "${@}" }
+       _grep() {  \grep  $G_OPTIONS  "${@}" }
     fi
     # vvvvvvvvvvvvvvvvvvvvvvvvvvvv
     # see also, .bashrc.zsh.fixup
