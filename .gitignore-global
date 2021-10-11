@@ -15,6 +15,7 @@ node_modules/
 
 # Python related ----------------------------
 __pycache__/
+.tox/
 
 # Terraform related -----------------------
 *.tfvar
@@ -71,3 +72,4 @@ storage/
 tmp/
 vendor/
 yarn-error.log
+UNKNOWN.egg-info/

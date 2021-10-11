@@ -66,6 +66,10 @@ setopt interactivecomments
 #   rm existing_file nonexisting_file_* # null_glob makes sure 'existing_file' gets removed
 unsetopt null_glob
 
+# make env vars with spaces in them act like they do in bash when used on the command line
+# i.e. files="file1 file2"; ls $files; # will look for file1 and file2 not for "file1 file2"
+setopt sh_word_split
+
 # install support for shell completion with the AWS 'aws' CLI
 file=/usr/local/bin/aws_zsh_completer.sh
 if [ -f $file ]; then

@@ -27,8 +27,8 @@ ruby_env () { # the ruby version
   fi
   echo $ruby_env
 }
-      
-gitps () { 
+
+gitps () {
   # uses variables defined in ~/.oh-my-zsh/themes/glenn.zsh-theme
   echo "CLEAN:$fg_bold[green]✓$reset_color"
   echo "AHEAD:$fg[cyan]▴$reset_color"
@@ -85,6 +85,9 @@ function cd () {
       builtin cd "${@}"
     fi
   fi
+  if [ -f ~/src/gitlab-aws/bin/aws.setup ]; then
+    . ~/src/gitlab-aws/bin/aws.setup
+  fi
 }
 
 type_is() {
@@ -100,7 +103,7 @@ type_is() {
   #     type_is assoc var => false/0
   local match
   local old_nocase=$(shopt -p nocaseglob nocasematch)
-  shopt -u nocaseglob nocasematch 
+  shopt -u nocaseglob nocasematch
   case $1 in
     array) [[ `declare -p $2 2>/dev/null` =~ declare\ -a ]]
            match=$?

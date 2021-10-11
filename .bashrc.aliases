@@ -80,7 +80,7 @@ esac
 case "$(uname)" in
   *Darwin*)
     unset GREP_OPTIONS # dericated: use alias or function
-    declare -ag G_OPTIONS=(-E --color=always --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform} --exclude={.sh_history,.zsh_history,.viminfo,.bash_history})
+    declare -ag G_OPTIONS=(-E --color=always --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform,.tox} --exclude={.sh_history,.zsh_history,.viminfo,.bash_history})
     # use gnu grep (ggrep) instead of grep, if gnu grep installed
     if command -v ggrep >/dev/null 2>&1; then
       :
@@ -99,7 +99,19 @@ case "$(uname)" in
   ;;
 esac
 
+# find -------------------------------------------------------------
+
+export FIND_EXCLUDE_DIRS=( \
+  "! -path */.git/*" \
+  "! -path */.tox/*" \
+  "! -path */.bundle/*" \
+  "! -path */.cache/*" \
+  "! -path */__pycache__/*" \
+)
+#_find() { \find "${@}" ${FIND_EXCLUDE_DIRS[@]} 2>/dev/null ; }
+ _find() { \find "${@}" ${FIND_EXCLUDE_DIRS[@]} ; }
+alias find=_find
+
 # ------------------------------------------------------------------
 
 _leave_dot_file 2>/dev/null || true
-

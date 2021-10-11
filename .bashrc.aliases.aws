@@ -1,4 +1,5 @@
-alias   g0='export AWS_REGION="us-west-1"; export AWS_PROFILE="glennaws-g0";   export S3_PREFIX="${AWS_PROFILE}-"; export AWS_SDK_LOAD_CONFIG=1'
-alias   g1='export AWS_REGION="us-west-1"; export AWS_PROFILE="glennaws-g1";   export S3_PREFIX="${AWS_PROFILE}-"; export AWS_SDK_LOAD_CONFIG=1'
-alias art1='export AWS_REGION="us-west-2"; export AWS_PROFILE="glennaws-art1"; export S3_PREFIX="${AWS_PROFILE}-"; export AWS_SDK_LOAD_CONFIG=1'
-alias open-sourcerer="python ~/src/gitlab-aws/bin/open-sourcerer.pyz"
+_enter_dot_file 2>/dev/null || true
+
+_source_dot_file ~/src/gitlab-aws/bin/aws.setup 2>/dev/null || true
+
+_leave_dot_file 2>/dev/null || true

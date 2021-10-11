@@ -10,3 +10,17 @@
 --ignore-dir=static/css
 --ignore-dir=static/diagrams
 --ignore-dir=.tox
+
+# avoid searching these directories as well
+--ignore-dir=.Trash
+--ignore-dir=.cache
+--ignore-dir=.bundle
+--ignore-dir=.aws-sam
+--ignore-dir=.pyenv
+--ignore-dir=.gem
+--ignore-dir=.local
+--ignore-dir=.npm
+--ignore-dir=.rbenv
+--ignore-dir=.runtimes
+--ignore-dir=.toolbox
+--ignore-dir=.vscode
