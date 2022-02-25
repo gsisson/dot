@@ -213,8 +213,14 @@ function gsaml2aws() {
     echo "$acct_id"
     return
   fi
-  echo "you are not connected..."
+  echo "you are not connected!"
   echo "connecting now..."
+  if docker info 2>/dev/null 1>&2 ; then
+    echo "docker is running..."
+  else
+    echo "ERROR: docker is not running!"
+    return
+  fi
   docker run -it -v ~/.aws/credentials:/root/.aws/credentials gsaml2aws
   echo "checking connection..."
   acct_id=`aws sts get-caller-identity --query Account --output text 2>/dev/null`
