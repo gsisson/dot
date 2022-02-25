@@ -205,12 +205,16 @@ function tojq() {
 
 function gsaml2aws() {
   echo "checking connection..."
+  echo "  AWS_PROFILE:   $AWS_PROFILE"
+  echo "  AWS_REGION:    $AWS_REGION"
+  echo -n "  account id     "
   local acct_id=`aws sts get-caller-identity --query Account --output text 2>/dev/null`
   if [ -n "$acct_id" ]; then
-    echo "  account id is: ${acct_id}"
+    echo "$acct_id"
     return
   fi
-  echo "not connected... reconnecting now..."
+  echo "you are not connected..."
+  echo "connecting now..."
   docker run -it -v ~/.aws/credentials:/root/.aws/credentials gsaml2aws
   echo "checking connection..."
   acct_id=`aws sts get-caller-identity --query Account --output text 2>/dev/null`
