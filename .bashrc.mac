@@ -63,6 +63,7 @@ alias aws-access-key-id-CLEAR="echo + unset AWS_ACCESS_KEY_ID; unset AWS_ACCESS_
 alias aws-secret-access-key-CLEAR="echo + unset AWS_SECRET_ACCESS_KEY; unset AWS_SECRET_ACCESS_KEY"
 alias aws-default-profile-CLEAR="echo + unset AWS_DEFAULT_PROFILE; unset AWS_DEFAULT_PROFILE"
 alias rbenv-versions="rbenv install --list | egrep -v '(rbx|ree|jruby|maglev|mruby|topaz|1\.8\.)'"
+alias ggg='echo ${PWD/$(git rev-parse --show-toplevel || echo .)?/} | sed -e "s|[^/][^/]*|..|g"' # prints ../../.. to get to git root
 
 #These are also in goguide...aliases
 #alias be='bundle exec'
@@ -85,7 +86,8 @@ PATH=${PATH//\~/$HOME} # replace all ~ with $HOME value (zsh issue)
 export PATH="$PATH:$HOME/src/link_docker"
 export PATH="$HOME/.toolbox/bin:${PATH}"
 export PATH="/usr/local/opt/node@12/bin:$PATH"
-export PATH=$HOME/usr/bin:$PATH
+export PATH="$HOME/dev/bin:$PATH"
+export PATH="$HOME/usr/bin:$PATH"
 
 export EDITOR=/Applications/Emacs.app/Contents/MacOS/Emacs
 export EDITOR='emacsclient -n'
@@ -98,7 +100,7 @@ export GEM_HOME=~/.gem
 export GEM_PATH=~/.gem
 
 # 'brew install ruby-build' says:
-# - ruby-build installs a non-Homebrew OpenSSL for each Ruby version installed and 
+# - ruby-build installs a non-Homebrew OpenSSL for each Ruby version installed and
 #   these are never upgraded.
 # - To link Rubies to Homebrew's OpenSSL 1.1 (which is upgraded) add the following
 #   to your ~/.zshrc:
@@ -154,7 +156,7 @@ function ps1 {
       local  LIGHT_GRAY="\[\033[0;37m\]"
       local        GRAY="\[\033[1;30m\]"
       local       RESET="\[\033[0m\]"
-  
+
       local    BG_GREEN="\[\033[0;42m\]"
      #export PS1="$RESET\u@\h: \w$GREEN\$(parse_git_branch)$RESET$ "
   #   export PS1="$RESET$BG_YELLOW$GRAY\u$RESET@\h: \w$GREEN\$(parse_git_branch 2>/dev/null)$RESET$ "
@@ -176,7 +178,7 @@ function ps1 {
 #--------------------------------------------------------------------------------
 # These are also in gouide...paths
 if [ "$(uname)" = Darwin ]; then
-  : ${GREP_OPTIONS:='--color=auto'}
+  : ${GREP_OPTIONS:='--color=auto'} # GREP_OPTIONS obsolete... using G_OPTIONS now
   : ${GREP_COLOR:='1;42'}
   export GREP_OPTIONS GREP_COLOR
 fi

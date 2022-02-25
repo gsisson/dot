@@ -203,4 +203,18 @@ function tojq() {
   #sed -e 's:^"::' -e 's:"$::' -e 's:\\":":g' | jq
 }
 
+function gsaml2aws() {
+  echo "checking connection..."
+  local acct_id=`aws sts get-caller-identity --query Account --output text 2>/dev/null`
+  if [ -n "$acct_id" ]; then
+    echo "  account id is: ${acct_id}"
+    return
+  fi
+  echo "not connected... reconnecting now..."
+  docker run -it -v ~/.aws/credentials:/root/.aws/credentials gsaml2aws
+  echo "checking connection..."
+  acct_id=`aws sts get-caller-identity --query Account --output text 2>/dev/null`
+  echo "  account id is: ${acct_id}"
+}
+
 _leave_dot_file 2>/dev/null || true

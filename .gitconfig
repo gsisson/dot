@@ -21,6 +21,7 @@
 
 	undo-commit = reset --soft HEAD^
 	conflicts = diff --name-only --diff-filter=U
+	ls-files-modified-only-pipe-to-cat = diff --name-only
 [core]
 	excludesfile = ~/.gitignore-global
 	mergeoptions = --no-edit

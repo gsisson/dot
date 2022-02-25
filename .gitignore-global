@@ -64,6 +64,7 @@ terraform.tfstate.backup
 .subversion
 Icon?
 Thumbs.db
+bak/
 db/
 ehthumbs.db
 log/
@@ -73,3 +74,5 @@ tmp/
 vendor/
 yarn-error.log
 UNKNOWN.egg-info/
+.pre-commit-config.yaml
+*.code-workspace

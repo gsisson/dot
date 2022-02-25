@@ -66,6 +66,7 @@ _grep2() { _grep "${@}" 2>/dev/null ; }
 alias grep=_grep
 alias grep2=_grep2
 alias 2grep=_grep2
+alias cgrep="grep --color=always "
 
 # separte the case statements, or else on Windows bash, the
 # case won't run when it sees the '_grep()' under Darwin section
@@ -80,7 +81,7 @@ esac
 case "$(uname)" in
   *Darwin*)
     unset GREP_OPTIONS # dericated: use alias or function
-    declare -ag G_OPTIONS=(-E --color=always --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform,.tox} --exclude={.sh_history,.zsh_history,.viminfo,.bash_history})
+    declare -ag G_OPTIONS=(-E --color=auto   --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform,.tox} --exclude={.sh_history,.zsh_history,.viminfo,.bash_history})
     # use gnu grep (ggrep) instead of grep, if gnu grep installed
     if command -v ggrep >/dev/null 2>&1; then
       :

@@ -49,3 +49,4 @@ export PC=glenn
 _leave_dot_file 2>/dev/null || true
 
 
+export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
