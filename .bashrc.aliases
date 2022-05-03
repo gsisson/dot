@@ -53,8 +53,8 @@ case "$(uname)" in
             alias ffprobe="c:/Program\ Files/ffmpeg-2021-07-14-git-ca56299fb3-full_build/bin/ffprobe.exe"
             alias ffplay="c:/Program\ Files/ffmpeg-2021-07-14-git-ca56299fb3-full_build/bin/ffplay.exe"
             ;;
-  *Darwin*) alias rm=_rmtrash_file
-            #alias rmdir=_rmtrash_dir
+  *Darwin*) alias rm=_trash_file
+            #alias rmdir=_trash_dir
             # if you want to use ~/.lesskey for less key remappings, use hte brew installed less
             # alias less=/usr/local/bin/less
             ;;

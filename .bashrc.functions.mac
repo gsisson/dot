@@ -54,43 +54,43 @@ srm() {
   \rm -P ${@}
 }
 
-# alias rm='echo -e "\033[1;41m   Use \"rmtrash\" or \"\\\\rm\"    \033[0m"'
-_rmtrash() {
-  # run 'rmtrash' to remove dirs and files
+# alias rm='echo -e "\033[1;41m   Use \"trash\" or \"\\\\rm\"    \033[0m"'
+_trash() {
+  # run 'trash' to remove dirs and files
   #
   # test code:
   #   touch xyz ; rm xyz
-  #     + rmtrash xyz
+  #     + trash xyz
   #   touch -- -xyz ; rm -xyz
-  #     ERROR: rmtrash does not support '-xyz'
+  #     ERROR: trash does not support '-xyz'
   #       exiting...
   #   touch -- -xyz ; rm -- -xyz
-  #     + rmtrash -- -xyz
+  #     + trash -- -xyz
   #   mkdir xyz ; rmdir xyz dne
   #     rmdir: dne: No such file or directory
-  #     + rmtrash xyz
+  #     + trash xyz
   #   mkdir .xyz ; rmdir .xyz
-  #     + rmtrash .xyz
+  #     + trash .xyz
   #   mkdir -p xyz/abc ; touch xyz/abc/file ; rmdir xyz/abc ; rmdir xyz
-  #     + rmtrash xyz/abc
-  #     + rmtrash xyz
+  #     + trash xyz/abc
+  #     + trash xyz
   #   mkdir -p .xyz/.abc ; touch .xyz/.abc/.file ; rmdir .xyz/.abc ; rmdir .xyz
-  #     + rmtrash .xyz/.abc
-  #     + rmtrash .xyz
+  #     + trash .xyz/.abc
+  #     + trash .xyz
   local err=""
   local type=""
   local dashdash=""
   case "$1" in
     -f)type=f;;
     -d)type=d;;
-    *) echo "INTERNAL ERROR: _rmtrash(): first arg is not '-d' or '-f'"; return 1;;
+    *) echo "INTERNAL ERROR: _trash(): first arg is not '-d' or '-f'"; return 1;;
   esac
   shift
   case "$1" in
     --) dashdash="--"
         shift
         ;;
-    -*) echo "ERROR: rmtrash does not support '$1'"
+    -*) echo "ERROR: trash does not support '$1'"
         echo "       exiting..."
         return 1
         ;;
@@ -135,38 +135,41 @@ _rmtrash() {
     #echo mvsrc:"${i}"
     #echo mvtgt:"${mvtgt}"
     if [ -f "${mvtgt}" -o -d "${mvtgt}" -o -h "${mvtgt}" ]; then
-      echo "ERROR: _rmtrash target file collision!" 1>&2
+      echo "ERROR: _trash target file collision!" 1>&2
       echo "       exists: '${mvtgt}'"
       echo "       (exiting...)"
       return 1
     fi
     #echo + mv "${mvsrc}" "${mvtgt}"
     mv -- "${mvsrc}" "${mvtgt}"
-    echo + rmtrash $dashdash "${i}"
-    #echo + rmtrash $dashdash "${mvtgt}"
-    rmtrash $dashdash "${mvtgt}"
+    echo + trash $dashdash "${i}"
+    #echo + trash $dashdash "${mvtgt}"
+    #trash $dashdash "${mvtgt}"
+    trash $dashdash "${mvtgt}"
   done
   if [ "$err" = true ]; then
     return 1
   fi
 }
-_rmtrash_file() {
-  if ! which rmtrash >/dev/null 2>&1 ; then
-    echo "WARNING: 'rmtrash' not installed!"
-    echo "         (removing with 'rm')"
+_trash_file() {
+  #if ! which trash >/dev/null 2>&1 ; then
+  if ! which trash >/dev/null 2>&1 ; then
+    echo "WARNING: 'trash' not installed!"
+    echo "         (removing items with 'rm')"
+    echo "         (install trash with 'brew install trash')"
     \rm "${@}"
     return 1
   fi
-  _rmtrash -f "${@}"
+  _trash -f "${@}"
 }
-_rmtrash_dir() {
-  if ! which rmtrash >/dev/null 2>&1 ; then
-    echo "WARNING: 'rmtrash' not installed!"
+_trash_dir() {
+  if ! which trash >/dev/null 2>&1 ; then
+    echo "WARNING: 'trash' not installed!"
     echo "         (removing with 'rmdir')"
     \rmdir "${@}"
     return 1
   fi
-  _rmtrash -d "${@}"
+  _trash -d "${@}"
 }
 
 source /Users/glennaws/.config/broot/launcher/bash/br
