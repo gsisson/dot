@@ -12,6 +12,8 @@ if ! command -v gls >/dev/null 2>&1; then
   echo -e "\033[1;91m# gls (gnu ls) not found - you may want to brew install coreutils\033[0m" 1>&2
 fi
 
+#eval "$(/opt/homebrew/bin/brew shellenv)"
+
 _source_dot_file ~/.bash_profile 2>/dev/null || true
 
 _leave_dot_file 2>/dev/null || true
