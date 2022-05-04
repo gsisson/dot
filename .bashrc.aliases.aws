@@ -1,5 +1,7 @@
 _enter_dot_file 2>/dev/null || true
 
-_source_dot_file ~/src/gitlab-aws/bin/aws.setup 2>/dev/null || true
+if [ -f ~/src/gitlab-aws/bin/aws.setup ]; then
+  _source_dot_file ~/src/gitlab-aws/bin/aws.setup 2>/dev/null || true
+fi
 
 _leave_dot_file 2>/dev/null || true
