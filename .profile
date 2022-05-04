@@ -2,7 +2,7 @@
 _enter_dot_file 2>/dev/null || true
 
 export NODENV_ROOT=/usr/local/var/nodenv
-if which rbenv  > /dev/null 2>&1; then eval "$(rbenv  init -)"; fi
+if which rbenv  > /dev/null 2>&1; then eval "$(rbenv  init - zsh)"; fi
 if which nodenv > /dev/null 2>&1; then eval "$(nodenv init -)"; fi
 
 # this stuff moved to .zshrc (so that 'complete' and 'compdef' are defined after

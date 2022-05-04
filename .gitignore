@@ -31,15 +31,16 @@ Templates
 Videos/
 
 # Mac Home Dirs ----------------
-Library/
 # Applications/
-# Movies/
-# Public/
 # Amazon WorkDocs Drive/
+Dropbox/
+Library/
+Movies/
+Public/
 
 # Tool Created Dirs/Files ----------
 # .(users gsisson)
-# .CFUserTextEncoding
+.CFUserTextEncoding
 # .MakeMKV
 # .Xauthority
 # .anaconda/
@@ -51,13 +52,15 @@ Library/
 # .bundle/
 # .cisco/
 # .condarc
-# .config/
-# .cups/
+.config/
+.cups/
 # .docker/
-# .dropbox/
+.dropbox/
 # .eclipse/
 # .electron/
-# .emacs.d/
+.emacs.d/
+.emacs.desktop
+.emacs.desktop.lock
 # .gem
 # .gnupg/
 # .gradle/
@@ -70,7 +73,7 @@ Library/
 # .jupyter/
 # .kube/
 # .less
-# .local/
+.local/
 # .m2/
 # .midway/
 # .mono/
@@ -80,14 +83,14 @@ Library/
 # .plugman/
 # .pyenv/
 # .pylint.d/
-# .rbenv/
+.rbenv/
 # .rest-client/
 # .rnd
 # .ruby-version
 # .runtimes/
 # .toolbox/
 # .usage-stats/
-# .viminfo
+.viminfo
 # find.txt*
 # hsperfdata_gsisson/
 # isengard/
@@ -123,24 +126,25 @@ dot.emacs_pc.LINK
 # My Git Sub-dirs ------------
 # /.oh-my-zsh/
 # /.vim
-# /usr/bin/
-# /usr/bin0/
+/usr/bin/
+/usr/bin0/
 # /usr/local/
-# /usr/ruby/
+/usr/ruby/
 # /usr/src/
 
 # Other -------------------
-# .ssh/
+.ssh/
 # .aws/
-# src/
+# .cdk/
 # .io.ganeshrvel/
 # .hgignore_global
 .github*token*
-
-# .cdk/
+.oh-my-zsh/
 # .serverless/
 # .serverlessrc
 # VirtualBoxVMs/
 # WorkDocs Drive/
+# src/
 # wrk
 # work
+.zsh_sessions/
