@@ -63,7 +63,7 @@ alias aws-access-key-id-CLEAR="echo + unset AWS_ACCESS_KEY_ID; unset AWS_ACCESS_
 alias aws-secret-access-key-CLEAR="echo + unset AWS_SECRET_ACCESS_KEY; unset AWS_SECRET_ACCESS_KEY"
 alias aws-default-profile-CLEAR="echo + unset AWS_DEFAULT_PROFILE; unset AWS_DEFAULT_PROFILE"
 alias rbenv-versions="rbenv install --list | egrep -v '(rbx|ree|jruby|maglev|mruby|topaz|1\.8\.)'"
-alias ggg='echo ${PWD/$(git rev-parse --show-toplevel || echo .)?/} | sed -e "s|[^/][^/]*|..|g"' # prints ../../.. to get to git root
+alias q='echo ${PWD/$(git rev-parse --show-toplevel || echo .)?/} | sed -e "s|[^/][^/]*|..|g"' # prints ../../.. to get to git root
 
 #These are also in goguide...aliases
 #alias be='bundle exec'
