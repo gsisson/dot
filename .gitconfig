@@ -110,3 +110,5 @@
 	templateDir = /Users/glennaws/.git-template
 #[rebase]
 	#autoStash = true
+[url "https://github.com/"]
+	insteadOf = git://github.com/

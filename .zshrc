@@ -108,7 +108,8 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # terraform tab completion ----------------------------------------------------------------------
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/terraform terraform
+complete -o nospace -C $(brew --prefix)/bin/terraform terraform
+
 
 # iterm2 shell integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
