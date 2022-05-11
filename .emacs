@@ -12,6 +12,8 @@
  (add-to-list 'load-path
 ;     ln "$HOME/Dropbox/_Settings/lisp/dot.emacs" "dot.emacs.LINK"
              "~/Dropbox/_Settings/lisp/")
+ (add-to-list 'load-path
+             "~/../gsisson/Dropbox/_Settings/lisp/")
    (load "dot.emacs")
 )
 
