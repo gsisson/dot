@@ -27,9 +27,9 @@
 	mergeoptions = --no-edit
 	autocrlf = input
 	editor = vi
-    #pager = less -MRi-+F-+X # -+F: never quit-if-one-screen
-    #pager = less -MRi-F-+X  #  -F:       quit-if-one-screen # best for work
-    #pager = less -FRSX      # supposedly git default
+	#pager = less -MRi-+F-+X # -+F: never quit-if-one-screen
+	#pager = less -MRi-F-+X  #  -F:       quit-if-one-screen # best for work
+	#pager = less -FRSX      # supposedly git default
 [pager]
 	branch = false  # don't use less for 'git branch'
 	stash = false   # don't use less for 'git stash'
@@ -39,11 +39,10 @@
 #[commit]
 	#template = /Users/glennaws/.stCommitMsg
 [push]
-    #default = simple   # doesn't auto track remote branches
+	#default = simple   # doesn't auto track remote branches
 	default = current  # does auto track
-[color] #
-# colors: normal, black, red, green, yellow, blue, magenta, cyan, or white
-# other: ul (underline), bold
+[color] # colors: normal, black, red, green, yellow, blue, magenta, cyan, or white
+        # other: ul (underline), bold
 	ui = true
 	diff = auto
 	status = auto
@@ -88,7 +87,7 @@
 [pull]
 	rebase = true
 #[http]
-#	proxy = http://web-proxy:8088
+	#proxy = http://web-proxy:8088
 [http]
 	sslVerify = false
 [diff]
