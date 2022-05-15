@@ -31,12 +31,13 @@ Templates
 Videos/
 
 # Mac Home Dirs ----------------
-# Applications/
+Applications/
 # Amazon WorkDocs Drive/
 Dropbox/
 Library/
 Movies/
 Public/
+Sites/
 
 # Tool Created Dirs/Files ----------
 # .(users gsisson)
@@ -81,7 +82,7 @@ Public/
 # .npm/
 # .packer.d/
 # .plugman/
-# .pyenv/
+.pyenv/
 # .pylint.d/
 .rbenv/
 # .rest-client/
