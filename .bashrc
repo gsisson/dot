@@ -42,7 +42,7 @@ esac
 
 export PC=glenn
 
-umask u=rwx,g=rwx,o=rx
+# umask u=rwx,g=rwx,o=rx
 
 #G_ENABLE_DIAGNOSTIC=0 # 1
 #GTK_THEME=Adwaita
