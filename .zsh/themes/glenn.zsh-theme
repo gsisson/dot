@@ -6,13 +6,14 @@ bureau_precmd () {} #null out the hook function defined in bureau.zsh-theme
 autoload -U colors && colors
 typeset -A fg2
 if [[ $TERM = *256color* || $TERM = *rxvt* ]]; then
-  fg2[green]="$BG[040]"
+  fg2[green]="$FG[040]"
   fg2[green_bg]="$BG[040]"
   fg2[limegreen]="%F{118}"
   fg2[blue]="$FG[033]"
   fg2[blue_bg]="$BG[033]"
   fg2[orange]="$FG[166]"
   fg2[orange_bg]="$BG[166]"
+  fg2[orange_bg]="$BG[208]"
   fg2[turquoise]="$FG[081]"
   fg2[turquoise_bg]="$BG[081]"
   fg2[purple]="$FG[135]"
@@ -31,10 +32,10 @@ fi
 
 # GIT PROMPT CHANGES
 
-# same fucntion as in Bureau, but with a couple of mods
+# same function as in Bureau, but with a couple of mods
 
 bureau_git_prompt () {
-  local _branch=$(bureau_git_branch)
+  local _branch=$(bureau_git_info)
   local _status=$(bureau_git_status)
         _status=${_status:-$ZSH_THEME_GIT_PROMPT_CLEAN} # added to set the check mark if clean
   local _result=""
@@ -64,7 +65,6 @@ bureau_git_prompt () {
     _color=$fg2[green_bg]
     _color=$fg2[orange_bg]
     _color=$fg2[purple_bg]
-    _color=$fg2[purple_bg]
   fi
 
   _USER_HOST="%{$_color%}%n%{$reset_color%}@%{$_color%}%m:%{$reset_color%}"
@@ -75,5 +75,38 @@ bureau_git_prompt () {
   _LIBERTY="" # nothing
   _PATH="%{$fg2[limegreen]%}%~%{$reset_color%}"
 
+  alias awsp="source _awsp"
+  function aws_profile {
+    local _result=""
+    if [[ "${AWS_PROFILE}" != "" ]]; then
+      orange_bg="$BG[208]"
+      orange="\033[38;05;214m"
+      _result="%{$orange%}${AWS_PROFILE}%{$reset_color%}"
+    fi
+    echo $_result
+  }
+
+  PS1rb () {
+    local _result=$(ruby_env)
+    _result=${_result# *}
+    if [ "${_result}" = system ]; then
+      return
+    fi
+    if [ -n "${_result}" ]; then
+      _result="%{$fg2[hotpink_bg]%}${_result}%{$reset_color%}"
+    fi
+    echo $_result
+  }
+
+  PS1py () {
+    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+    local _result
+    if [ -n "$VIRTUAL_ENV" ]; then
+      local _green=${BG[040]}
+      _result="%{${_green}%}%{$fg[black]%}${VIRTUAL_ENV##*/}%{$reset_color%}"
+    fi
+    echo $_result
+  }
+
   PROMPT='${_USER_HOST}%{$bg[black]%}%{$fg[white]%}${_LIBERTY}%{$reset_color%}'
-  RPROMPT='${_PATH}$(nvm_prompt_info)$(ruby_env)$(bureau_git_prompt)'
+  RPROMPT='${_PATH}$(nvm_prompt_info)${PS1py}$(bureau_git_prompt)$(aws_profile)$(PS1rb)$(PS1py)'
