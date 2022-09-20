@@ -10,3 +10,4 @@ ForegroundColour=255,255,255
 MiddleClickAction=enter
 CopyAsRTF=no
 ClipShortcuts=yes
+WindowShortcuts=no
