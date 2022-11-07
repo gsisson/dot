@@ -42,7 +42,11 @@ ssh_ges () {
 }
 
 cdw() {
-  cd "`pbpaste|sed -e s:~:$HOME:`"
+  local dir="`pbpaste|sed -e s:~:$HOME:`"
+  if [ -f "$dir" ]; then
+    dir=$(dirname $dir)
+  fi
+  cd "$dir"
 }
 
 efile() {

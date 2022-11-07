@@ -106,7 +106,7 @@
 	#autosetuprebase = always
 [init]
 	defaultBranch = main
-	templateDir = /Users/glennaws/.git-template
+	# templateDir = /Users/glennaws/.git-template
 #[rebase]
 	#autoStash = true
 [url "https://github.com/"]

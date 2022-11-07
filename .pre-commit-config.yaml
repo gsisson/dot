@@ -21,6 +21,12 @@ repos:
     - id: terraform_fmt
 #   - id: terraform_tfsec # comment out if working in ~/ or tfsec hangs trying search the entire home dir for .tf files
 #   - id: terraform_tflint
+ - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+   rev: v9.1.0
+   hooks:
+    - id: commitlint
+      stages: [commit-msg]
+      additional_dependencies: ['@commitlint/config-conventional']
  - repo: https://github.com/timothycrosley/isort
    rev: 5.9.3
    hooks:
