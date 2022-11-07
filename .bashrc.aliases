@@ -36,7 +36,7 @@ alias  gf='echo + git fetch         1>&2; git fetch '
 #alias  gp='echo + git pull          1>&2; git pull '
 alias gpr='echo + git pull --rebase 1>&2; git pull --rebase '
 alias  gb='echo + git branch        1>&2; git branch --color=always | cat'
-alias   g='git rev-parse --show-toplevel'
+alias gtop='git rev-parse --show-toplevel'
 alias tf="terraform"
 alias pu='pushd'
 alias po='popd'
@@ -75,7 +75,9 @@ alias cgrep="grep --color=always "
 case "$(uname)" in
   *CYGWIN*)
     # always use color; skip certain files/dirs; toss stderr
-    _grep()  { \grep -E --color=always --exclude-dir=.git --exclude=.bash_history "${@}" ; }
+    # _grep()  { \grep -E --color=always --exclude-dir=.git --exclude=.bash_history "${@}" ; }
+    # use color 'automatically'; skip certain files/dirs; toss stderr
+    _grep()  { \grep -E --color=auto --exclude-dir=.git --exclude=.bash_history "${@}" ; }
     # echo this is the last line to be processed on CYGWIN
   ;;
 esac
