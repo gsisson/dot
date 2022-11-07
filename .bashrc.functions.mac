@@ -1,0 +1,179 @@
+npm-config-proxy () {
+  env | grep -i _proxy > /dev/null
+  if [ $? = 0 ]; then
+    cmd="npm config set proxy $http_proxy"
+    echo + $cmd
+    eval $cmd
+    cmd="npm config set https-proxy $https_proxy"
+    echo + $cmd
+    eval $cmd
+  else
+    cmd="npm config delete proxy"
+    echo + $cmd
+    eval $cmd
+    cmd="npm config delete https-proxy"
+    echo + $cmd
+    eval $cmd
+  fi
+}
+
+ssh_ges () {
+  # add the ~/.ssh/ path to the -i arg
+  if [ "$1" = '-i' ]; then
+    case "$2" in
+      /*);;
+      *) if [ ! -f "$2" ]; then
+	   file="$2"
+	   if [ -f "$HOME/.ssh/$file" ]; then
+	     file="~/.ssh/$file"
+	     shift; shift
+	     set -- -i "$file" "${@}"
+	   elif [ -f "$HOME/.ssh/${file}.pem" ]; then
+	     file="~/.ssh/${file}.pem"
+	     shift; shift
+	     set -- -i "$file" "${@}"
+           fi
+         fi
+	 ;;
+    esac
+  fi
+  echo + ssh "${@}"
+  \ssh "${@}"
+}
+
+cdw() {
+  local dir="`pbpaste|sed -e s:~:$HOME:`"
+  if [ -f "$dir" ]; then
+    dir=$(dirname $dir)
+  fi
+  cd "$dir"
+}
+
+efile() {
+  emacsclient -n "${@}" 2>/dev/null || emacs "${@}"
+}
+
+srm() {
+  echo "# running 'rm -P' ${@}"
+  \rm -P ${@}
+}
+
+# alias rm='echo -e "\033[1;41m   Use \"trash\" or \"\\\\rm\"    \033[0m"'
+_trash() {
+  # run 'trash' to remove dirs and files
+  #
+  # test code:
+  #   touch xyz ; rm xyz
+  #     + trash xyz
+  #   touch -- -xyz ; rm -xyz
+  #     ERROR: trash does not support '-xyz'
+  #       exiting...
+  #   touch -- -xyz ; rm -- -xyz
+  #     + trash -- -xyz
+  #   mkdir xyz ; rmdir xyz dne
+  #     rmdir: dne: No such file or directory
+  #     + trash xyz
+  #   mkdir .xyz ; rmdir .xyz
+  #     + trash .xyz
+  #   mkdir -p xyz/abc ; touch xyz/abc/file ; rmdir xyz/abc ; rmdir xyz
+  #     + trash xyz/abc
+  #     + trash xyz
+  #   mkdir -p .xyz/.abc ; touch .xyz/.abc/.file ; rmdir .xyz/.abc ; rmdir .xyz
+  #     + trash .xyz/.abc
+  #     + trash .xyz
+  local err=""
+  local type=""
+  local dashdash=""
+  case "$1" in
+    -f)type=f;;
+    -d)type=d;;
+    *) echo "INTERNAL ERROR: _trash(): first arg is not '-d' or '-f'"; return 1;;
+  esac
+  shift
+  case "$1" in
+    --) dashdash="--"
+        shift
+        ;;
+    -*) echo "ERROR: trash does not support '$1'"
+        echo "       exiting..."
+        return 1
+        ;;
+    *);;
+  esac
+  for i in "${@}" ; do
+    if [ -h "${i}" ]; then
+      # direct removal of symlinks
+      echo '+ \\rm '"${i}"
+               \rm -- "${i}"
+      continue
+    fi
+    if [ ! -e "${i}" -a "$type" = f ]; then
+      # missing file; let 'rm' fail with proper error message
+      echo '+ \\rm '"${i}"
+               \rm -- "${i}"
+      err=true
+    fi
+    if [ ! -e "${i}" -a "$type" = d ]; then
+      # missing dir; let 'rmdir' fail with proper error message
+      echo '+ \\rmdir '"${i}"
+               \rmdir -- "${i}"
+      err=true
+    fi
+  done
+  for i in "${@}" ; do
+    if [ ! -e "${i}" ]; then
+      continue # handled earlier
+    fi
+    # check that target files do NOT exist
+    local dname=$(dirname -- ${i})
+    local bname=$(basename -- ${i})
+    local mvsrc="${i}"
+    local mvtgt=""
+    if [ "$dname" = . ]; then
+      mvtgtfile="${PWD//\//=}=${bname//\//=}"
+    else
+      mvtgtfile="${PWD//\//=}=${dname//\//=}=${bname//\//=}"
+    fi
+    mvtgtfile="$(date +%Y-%m-%d_%H.%M.%S)__${mvtgtfile#=}"
+    mvtgt="${dname}/${mvtgtfile}"
+    #echo mvsrc:"${i}"
+    #echo mvtgt:"${mvtgt}"
+    if [ -f "${mvtgt}" -o -d "${mvtgt}" -o -h "${mvtgt}" ]; then
+      echo "ERROR: _trash target file collision!" 1>&2
+      echo "       exists: '${mvtgt}'"
+      echo "       (exiting...)"
+      return 1
+    fi
+    #echo + mv "${mvsrc}" "${mvtgt}"
+    mv -- "${mvsrc}" "${mvtgt}"
+    echo + trash $dashdash "${i}"
+    #echo + trash $dashdash "${mvtgt}"
+    #trash $dashdash "${mvtgt}"
+    trash $dashdash "${mvtgt}"
+  done
+  if [ "$err" = true ]; then
+    return 1
+  fi
+}
+_trash_file() {
+  #if ! which trash >/dev/null 2>&1 ; then
+  if ! which trash >/dev/null 2>&1 ; then
+    echo "WARNING: 'trash' not installed!"
+    echo "         (removing items with 'rm')"
+    echo "         (install trash with 'brew install trash')"
+    \rm "${@}"
+    return 1
+  fi
+  _trash -f "${@}"
+}
+_trash_dir() {
+  if ! which trash >/dev/null 2>&1 ; then
+    echo "WARNING: 'trash' not installed!"
+    echo "         (removing with 'rmdir')"
+    \rmdir "${@}"
+    return 1
+  fi
+  _trash -d "${@}"
+}
+
+source /Users/glennaws/.config/broot/launcher/bash/br

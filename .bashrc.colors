@@ -1,0 +1,44 @@
+_enter_dot_file 2>/dev/null || true
+
+# ????
+if [ -f "/etc/dircolors" ] ; then
+  eval $(dircolors -b /etc/dircolors)
+fi
+
+_source_dot_file ~/.dircolors 2>/dev/null || true
+
+# GREP_COLOR is depricated
+#   export GREP_COLOR='1;35;40'  # majenta on black
+#   export GREP_COLOR='1;32;40'  # green on black
+#   export GREP_COLOR='1;30;42'  # black on green
+#   export GREP_COLOR='1;30;106' # black on cyan
+# GREP_COLORS is newer, and used by gnu grep
+#   see http://www.gnu.org/software/grep/manual/html_node/Environment-Variables.html
+
+#  '38;5;0' to '38;5;255' for 88-color and 256-color modes foreground colors,
+#  '48;5;0' to '48;5;255' for 88-color and 256-color modes background colors.
+#                      vv-- 1: bold, 3: italics, 5: blink, 7: inverse (optional)
+#                         vv-- grep foreground color (00: white, 01: bold white, ...)
+export GREP_COLORS='ms=01;31:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 31 = red
+export GREP_COLORS='ms=01;41:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 41 = red background
+export GREP_COLORS='ms=01;32:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 32 = green
+export GREP_COLORS='ms=01;42:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 42 = green backgroud
+export GREP_COLORS='ms=01;33:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 33 = yellow
+export GREP_COLORS='ms=01;43:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 43 = yellow background
+export GREP_COLORS='ms=01;42:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 42 = green background
+export GREP_COLORS='ms=01;36:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 36 = cyan
+export GREP_COLORS='ms=01;46:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 46 = cyan background
+#                   ^^ ms: non-empty text in selected line (used only when -v not used)
+#                            ^^ mc: non-empty text in context line (used only when -v used)
+#                                             ^^ fn: color of file names
+export GREP_COLORS='ms=00;30;42:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 30;42 = black on green
+export GREP_COLORS='ms=01;30;46:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 30;46 = black on cyan
+export GREP_COLORS='ms=01;01;42:mc=01;31:sl=:cx=:fn=32:ln=32:bn=32:se=36' # 00;42 = white on green
+#                            ^-- bg/fg (3: fg, 4: bg)
+#                             ^-- color (1: red, 2: green, 3: yellow, 5: cyan, ...)
+#                         ^^-- grep foreground color (00: white, 01: bold white, ...)
+#                      ^^-- 1: bold, 3: italics, 5: blink, 7: inverse
+
+export JQ_COLORS="1;39:0;39:0;39:0;39:0;32:1;39:1;39"
+
+_leave_dot_file 2>/dev/null || true

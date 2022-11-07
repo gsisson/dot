@@ -1,0 +1,229 @@
+_enter_dot_file 2>/dev/null || true
+
+case "$(uname)" in
+  *CYGWIN*) _source_dot_file ~/.bashrc.functions.pc      2>/dev/null || true
+            _source_dot_file ~/.bashrc.functions.pc.exif 2>/dev/null || true;;
+  *Darwin*) _source_dot_file ~/.bashrc.functions.mac     2>/dev/null || true;;
+esac
+
+# functions used in ~/.oh-my-zsh/themes/glenn.zsh-theme
+
+bureau_git_prompt_glenn () {
+  # Glenn: no space between branch name and color dots
+  bureau_git_prompt|sed -e 's: %:%:'
+  echo $_result
+}
+
+ruby_env () { # the ruby version
+  local ruby_env=''
+  if which rvm-prompt &> /dev/null; then
+    #ruby_env=' ‹$(rvm-prompt i v g)›%{$reset_color%}'
+     ruby_env='$(rvm-prompt i v g)'
+  else
+    if which rbenv &> /dev/null; then
+      #ruby_env=" ‹$(rbenv version-name)›%{$reset_color%}"
+       ruby_env="$(rbenv version-name)"
+    fi
+  fi
+  echo $ruby_env
+}
+
+gitps () {
+  # uses variables defined in ~/.oh-my-zsh/themes/glenn.zsh-theme
+  echo "CLEAN:$fg_bold[green]✓$reset_color"
+  echo "AHEAD:$fg[cyan]▴$reset_color"
+  echo "BEHIND:$fg[magenta]▾$reset_color"
+  echo "STAGED:$fg_bold[green]●$reset_color"
+  echo "UNSTAGED:$fg_bold[red]●$reset_color"
+  echo "UNTRACKED:$fg[yellow]●$reset_color"
+}
+
+gprr () {
+  for d in ~ ~/usr/bin ~/usr/ruby
+  do
+    echo "#--- $d"
+    cd $d
+    git pull --rebase
+    cd -
+  done
+}
+
+setfiles () {
+  if [ "$1" = jpgs ]; then
+    shift
+    if [ $# = 0 ]; then
+      set -- *
+    fi
+    echo "# calling url2s_to_urls.rb() for $# files"
+    files=$($tr/bin/url2s_to_urls.rb "$@")
+  else
+    if [ $# != 0 ]
+    then
+      files=`ls.exe -1 "$@"`
+    else
+#     set -- `find . -type f -level    0 | sed -e 's/^..//'`
+      set -- `find . -maxdepth 1 -type f | sed -e 's/^..//'`
+      files="$@"
+    fi
+  fi
+}
+
+# allow bash to do a "cd" with two args, like zsh, for changing dir with $PWD change
+function cd () {
+  if [ -z "$BASH_VERSION" ]; then
+    builtin cd "${@}"
+  else
+    local ar=("${@}")
+    local all="${@}"
+    if [ "${#ar}" = 3 -a ! -d "${all}" ]; then
+      if [ "${PWD/${ar[0]}/${ar[1]}}" = "${PWD}" -o ! -d "${PWD/${ar[0]}/${ar[1]}}" ]; then
+        builtin cd "${@}"
+        return
+      fi
+      builtin cd "${PWD/${ar[0]}/${ar[1]}}"
+    else
+      builtin cd "${@}"
+    fi
+  fi
+  if [ -f ~/src/gitlab-aws/bin/aws.setup ]; then
+    . ~/src/gitlab-aws/bin/aws.setup
+  fi
+}
+
+type_is() {
+  # return true/false 0/1 if the named variable is of the named type
+  #   example:
+  #     declare -a a
+  #     declare -A aa
+  #     declare    foo
+  #     type_is array a   => true/0
+  #     type_is assoc aa  => true/0
+  #     type_is var   foo => true/0
+  #     type_is var   aa  => false/1
+  #     type_is assoc var => false/0
+  local match
+  local old_nocase=$(shopt -p nocaseglob nocasematch)
+  shopt -u nocaseglob nocasematch
+  case $1 in
+    array) [[ `declare -p $2 2>/dev/null` =~ declare\ -a ]]
+           match=$?
+           ;;
+    assoc) [[ `declare -p $2 2>/dev/null` =~ declare\ -A ]]
+           match=$?
+           ;;
+    var)   [[ `declare -p $2 2>/dev/null` =~ declare\ -- ]]
+           match=$?
+           ;;
+  esac
+  eval "$old_nocase"
+  return $match
+}
+
+# pa: print array - Prints out the elements of the array named in the passed argument
+#                   Works for elements that have spaces in them
+# ex: a=(a b "c d")
+#     pa a => a[0]:  "a"
+#             a[1]:  "b"
+#             a[2]:  "c d"
+pa() {
+  local array arrayflat i item all
+  if [ $# != 1 ]; then
+    echo "usage: sa ARRAY_NAME"
+    return
+  fi
+  if ! type_is array $1; then
+    echo "ERROR: '${1}' is not an array"
+    return
+  fi
+  array=$1[@]
+  i=0
+  # this doesn't work for array elements with spaces in them
+  # for item in ${!array}; do
+  #   echo $1[${i}]: $item
+  #   ((i++))
+  # done | column -t -x
+  arrayflat="${!array}"
+  all=""
+  while [ " ${arrayflat}" != "${all}" ]; do
+    item="$1[${i}]"
+    echo "$1[${i}]:	\"${!item}\""
+    all="${all} ${!item}"
+    #echo "  all:${all}:"
+    ((i++))
+    if [ $i -gt 100 ]; then
+      echo "BREAK out of pa()... too many loops!"
+      break
+    fi
+  done | column -t -x -s '	'
+}
+
+
+# paa: print assoc array - prints out the key/vale pairs of the assoc array named in the argument
+# doesn't work correctly if an assoc array key   has a space in it :-( multiple keys get made )
+paa() {
+# local key keys
+  if [ $# != 1 ]; then
+    echo "usage: saa ASSOCIATIVE_ARRAY_NAME"
+    return
+  fi
+  if ! type_is assoc $1; then
+    echo "ERROR: '${1}' is not an associative array"
+    return
+  fi
+  keys=!${1}[@]
+  eval keys="\${$keys}"
+  for key in ${keys[@]}; do
+    value=$1[$key]
+    echo "$1[${key}]	=>	\"${!value}\""
+  done | column -t -x -s '	'
+}
+
+aws_profile_export () {
+  if [ "$1" = "" ]; then
+    echo "INFO: choices:"
+    grep "\[" ~/.aws/credentials --color=always | sed -e 's:^:  :'
+    return
+  fi
+  if ! grep "\[$1\]" ~/.aws/credentials > /dev/null ; then
+    echo "ERROR: '[$1]' not found"
+    echo "INFO: close matches:"
+    grep "$1" ~/.aws/credentials --color=always | sed -e 's:^:  :'
+    return
+  fi
+  cmd="export AWS_ACCESS_KEY_ID=`aws configure get $1.aws_access_key_id`"
+  echo + $cmd
+  eval $cmd
+  cmd="export AWS_SECRET_ACCESS_KEY=`aws configure get $1.aws_secret_access_key`"
+  echo + $cmd
+  eval $cmd
+}
+
+function tojq() {
+  sed -e 's:^"::' -e 's:"$::' -e 's:\\n:\n:g' -e 's:\\":":g'  -e 's:\\":":g' | jq
+  #sed -e 's:^"::' -e 's:"$::' -e 's:\\":":g' | jq
+}
+
+function gsaml2aws() {
+  echo "checking connection..."
+  echo "  AWS_PROFILE:   saml"
+  echo -n "  account id     "
+  local acct_id=`AWS_PROFILE=saml aws sts get-caller-identity --query Account --output text 2>/dev/null`
+  if [ -n "$acct_id" ]; then
+    echo "$acct_id"
+    return
+  fi
+  echo "you are not connected!"
+  echo "connecting now..."
+  if docker info 2>/dev/null 1>&2 ; then
+    echo "docker is running..."
+  else
+    echo "ERROR: docker is not running!"
+    return
+  fi
+  docker run -it -v ~/.aws/credentials:/root/.aws/credentials gsaml2aws
+  echo "checking connection..."
+  acct_id=`AWS_PRFILE=saml aws sts get-caller-identity --query Account --output text 2>/dev/null`
+  echo "  account id is: ${acct_id}"
+}
+
+_leave_dot_file 2>/dev/null || true

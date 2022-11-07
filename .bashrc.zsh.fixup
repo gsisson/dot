@@ -1,0 +1,24 @@
+_enter_dot_file 2>/dev/null || true
+
+# add grep options
+
+#  alias "$(alias grep | sed -e "s:\'::g") -s"
+#  # add --exclude option (if supported), since it is not in ~/.oh-my-zsh/lib/grep.zsh
+#  if \grep --exclude=file "" < /dev/null >/dev/null 2>&1 ;then
+#    #alias "$(alias grep | sed -e "s:\'::g") --exclude={.zsh_history,.viminfo,.zcomdump,.terraform}"
+#    alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform,.tox} --exclude={.zsh_history,.viminfo}"
+#  fi
+
+# repair ls aliases
+
+# undo git aliases
+
+  unalias gp
+  unalias gb
+  unalias g
+
+# re-load things that don't work before zsh init, or which zsh init messes up
+_source_dot_file ~/.bashrc.completions 2>/dev/null || true
+_source_dot_file ~/.bashrc.aliases 2>/dev/null || true
+
+_leave_dot_file 2>/dev/null || true

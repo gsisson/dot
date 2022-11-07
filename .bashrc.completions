@@ -1,0 +1,22 @@
+_enter_dot_file 2>/dev/null || true
+
+# load up my completions
+completion_load_ok () {
+  if type compdef >/dev/null 2>&1; then
+    echo 'true'
+  elif [ -n "$BASH_VERSION" ]; then
+    echo 'true'
+  else
+    echo 'false'
+  fi
+}
+
+if [ `completion_load_ok` = true ]; then
+  if [ -d "${HOME}/usr/bin/functions/completion/" ]; then
+    _source_dot_file ${HOME}/usr/bin/functions/completion/* 2>/dev/null || true
+  else
+    echo "WARNING: dir '${HOME}/usr/bin/functions/completion/' missing!" 1>&2
+  fi
+fi
+
+_leave_dot_file 2>/dev/null || true

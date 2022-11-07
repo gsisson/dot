@@ -1,0 +1,484 @@
+_enter_dot_file 2>/dev/null || true
+
+########################################################################################
+
+exif_renameFileWithDtoPrefix_fn() {
+  exiftool -d '%Y-%m-%d_%H.%M.%S_%%f.%%e' '-filename<DateTimeOriginal' "${@}"
+}
+
+exif_copyDateTimesFromFile_fn() {
+  if [ $# != 2 ]; then
+    echo "usage: exif_copyDateTimesFromFile_fn <sourcefile> <targetfile>"
+    return
+  fi
+  s="$1"
+  t="$2"
+  echo + exiftool '-ModifyDate<='"$s" '-CreateDate<='"$s" '-DateTimeOriginal<='"$s" "$t"
+         exiftool '-ModifyDate<='"$s" '-CreateDate<='"$s" '-DateTimeOriginal<='"$s" "$t"
+}
+
+exif_copyModifyDate_to_DateTimeOriginal_fn() {
+  if [ $# = 0 ]; then
+    echo "usage: exif_copyModifyDate_to_DateTimeOriginal_fn <file>..."
+    return
+  fi
+  for t in "${@}"; do
+    echo + exiftool '-DateTimeOriginal<FileModifyDate' "$t"
+           exiftool '-DateTimeOriginal<FileModifyDate' "$t"
+  done
+}
+
+########################################################################################
+
+exif_incrementDateTimesBySeconds_fn() {
+  if [ $# -lt 2 ]; then
+    echo "usage: exif_incrementDateTimesBySeconds_fn <seconds> <targetfiles>"
+    return
+  fi
+  t="$1"
+  shift
+  time='00:00:'"$t"
+  exiftool       '-CreateDate+='$time \
+                 '-ModifyDate+='$time \
+           '-DateTimeOriginal+='$time    "${@}"
+}
+
+exif_incrementDateTimesByMinutes_fn() {
+  if [ $# -lt 2 ]; then
+    echo "usage: exif_incrementDateTimesByMinutes_fn <minutes> <targetfiles>"
+    return
+  fi
+  t="$1"
+  shift
+  time='00:'"$t"':00'
+  exiftool       '-CreateDate+='$time \
+                 '-ModifyDate+='$time \
+           '-DateTimeOriginal+='$time    "${@}"
+}
+
+exif_incrementDateTimesByHours_fn() {
+  if [ $# -lt 2 ]; then
+    echo "usage: exif_incrementDateTimesByHours_fn <hours> <targetfiles>"
+    return
+  fi
+  t="$1"
+  shift
+  time="$t"':00:00'
+  exiftool       '-CreateDate+='$time \
+                 '-ModifyDate+='$time \
+           '-DateTimeOriginal+='$time    "${@}"
+}
+
+exif_incrementDateTimesBy1Day_fn() {
+  if [ $# = 0 ]; then
+    echo "usage: exif_incrementDateTimesBy1Day_fn <targetfiles>..."
+    return
+  fi
+  time='24:00:00'
+  exiftool       '-CreateDate+='$time \
+                 '-ModifyDate+='$time \
+           '-DateTimeOriginal+='$time    "${@}"
+}
+
+exif_incrementDateTimesBy10Days_fn() {
+  if [ $# = 0 ]; then
+    echo "usage: exif_incrementDateTimesBy10Days_fn <targetfiles>..."
+    return
+  fi
+  exif_incrementDateTimesBy1Day_fn "${@}"
+  exif_incrementDateTimesBy1Day_fn "${@}"
+  exif_incrementDateTimesBy1Day_fn "${@}"
+  exif_incrementDateTimesBy1Day_fn "${@}"
+  exif_incrementDateTimesBy1Day_fn "${@}"
+  exif_incrementDateTimesBy1Day_fn "${@}"
+  exif_incrementDateTimesBy1Day_fn "${@}"
+  exif_incrementDateTimesBy1Day_fn "${@}"
+  exif_incrementDateTimesBy1Day_fn "${@}"
+  exif_incrementDateTimesBy1Day_fn "${@}"
+}
+
+exif_decrementDateTimesBySeconds_fn() {
+  if [ $# -lt 2 ]; then
+    echo "usage: exif_decrementDateTimesBySeconds_fn <seconds> <targetfiles>"
+    return
+  fi
+  t="$1"
+  shift
+  time='00:00:'"$t"
+  exiftool       '-CreateDate-='$time \
+                 '-ModifyDate-='$time \
+           '-DateTimeOriginal-='$time    "${@}"
+}
+
+exif_decrementDateTimesByMinutes_fn() {
+  if [ $# -lt 2 ]; then
+    echo "usage: exif_decrementDateTimesByMinutes_fn <minutes> <targetfiles>"
+    return
+  fi
+  t="$1"
+  shift
+  time='00:'"$t"':00'
+  exiftool       '-CreateDate-='$time \
+                 '-ModifyDate-='$time \
+           '-DateTimeOriginal-='$time    "${@}"
+}
+
+exif_decrementDateTimesByHours_fn() {
+  if [ $# -lt 2 ]; then
+    echo "usage: exif_decrementDateTimesByHours_fn <hours> <targetfiles>"
+    return
+  fi
+  t="$1"
+  shift
+  time="$t"':00:00'
+  exiftool       '-CreateDate-='$time \
+                 '-ModifyDate-='$time \
+           '-DateTimeOriginal-='$time    "${@}"
+}
+
+exif_decrementDateTimesBy1Day_fn() {
+  if [ $# = 0 ]; then
+    echo "usage: exif_decrementDateTimesBy1Day_fn <targetfiles>..."
+    return
+  fi
+  time='24:00:00'
+  exiftool       '-CreateDate-='$time \
+                 '-ModifyDate-='$time \
+           '-DateTimeOriginal-='$time    "${@}"
+}
+
+exif_decrementDateTimesBy10Days_fn() {
+  if [ $# = 0 ]; then
+    echo "usage: exif_decrementDateTimesBy10Days_fn <targetfiles>..."
+    return
+  fi
+  exif_decrementDateTimesBy1Day_fn "${@}"
+  exif_decrementDateTimesBy1Day_fn "${@}"
+  exif_decrementDateTimesBy1Day_fn "${@}"
+  exif_decrementDateTimesBy1Day_fn "${@}"
+  exif_decrementDateTimesBy1Day_fn "${@}"
+  exif_decrementDateTimesBy1Day_fn "${@}"
+  exif_decrementDateTimesBy1Day_fn "${@}"
+  exif_decrementDateTimesBy1Day_fn "${@}"
+  exif_decrementDateTimesBy1Day_fn "${@}"
+  exif_decrementDateTimesBy1Day_fn "${@}"
+}
+
+# ###########################################################
+# exif_CODE.ME() {
+# echo "exif NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+# ###########################################################
+# ##exiftool -f -s2 -filename -DateTimeOriginal -CreateDate -ModifyDate -FileModifyDate "${@}"
+# # exiftool    -s2 -filename -DateTimeOriginal -CreateDate \
+# # -ModifyDate -FileModifyDate "${@}" | sed -e 's|: |:	|' | \
+# # expand -20
+# ###########################################################
+# }
+
+###########################################################
+exif_zCODE_ME_fix_DateTimePrefix_Formatting_rb() {
+echo "exif_fix.DateTimePrefix.Formatting.rb NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+##!/usr/bin/env ruby
+#
+#def to_dt_fmt_for_file(dt)
+#  dt.sub(/^(....).(..).(..).(..).(..).(..)/,'\1-\2-\3_\4.\5.\6')
+#end
+#
+#if ARGV.count > 0
+#  ARGV.each do |f|
+#    prefix_old=f[0..("YYYY-MM-DD_00.00.00".length-1)]
+#    prefix_new=to_dt_fmt_for_file(prefix_old)
+#    if prefix_old != prefix_new
+#      newf=f.sub(prefix_old,prefix_new)
+#      puts "mv '#{f}' '#{newf}'"
+#    end
+#  end
+#end
+###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_HELPER_add_prefix_from_cwd_rb() {
+echo "exif_HELPER.add.prefix.from.cwd.rb NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+##!/usr/bin/env ruby
+#
+#require '~/usr/bin/ruby/Dir2'
+#require '~/usr/bin/ruby/Date2'
+#
+#pwd=File.basename(Dir2.pwd)
+#
+#prefix = nil
+#if Date2.valid_date_x?(pwd)
+#  prefix = Date2.prefix_for_file_x(pwd)
+#  if ! Date2.valid_date_time_x?(pwd)
+#    prefix = "#{prefix}_00.00.00"
+#  end
+#end
+#
+#if ! prefix
+#  puts "ERROR: directory has no date-time or date prefix! aborting..."
+#  abort
+#end
+#
+#argv=ARGV
+#if argv.size == 0
+#  argv = Dir2.globi_images
+#end
+#
+#argv.each do |f|
+#  if f !~ /^#{prefix}/
+#    f2="#{prefix}_#{f}"
+#    if File.exist? f2
+#      puts "ERROR: cannot move '#{f}' to '#{f2}'! (target file exists!!)"
+#      next
+#    end
+#    puts "+ mv #{f}"
+#    puts "     #{f2}"
+#    File.rename f, f2
+#  end
+#end
+#
+#   
+#   
+###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_HELPER_brian_dirs() {
+echo "exif_HELPER.brian.dirs NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+##!/usr/bin/env ruby
+#
+#require 'fileutils'
+#require '~/usr/bin/ruby/Dir2'
+#
+#files=Dir2.globi_jpgs
+#
+#suffix='_Brians.Photos/'
+#files.map do |f|
+#  d="#{f[0..9]}#{suffix}"
+#  Dir.mkdir d if ! Dir.exists? d
+#  FileUtils.mv(f,d)
+#end
+#
+#t='d:/Redirected/My_Pictures/Events/2000s'
+#Dir.glob('*/').each do |d|
+#  subdir=d.sub(/#{suffix}$/,'')
+#  subdir=subdir.sub(/...$/,'/')
+#  year=subdir.sub(/....$/,'')
+#  tgt="#{t}/#{year}/#{subdir}"
+#  FileUtils.mkdir_p tgt if ! Dir.exists? tgt
+#
+#  tgt="#{tgt}#{d.sub('Brians_Photos','Brians.Photos')}"
+#
+# #puts "Dir.exists? #{tgt}"
+#  if Dir.exists? "#{tgt}"
+#   #puts "EXISTS! #{tgt}"
+#    system "mv #{d}* '#{tgt}'"
+#    system "rmdir #{d}"
+#  else
+#    system "mv #{d} #{tgt}"
+#  end
+#end
+###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_HELPER_chopOffLeadingDateTime_rb() {
+echo "exif_HELPER.chopOffLeadingDateTime.rb NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+##!/usr/bin/env ruby
+#
+#require '~/usr/bin/ruby/Date2.rb'
+#
+#if ARGV.count == 0
+#  puts "usage: #{File.basename(__FILE__)} <files to get prefix date-time chopped from>"
+#  abort
+#end
+#
+#ARGV.each do |f|
+##  if f !~ /jpe?g$/i
+##    puts "ignoring non-JPEG file: #{f}"
+##    next
+##  end
+#  if ! Date2.valid_date_x?(f)
+#    puts "ignoring suspiciously named file: '#{f}'"
+#    next
+#  end
+#  prefix = Date2.prefix_for_file_x(f)
+#  tgt=f.sub(/^#{prefix}/,'')
+#  if tgt !~ /^_/
+#    puts "ignoring suspiciously named file: '#{f}'"
+#    next
+#  end
+#  tgt=tgt.sub(/^_/,'')
+#  if File.exist? tgt
+#    puts "ERROR: target file exists! Not renaming: '#{f}' to '#{tgt}'"
+#    next
+#  end
+#  puts "mv #{f}"
+#  puts "   #{tgt}"
+#  File.rename f, tgt
+#end
+###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_HELPER_insert_00_00_00_timeprefix_rb() {
+echo "exif_HELPER.insert.00.00.00.timeprefix.rb NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+##!/usr/bin/env ruby
+#
+#require '~/usr/bin/ruby/Dir2'
+#require '~/usr/bin/ruby/Date2'
+#
+#ARGV.each do |f|
+#  if Date2.valid_date_time_x?(f)
+#    puts "File already appears to have a date-time prefix:"
+#    puts "  #{f}"
+#    next
+#  end
+#  prefix=Date2.prefix_for_file_x(f)
+#  if !prefix || ! Date2.valid_date_x?(f)
+#    puts "File does not appear to have a date prefix:"
+#    puts "  #{f}"
+#    next
+#  end
+#  if prefix
+#    base=f.sub(/^#{prefix}/,'')
+#    tgt="#{prefix}_00.00.00#{base}"
+#    if File.exist? tgt
+#      puts "Cannot rename!  File already exists with that name!"
+#      next
+#    end
+#    File.rename f, tgt
+#  end
+#end
+###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_PURGE_BAD_TAGS_sh() {
+echo "exif_PURGE.BAD.TAGS.sh NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+#exiftool -all= -tagsfromfile @ -all:all -unsafe "${@}"
+###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_remove_all_metadata_sh() {
+echo "exif_remove.all.metadata.sh NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+#exiftool -all= "${@}"
+###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_set_copyright_sh() {
+echo "exif_set.copyright.sh NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+## this works
+## exiftool.exe '-copyright=Copyright Glenn E. Sisson' '-author=Glenn Sisson' "$@"
+#
+## but this adds the year
+#  exiftool.exe -d %Y '-copyright<Copyright $createdate Glenn E. Sisson' "$@"
+###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_set_filename_prefix_to_CreateDate_sh() {
+# echo "exif_set.filename.prefix.to.CreateDate.sh NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+  ###########################################################
+  echo + exiftool -d '%Y-%m-%d_%H.%M.%S_%%f.%%e' '-filename<CreateDate' '"${@}"'
+  exiftool -d '%Y-%m-%d_%H.%M.%S_%%f.%%e' '-filename<CreateDate' "${@}"
+  ###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_set_filename_prefix_to_DateTimeOriginal_sh() {
+echo "exif_set.filename.prefix.to.DateTimeOriginal.sh NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+##!/usr/bin/env bash
+#
+#if [ "$1" != '-ok' ]; then
+#  echo "Warning:"
+#  echo "  This script adds a date-time prefix, even if the file already has one."
+#  echo "  To skip this message, use the '-ok' option before the file list"
+#  exit 1
+#fi
+#
+#shift
+#
+#exiftool -d '%Y-%m-%d_%H.%M.%S_%%f.%%e' '-filename<DateTimeOriginal' "${@}"
+###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_set_filename_prefix_to_FileModifyDate_sh() {
+echo "exif_set.filename.prefix.to.FileModifyDate.sh NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+#exiftool -d '%Y-%m-%d_%H.%M.%S_%%f.%%e' '-filename<FileModifyDate' "${@}"
+###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_set_filename_prefix_to_ModifyDate_sh() {
+echo "exif_set.filename.prefix.to.ModifyDate.sh NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+#exiftool -d '%Y-%m-%d_%H.%M.%S_%%f.%%e' '-filename<ModifyDate' "${@}"
+###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_touch_to_be_Taken_On_dateTime_sh() {
+echo "exif_touch.to.be.Taken.On.dateTime.sh NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+## update all the files specified (or the directory, if a directory is passed) to
+## have a "file modify date-time" that is the same as the photo's "taken at"
+## date-time
+#
+#exiftool '-DateTimeOriginal>FileModifyDate' '-DateTimeOriginal>CreateDate' "$@"
+###########################################################
+}
+
+###########################################################
+exif_zCODE_ME_video_length_sum_sh() {
+echo "exif_video.length.sum.sh NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"
+###########################################################
+##!/usr/bin/env bash
+#
+#exiftool -n -q -p '${Duration;our $sum;$_=ConvertDuration($sum+=$_) }' "${@}"| tail -n1
+###########################################################
+}
+
+###########################################################
+exif_video_length_sum_watch() {
+# echo "Note: consider running the script:"
+# echo "  exif_video.length.sum.watch.sh.HELPER.FILE.RENAMER.rb"
+
+
+# pos="${pos//./:}"
+# [[ sed-4.2.2.tar.bz2 =~ tar.bz2$ ]] && echo matched
+# [[ sed-4.2.2.tar.bz2 == *tar.bz2 ]] && echo matched
+# [[ sed-4.2.2.tar.bz2 == "*tar.bz2" ]] WILL NOT WORK! (don't use quotes)
+# [[ ! foo =~ bar ]] # negation
+
+  echo
+  local match
+  match="??.??.??.avi ????-??-??/??.??.??.avi ??.??.??.mp4 ????-??-??/??.??.??.mp4 time_waste_??.??.??.avi time_waste_??.??.??.mp4 "
+  local a=()
+  while : ;do
+     set -- $(\ls $match 2>/dev/null)
+     diff=$(diff <(printf "%s\n" "${a[@]}") <(printf "%s\n" "${@}"))
+     if [[ -z "$diff" ]]; then
+       :
+     else
+       ls -t1r $match 2>/dev/null
+       exiftool -n -q -p '${Duration;our $sum;$_=ConvertDuration($sum+=$_) }' $match | tail -n1
+     fi
+     a=("${@}")
+     sleep 1
+  done
+}

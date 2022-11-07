@@ -1,0 +1,151 @@
+# Windows Home Dirs ----------------
+3D Objects/
+AppData/
+Application Data
+Atom Crashes/
+Contacts/
+Cookies
+Desktop/
+Documents/
+Downloads/
+Favorites/
+Games/
+Google Drive/
+Intel/
+IntelGraphicsProfiles/
+Local Settings
+Music/
+My Documents
+NetHood
+NTUSER.dat*
+NTUSER.ini*
+OneDrive/
+Pictures/
+PrintHood
+Recent
+Saved Games/
+Searches/
+SendTo
+Start Menu
+Templates
+Videos/
+
+# Mac Home Dirs ----------------
+Applications/
+# Amazon WorkDocs Drive/
+Dropbox/
+Library/
+Movies/
+Public/
+Sites/
+
+# Tool Created Dirs/Files ----------
+# .(users gsisson)
+.CFUserTextEncoding
+# .MakeMKV
+# .Xauthority
+# .anaconda/
+# .android/
+# .anyconnect
+# .atom/
+# .aws-sam/
+# .awsp
+# .bundle/
+# .cisco/
+# .condarc
+.config/
+.cups/
+# .docker/
+.dropbox/
+# .eclipse/
+# .electron/
+.emacs.d/
+.emacs.desktop
+.emacs.desktop.lock
+# .gem
+# .gnupg/
+# .gradle/
+# .gsutil/
+# .ipynb_checkpoints/
+# .ipython/
+# .isengardcli-cert.pem
+# .iterm2/
+# .iterm2_shell_integration.zsh
+# .jupyter/
+# .kube/
+# .less
+.local/
+# .m2/
+# .midway/
+# .mono/
+# .node-gyp/
+# .npm/
+# .packer.d/
+# .plugman/
+.pyenv/
+# .pylint.d/
+.rbenv/
+# .rest-client/
+# .rnd
+# .ruby-version
+# .runtimes/
+# .toolbox/
+# .usage-stats/
+.viminfo
+# find.txt*
+# hsperfdata_gsisson/
+# isengard/
+.*history
+.bash_sessions/
+.lesshst
+.oracle_jre_usage/
+.terraform.d/
+.terraformrc
+*.swp
+.zcompdump*
+VSCode Crashes/
+com.googlecode.iterm2.plist
+
+# Ruby -------------------
+# bin/ # Ruby Created Bins
+# bin/
+
+# Emacs Created ----------
+# .emacs.desktop*
+# .recentf
+dot.emacs_mac
+dot.emacs_mac.LINK
+dot.emacs_pc
+dot.emacs_pc.LINK
+
+###############################
+
+# My Symlinks ----------------
+# Dropbox
+# lisp
+
+# My Git Sub-dirs ------------
+# /.oh-my-zsh/
+# /.vim
+/usr/bin/
+/usr/bin0/
+# /usr/local/
+/usr/ruby/
+# /usr/src/
+
+# Other -------------------
+.ssh/
+# .aws/
+# .cdk/
+# .io.ganeshrvel/
+# .hgignore_global
+.github*token*
+.oh-my-zsh/
+# .serverless/
+# .serverlessrc
+# VirtualBoxVMs/
+# WorkDocs Drive/
+# src/
+# wrk
+# work
+.zsh_sessions/

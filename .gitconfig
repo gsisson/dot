@@ -1,0 +1,113 @@
+# see ~/usr/bin/git.initialization
+# since this file is in .gitignore, link it to the platform specific file
+#   win: ln -s .gitconfig_pc  .gitconfig
+#   mac: ln -s .gitconfig_mac .gitconfig
+
+[credential]
+	helper = !aws codecommit credential-helper $@
+	UseHttpPath = true
+[user]
+	name = Glenn Sisson
+	email = glennaws@amazon.com
+	#email = glenn.sisson@gmail.com
+[alias]
+	st = status
+	ci = commit
+	co = checkout
+	br = branch
+	log0  = log --graph --decorate --oneline --abbrev-commit --all
+	log1  = log --graph --date=short --pretty=format:'%C(auto)%h %ad | %d%s [%an]'
+	logg = log --graph --abbrev-commit --decorate --format=format:'%C(cyan)%h%C(reset) - %C(green)(%ar)%C(reset) %C(bold white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+
+	undo-commit = reset --soft HEAD^
+	conflicts = diff --name-only --diff-filter=U
+	ls-files-modified-only-pipe-to-cat = diff --name-only
+[core]
+	excludesfile = ~/.gitignore-global
+	mergeoptions = --no-edit
+	autocrlf = input
+	editor = vi
+	#pager = less -MRi-+F-+X # -+F: never quit-if-one-screen
+	#pager = less -MRi-F-+X  #  -F:       quit-if-one-screen # best for work
+	#pager = less -FRSX      # supposedly git default
+[pager]
+	branch = false  # don't use less for 'git branch'
+	stash = false   # don't use less for 'git stash'
+	blame = less -S # truncate long lines for 'blame'
+[hub]
+	protocol = ssh
+#[commit]
+	#template = /Users/glennaws/.stCommitMsg
+[push]
+	#default = simple   # doesn't auto track remote branches
+	default = current  # does auto track
+[color] # colors: normal, black, red, green, yellow, blue, magenta, cyan, or white
+        # other: ul (underline), bold
+	ui = true
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+[color "diff"]
+	plain = normal
+	meta = blue white bold reverse
+	frag = cyan
+	old = red bold
+	new = green bold
+	commit = yellow
+	whitespace = "#700000 reverse"
+[color "branch"]
+	current = green bold
+	local = normal
+	remote = red bold
+	plain = normal
+[color "status"]
+	header = normal
+	added = red bold
+	updated = green bold
+	changed = red bold
+	untracked = cyan bold
+	nobranch = red bold
+[color "grep"]
+	match = normal
+[color "interactive"]
+	prompt = normal
+	header = normal
+	help = normal
+	error = normal
+[filter "media"]
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	required = true
+	process = git-lfs filter-process
+[pull]
+	rebase = true
+#[http]
+	#proxy = http://web-proxy:8088
+[http]
+	sslVerify = false
+[diff]
+	tool = bc3
+	wsErrorHighlight = all
+[difftool]
+	prompt = false
+[merge]
+	summary = true
+	tool = bc3
+[mergetool "bc3"]
+	prompt = false
+	trustExitCode = true
+#[branch]
+	#autosetupmerge = always
+	#autosetuprebase = always
+[init]
+	defaultBranch = main
+	# templateDir = /Users/glennaws/.git-template
+#[rebase]
+	#autoStash = true
+[url "https://github.com/"]
+	insteadOf = git://github.com/

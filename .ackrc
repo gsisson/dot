@@ -1,0 +1,29 @@
+# 'terra' type is anything with extension .tfstate
+--type-set=terra:ext:tfstate,backup
+
+# ack is not to ever search tfstate files
+--type=noterra
+
+# avoid searching .terraform/ directories
+--ignore-dir=.terraform
+--ignore-dir=themes/learn
+--ignore-dir=static/css
+--ignore-dir=static/diagrams
+--ignore-dir=.tox
+--ignore-dir=collibra_master.egg-info
+
+# avoid searching these directories as well
+--ignore-dir=.Trash
+--ignore-dir=.cache
+--ignore-dir=.bundle
+--ignore-dir=.aws-sam
+--ignore-dir=.pyenv
+--ignore-dir=.gem
+--ignore-dir=.local
+--ignore-dir=.npm
+--ignore-dir=.rbenv
+--ignore-dir=.runtimes
+--ignore-dir=.toolbox
+--ignore-dir=.vscode
+--ignore-dir=.pytest_cache
+--ignore-dir=.bak

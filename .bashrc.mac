@@ -1,0 +1,198 @@
+# .bashrc.mac
+_enter_dot_file 2>/dev/null || true
+
+#_source_dot_file ~/.bashrc.functions 2>/dev/null || true
+
+function start() {
+  echo use \"open\"
+}
+
+# Don't use ^D to exit
+  set -o ignoreeof
+# Don't use history expansion (so "echo x!" will work as expected)
+  set +o histexpand
+  if [ "$0" = bash ]; then
+    # Use case-insensitive filename globbing
+    shopt -s nocaseglob
+    # Use case-insensitive something-or-other
+    shopt -s nocasematch
+  fi
+
+#--------------------------------------------------------------------------------
+
+case "$TERM_PROGRAM" in
+  iTerm.app)
+    # two ways that work perfectly for iTerm2
+    alias cls="osascript -e 'if application \"iTerm\" is frontmost then tell application \"System Events\" to keystroke \"k\" using command down'"
+    alias cls="printf '\033]50;ClearScrollback\a'"
+    ;;
+  Apple_Terminal)
+    # two ways that don't quite work perfectly for Terminal
+    # this leaves a few non-blank garbage lines in buffer
+    alias cls="printf '\033[3J' && clear"
+    # this leaves some blank lines in buffer
+    alias cls="osascript -e 'if application \"Terminal\" is frontmost then tell application \"System Events\" to keystroke \"k\" using command down'"
+    ;;
+esac
+
+#alias Emacs=/usr/bin/emacs
+#alias Emacs="emacsclient -nw"
+#alias emacs="emacsclient -n"
+#alias efile="emacsclient -n"
+alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
+alias chrome='/usr/bin/open -a '\''/Applications/Google Chrome.app'\'''
+alias firefox='/usr/bin/open -a '\''/Applications/Firefox.app'\'''
+alias w="pbpaste|sed -e 's:^o	::'|pbcopy"
+alias rubymine='/usr/bin/open -a '\''/Applications/RubyMine.app'\'''
+alias gitx='/usr/bin/open -a '\''/Applications/Gitx.app'\'''
+alias gitx='echo use "fork"'
+alias fork='/usr/bin/open -a '\''/Applications/Fork.app'\'''
+alias bc3="wine '/Users/gsisson/.wine/drive_c/Program Files/Beyond Compare 3/bcomp.exe'"
+alias bc4="'/Applications/Beyond Compare.app/Contents/MacOS/BCompare'"
+alias banner=figlet # banner=~/usr/bin/banner
+alias path="echo \$PATH | ruby -e \"puts gets.split(':')\""
+alias scms="cd ~/Sites/simple_cms"
+alias vdiff="bComp" # install 'bcomp' with 'install command line utils' in BC GUI menu
+alias ucb='cd /Users/gsisson/Sites/ucb.2014/cs169.2x/hwE.performance'
+alias play='cd $play'
+alias aws-region-us-west-1="echo + export AWS_DEFAULT_REGION=us-west-1;export AWS_DEFAULT_REGION=us-west-1"
+alias aws-region-us-west-2="echo + export AWS_DEFAULT_REGION=us-west-2;export AWS_DEFAULT_REGION=us-west-2"
+alias aws-region-us-east-1="echo + export AWS_DEFAULT_REGION=us-east-1;export AWS_DEFAULT_REGION=us-east-1"
+alias aws-region-CLEAR="echo + unset AWS_DEFAULT_REGION; unset AWS_DEFAULT_REGION"
+alias aws-access-key-id-CLEAR="echo + unset AWS_ACCESS_KEY_ID; unset AWS_ACCESS_KEY_ID"
+alias aws-secret-access-key-CLEAR="echo + unset AWS_SECRET_ACCESS_KEY; unset AWS_SECRET_ACCESS_KEY"
+alias aws-default-profile-CLEAR="echo + unset AWS_DEFAULT_PROFILE; unset AWS_DEFAULT_PROFILE"
+alias rbenv-versions="rbenv install --list | egrep -v '(rbx|ree|jruby|maglev|mruby|topaz|1\.8\.)'"
+alias q='echo ${PWD/$(git rev-parse --show-toplevel || echo .)?/} | sed -e "s|[^/][^/]*|..|g"' # prints ../../.. to get to git root
+alias cdq='cd `q`'
+
+#These are also in goguide...aliases
+#alias be='bundle exec'
+alias c=pbcopy
+alias p=pbpaste
+#alias gdiff='git diff'
+#alias sam=/Users/glennaws/Library/Python/3.7/bin/sam
+alias awsp="source _awsp"
+
+#PATH=/Applications/Emacs.app/Contents/MacOS
+export PATH="/usr/local/Cellar/emacs/24.3/bin:$PATH"
+export PATH="/usr/local/heroku/bin:$PATH" # Added by the Heroku Toolbelt
+#export awsebcli="~/Downloads/a/AWS/AWS-ElasticBeanstalk-CLI-2.6.3"
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH" # brew doctor said to add /usr/local/sbin/
+export PATH="~/src/gitlab-aws/bin:$PATH"
+export PATH="~/usr/bin:$PATH"
+export PATH="~/usr/bin0:$PATH"
+PATH=${PATH//\~/$HOME} # replace all ~ with $HOME value (zsh issue)
+export PATH="$PATH:$HOME/src/link_docker"
+export PATH="$HOME/.toolbox/bin:${PATH}"
+export PATH="/usr/local/opt/node@12/bin:$PATH"
+export PATH="$HOME/dev/bin:$PATH"
+export PATH="$HOME/usr/bin:$PATH"
+
+export EDITOR=/Applications/Emacs.app/Contents/MacOS/Emacs
+export EDITOR='emacsclient -n'
+export EDITOR='emacsclient'
+export EDITOR="$HOME/usr/bin/edit"
+export EDITOR_FOR_DIRS=code
+export EDITOR_FOR_FILES='emacsclient -n'
+
+export GEM_HOME=~/.gem
+export GEM_PATH=~/.gem
+
+# 'brew install ruby-build' says:
+# - ruby-build installs a non-Homebrew OpenSSL for each Ruby version installed and
+#   these are never upgraded.
+# - To link Rubies to Homebrew's OpenSSL 1.1 (which is upgraded) add the following
+#   to your ~/.zshrc:
+    export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+# - Note: this may interfere with building old versions of Ruby (e.g <2.4) that use
+#   OpenSSL <1.1.
+
+export SVN_EDITOR=$EDITOR
+export PROMPT_COMMAND='history -a;'
+
+export GOROOT=$HOME/go
+export PATH=$PATH:$GOROOT/bin
+
+# Ways to deal with gems that won't build on Mavericks
+   export ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future
+#  sudo -E bundle ...
+
+function emacs
+{
+    local tty
+    if [[ "${1}" == '-nw' ]]; then
+      tty=true
+      shift
+    fi
+    if [ ! -e "$@" ]; then
+        touch "$@"
+    fi
+    if [[ "$tty" == true ]]; then
+       /Applications/Emacs.app/Contents/MacOS/Emacs -nw ${*}
+    else
+       command open -a /Applications/Emacs.app "${@}"
+    fi
+}
+
+function ps1 {
+  # Note: ZSH !!
+  #       ZSH sets PS1 in the ~/.oh-my-zsh/themes/glenn.zsh-theme
+  # Note: ZSH !!
+  if [ "$0" == bash ]
+  then
+    if [ "$PS1" = '$ ' ]
+    then
+      local        BLUE="\[\033[0;34m\]"
+      local         RED="\[\033[0;31m\]"
+      local   LIGHT_RED="\[\033[1;31m\]"
+      local       GREEN="\[\033[0;32m\]"
+      local LIGHT_GREEN="\[\033[1;32m\]"
+      local      YELLOW="\[\033[0;33m\]"
+      local   BG_YELLOW="\[\033[0;43m\]"
+      local        CYAN="\[\033[1;36m\]"
+      local     LT_CYAN="\[\033[0;36m\]"
+      local       WHITE="\[\033[1;37m\]"
+      local  LIGHT_GRAY="\[\033[0;37m\]"
+      local        GRAY="\[\033[1;30m\]"
+      local       RESET="\[\033[0m\]"
+
+      local    BG_GREEN="\[\033[0;42m\]"
+     #export PS1="$RESET\u@\h: \w$GREEN\$(parse_git_branch)$RESET$ "
+  #   export PS1="$RESET$BG_YELLOW$GRAY\u$RESET@\h: \w$GREEN\$(parse_git_branch 2>/dev/null)$RESET$ "
+      local proxysym='☼'
+      if [ -n "${http_proxy}${https_proxy}${HTTP_PROXY}${HTTPS_PROXY}${ALL_PROXY}" ]; then
+        local umbrella='☂'
+        proxysym="$umbrella"
+      fi
+      proxysym='' # do not show (confuses bash editor on width)
+      #      PS1= proxy symbol, my name (yellow on gray) @ machine : pwd (git branch) $
+      export PS1="${proxysym}$RESET$BG_YELLOW$GRAY\u$RESET@\h: \w$GREEN\$(git branch -a 2>/dev/null| grep origin-bb >/dev/null|| git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')$RESET$ "
+    else
+      PS1='$ '
+    fi
+  fi
+}
+
+#ps1
+#--------------------------------------------------------------------------------
+# These are also in gouide...paths
+if [ "$(uname)" = Darwin ]; then
+  : ${GREP_OPTIONS:='--color=auto'} # GREP_OPTIONS obsolete... using G_OPTIONS now
+  : ${GREP_COLOR:='1;42'}
+  export GREP_OPTIONS GREP_COLOR
+fi
+
+if [ "$0" = bash ]; then
+  if [ -f ~/.git-completion.bash       ]; then
+    _source_dot_file ~/.git-completion.bash 2>/dev/null || true
+  fi
+fi
+
+# rbenv alias --auto # see instructions at https://github.com/tpope/rbenv-aliases
+#~/usr/bin0/bashcheck
+
+NPM_PACKAGES=/Users/gsisson/.npm-packages
+
+_leave_dot_file 2>/dev/null || true

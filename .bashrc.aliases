@@ -1,0 +1,120 @@
+_enter_dot_file 2>/dev/null || true
+
+# establish ls aliases
+
+  set_ls_aliases() {
+    # check if gnu ls is available as 'gls'
+    local g=""
+    if command -v gls >/dev/null 2>&1; then
+      g=g
+    fi
+    # see if ls (or gls) takes --color option, to ensure it is gnu ls
+    if ${g}ls --color >/dev/null 2>&1; then
+      local when=always
+      local when=auto
+      # Some shortcuts for different directory listings
+      # alias ls="${g}ls -hF --color=tty"                 # classify files in colour
+        alias ls="${g}ls --color=$when"                   #(.exe)
+        alias lsc="${g}ls --color=always -CLF"            #(.exe)
+      # alias dir="${g}ls --color=$when --format=vertical"
+      # alias vdir="${g}ls --color=$when --format=long"
+      # alias ll="${g}ls -lG"                             # long list, no groups
+        alias ll="${g}ls --color=$when -lF"               # long list, show file types
+        alias llc="${g}ls --color=always -lnLF"           # long list, show sym links,types #(.exe)
+      # alias la="${g}ls -A"                              # all but . and ..
+      # alias l="${g}ls -CF"                              #
+        alias l="${g}ls --color"                          # (.exe)
+    fi
+  }
+  set_ls_aliases
+  unset -f set_ls_aliases
+
+alias datex='x=`date +%Y-%m-%d_%H-%M-%S`; echo "$x # date +%Y-%m-%d_%H-%M-%S"'
+alias gs='git status'
+alias gsx='git -c color.status=always status | grep -v "deleted:.*_mac"'
+alias  gf='echo + git fetch         1>&2; git fetch '
+#alias  gp='echo + git pull          1>&2; git pull '
+alias gpr='echo + git pull --rebase 1>&2; git pull --rebase '
+alias  gb='echo + git branch        1>&2; git branch --color=always | cat'
+alias   g='git rev-parse --show-toplevel'
+alias tf="terraform"
+alias pu='pushd'
+alias po='popd'
+alias k9='kill -9 $(lsof -i tcp:3000 -t)'
+alias be='bundle exec'
+alias zload=". ~/.zshenv; . ~/.zprofile; . ~/.zshrc"
+alias em='emacsclient -nw '
+alias g-fix=~/dev/g/aws-ps-dcm-gxp/scripts/g-fix.sh
+alias g-undo="~/dev/g/aws-ps-dcm-gxp/scripts/g-fix.sh undo"
+alias g-upload=~/dev/g/aws-ps-dcm-gxp/scripts/g-upload.sh
+alias g-tf.state.work="~/dev/g/terraform.state.list_SHOW"
+alias iterm-set-title-to-branch='echo -ne "\033]0;$(git_current_branch)\007"'
+
+case "$(uname)" in
+  *CYGWIN*) alias ffmpeg="c:/Program\ Files/ffmpeg-2021-07-14-git-ca56299fb3-full_build/bin/ffmpeg.exe"
+            alias ffprobe="c:/Program\ Files/ffmpeg-2021-07-14-git-ca56299fb3-full_build/bin/ffprobe.exe"
+            alias ffplay="c:/Program\ Files/ffmpeg-2021-07-14-git-ca56299fb3-full_build/bin/ffplay.exe"
+            ;;
+  *Darwin*) alias rm=_trash_file
+            #alias rmdir=_trash_dir
+            # if you want to use ~/.lesskey for less key remappings, use hte brew installed less
+            # alias less=/usr/local/bin/less
+            ;;
+esac
+
+# grep -------------------------------------------------------------
+
+_grep2() { _grep "${@}" 2>/dev/null ; }
+alias grep=_grep
+alias grep2=_grep2
+alias 2grep=_grep2
+alias cgrep="grep --color=always "
+
+# separte the case statements, or else on Windows bash, the
+# case won't run when it sees the '_grep()' under Darwin section
+case "$(uname)" in
+  *CYGWIN*)
+    # always use color; skip certain files/dirs; toss stderr
+    _grep()  { \grep -E --color=always --exclude-dir=.git --exclude=.bash_history "${@}" ; }
+    # echo this is the last line to be processed on CYGWIN
+  ;;
+esac
+# on CYGWIN, the script aborts here, as it can't seem to parse the '_grep ()' lines below :-(
+case "$(uname)" in
+  *Darwin*)
+    unset GREP_OPTIONS # dericated: use alias or function
+    declare -ag G_OPTIONS=(-E --color=auto   --exclude-dir={.bzr,CVS,.git,.hg,.svn,.terraform,.tox} --exclude={.sh_history,.zsh_history,.viminfo,.bash_history})
+    # use gnu grep (ggrep) instead of grep, if gnu grep installed
+    if command -v ggrep >/dev/null 2>&1; then
+      :
+      # this next line breaks CYGWIN if uncommented (cygwin exits this file when it enters this case stmt)
+      #_grep() { \ggrep "$G_OPTIONS" "${@}" }
+       _grep() { \ggrep  $G_OPTIONS  "${@}" }
+    else
+      :
+      # this next line breaks CYGWIN if uncommented (cygwin exits this file when it enters this case stmt)
+      #_grep() {  \grep "$G_OPTIONS" "${@}" }
+       _grep() {  \grep  $G_OPTIONS  "${@}" }
+    fi
+    # vvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    # see also, .bashrc.zsh.fixup
+    # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ;;
+esac
+
+# find -------------------------------------------------------------
+
+export FIND_EXCLUDE_DIRS=( \
+  "! -path */.git/*" \
+  "! -path */.tox/*" \
+  "! -path */.bundle/*" \
+  "! -path */.cache/*" \
+  "! -path */__pycache__/*" \
+)
+#_find() { \find "${@}" ${FIND_EXCLUDE_DIRS[@]} 2>/dev/null ; }
+ _find() { \find "${@}" ${FIND_EXCLUDE_DIRS[@]} ; }
+alias find=_find
+
+# ------------------------------------------------------------------
+
+_leave_dot_file 2>/dev/null || true
