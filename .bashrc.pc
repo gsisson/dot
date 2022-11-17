@@ -142,8 +142,13 @@ TEMP="${TMP}"
   
   alias wpaste="getclip|u2d"
   alias wcopy="putclip|u2d"
-  alias p="getclip|d2u"
-  alias c="putclip|d2u"
+  if which gitclip >/dev/null 2>&1; then
+    alias p="getclip|d2u"
+    alias c="putclip|d2u"
+  else
+    alias c='cat | d2u > /dev/clipboard'
+    alias p='cat /dev/clipboard | d2u'
+  fi
   alias open="explore"
   alias open="start"
 # alias vi=vim

@@ -23,6 +23,9 @@ _say_something "running as USER:$USER"
 
 # ~/.bash_profile: executed by bash for login shells.
 
+# source the VDI specific bash_profile
+_source_dot_file ~/.vdi 2>/dev/null || true
+
 # source the system wide bashrc if it exists
 _source_dot_file /etc/bash.bashrc 2>/dev/null || true
 
@@ -90,21 +93,21 @@ done
 #   cd /; cd tmp; $PWD = ~/tmp # :-(
 # export CDPATH='~' # allow 'cd src' to do 'cd ~/src'
 
-if [ ! -d "$paa_Java" ]
-then
-  if [ -f "$(which java)" ]; then
-    : # echo found java:
-    : # java -version
-  else
-    echo 'directory '\"$paa_Java\"' DNE!'
-    echo '          '\"$paa_Java\"' is value of $paa_Java variable'
-    echo 'perhaps the jdk was updated on disk, and the jdk symlink was deleted?'
-    echo 'here is what is in $paa_Java/../..:'
-    echo ls \"$paa_Java/../..\"
-         ls "$paa_Java/../.."
-    echo 'maybe run: cd $paa_Java/../.. ; ln -s jdk1.6.0_99 jdk # or whatever the existing jdk versions are'
-  fi
-fi
+# if [ ! -d "$paa_Java" -a false ]
+# then
+#   if [ -f "$(which java)" ]; then
+#     : # echo found java:
+#     : # java -version
+#   else
+#     echo 'directory '\"$paa_Java\"' DNE!'
+#     echo '          '\"$paa_Java\"' is value of $paa_Java variable'
+#     echo 'perhaps the jdk was updated on disk, and the jdk symlink was deleted?'
+#     echo 'here is what is in $paa_Java/../..:'
+#     echo ls \"$paa_Java/../..\"
+#          ls "$paa_Java/../.."
+#     echo 'maybe run: cd $paa_Java/../.. ; ln -s jdk1.6.0_99 jdk # or whatever the existing jdk versions are'
+#   fi
+# fi
 
 ### selections from c:/mksnt/profile.ksh (continued)
 
