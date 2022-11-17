@@ -36,8 +36,8 @@ _source_dot_file ~/.bashrc.aliases     2>/dev/null || true
 _source_dot_file ~/.bashrc.aliases.aws 2>/dev/null || true
 
 case "$(uname)" in
-  *CYGWIN*) _source_dot_file ~/.bashrc.pc  2>/dev/null || true;;
   *Darwin*) _source_dot_file ~/.bashrc.mac 2>/dev/null || true;;
+         *) _source_dot_file ~/.bashrc.pc  2>/dev/null || true;;
 esac
 
 export PC=glenn

@@ -51,14 +51,14 @@ alias g-tf.state.work="~/dev/g/terraform.state.list_SHOW"
 alias iterm-set-title-to-branch='echo -ne "\033]0;$(git_current_branch)\007"'
 
 case "$(uname)" in
-  *CYGWIN*) alias ffmpeg="c:/Program\ Files/ffmpeg-2021-07-14-git-ca56299fb3-full_build/bin/ffmpeg.exe"
-            alias ffprobe="c:/Program\ Files/ffmpeg-2021-07-14-git-ca56299fb3-full_build/bin/ffprobe.exe"
-            alias ffplay="c:/Program\ Files/ffmpeg-2021-07-14-git-ca56299fb3-full_build/bin/ffplay.exe"
-            ;;
   *Darwin*) alias rm=_trash_file
             #alias rmdir=_trash_dir
             # if you want to use ~/.lesskey for less key remappings, use hte brew installed less
             # alias less=/usr/local/bin/less
+            ;;
+         *) alias ffmpeg="c:/Program\ Files/ffmpeg-2021-07-14-git-ca56299fb3-full_build/bin/ffmpeg.exe"
+            alias ffprobe="c:/Program\ Files/ffmpeg-2021-07-14-git-ca56299fb3-full_build/bin/ffprobe.exe"
+            alias ffplay="c:/Program\ Files/ffmpeg-2021-07-14-git-ca56299fb3-full_build/bin/ffplay.exe"
             ;;
 esac
 
@@ -73,7 +73,8 @@ alias cgrep="grep --color=always "
 # separte the case statements, or else on Windows bash, the
 # case won't run when it sees the '_grep()' under Darwin section
 case "$(uname)" in
-  *CYGWIN*)
+  *Darwin) ;;
+        *)
     # always use color; skip certain files/dirs; toss stderr
     # _grep()  { \grep -E --color=always --exclude-dir=.git --exclude=.bash_history "${@}" ; }
     # use color 'automatically'; skip certain files/dirs; toss stderr
