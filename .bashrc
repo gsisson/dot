@@ -23,7 +23,7 @@ fi
 #  fi
 #fi
 
-export PAGER=$(brew --prefix)/bin/less # brew 'less' (uses ~/.lesskey; allows key remaping)
+#export PAGER=$(brew --prefix)/bin/less # brew 'less' (uses ~/.lesskey; allows key remaping)
 export PAGER=less                # apple 'less' (doesn't use ~/.lesskey)
 #export LESS=-MRi-+X-F  #  -F:       quit-if-one-screen
  export LESS=-MRi-+X-+F # -+F: never quit-if-one-screen
