@@ -27,3 +27,4 @@
 --ignore-dir=.vscode
 --ignore-dir=.pytest_cache
 --ignore-dir=.bak
+--ignore-file=match:/\.zsh_history/
