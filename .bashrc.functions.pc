@@ -1215,6 +1215,22 @@ newcd () {
   then
     PWD2="c:/cygwin"
   fi
+  ###########################################################################
+  ## new for VDI ############################################################
+  #if [[ "$PWD2" =~ /\/c\// ]]; then
+    #echo starts with slash c shash
+    #PWD2="~"
+  #fi
+  case $PWD2 in
+    /c/*) PWD2=c:/${PWD2#???};;
+  esac
+  #if [ "$PWD2" = "$HOME" ]; then
+  #  PWD2="~"
+  #fi
+  case $PWD2 in
+    ${HOME}*) PWD2=${PWD2/$HOME/\~};;
+  esac
+  ###########################################################################
   BOX="\u"
   BOX=
   SPACE=" "
@@ -1235,6 +1251,13 @@ newcd () {
        PS1="\[$grn$suon\]${BOX}[\[$NORMAL\]$suon"'$subd'"$suoff\[$grn$suon\]]\$$SPACE\[$NORMAL\]"
        PS1="${grn}${suon}${BOX}[\[${NORMAL}\]$suon"'$subd'"${suoff}${grn}${suon}]\$$SPACE\[$NORMAL\]"
        PS1="${cyn}${suon}${BOX}[$suon"'$subd'"${suoff}${cyn}${suon}]\$$SPACE\[$NORMAL\]"
+       ###########################################################################
+       ## new for VDI ############################################################
+       branch=$(git branch | sed -e '/^[^*]/d' -e 's/* \(.*\)/[\1]/')
+       cygyellow='\[\e[1;93m\]' # bold yellow
+       grn='\[\e[1;32m\]' # green
+       PS1="${grn}${suon}${cygyellow}$BOX[\[$NORMAL\]${suon}${cygyellow}"'$subd'"${suoff}]${cyn}${branch}${NORMAL}${grn}${suon}\$$SPACE\[$NORMAL\]"
+       ###########################################################################
        ;;
   esac
 }
