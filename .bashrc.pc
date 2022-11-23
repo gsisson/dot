@@ -136,7 +136,7 @@ TEMP="${TMP}"
 # alias less='less -r'                          # raw control characters
   alias whence='type -a'                        # where, of a sort
   alias gst='git st'
-  alias gpr='git pull --rebase'
+  alias gpr='echo + git pull --rebase 1>&2; git pull --rebase'
   alias bc="start 'c:/Program Files/Beyond Compare 4/bComp.exe'"
   alias windirstat="start 'C:/Program Files (x86)/WinDirStat/windirstat.exe'"
   
