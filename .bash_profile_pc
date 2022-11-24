@@ -24,7 +24,7 @@ _say_something "running as USER:$USER"
 # ~/.bash_profile: executed by bash for login shells.
 
 # source the VDI specific bash_profile
-_source_dot_file ~/.vdi 2>/dev/null || true
+_source_dot_file ~/.vdi >/dev/null 2>&1 || true
 
 # source the system wide bashrc if it exists
 _source_dot_file /etc/bash.bashrc 2>/dev/null || true

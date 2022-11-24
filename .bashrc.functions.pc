@@ -1253,10 +1253,10 @@ newcd () {
        PS1="${cyn}${suon}${BOX}[$suon"'$subd'"${suoff}${cyn}${suon}]\$$SPACE\[$NORMAL\]"
        ###########################################################################
        ## new for VDI ############################################################
-       branch=$(git branch | sed -e '/^[^*]/d' -e 's/* \(.*\)/[\1]/')
+       branch=$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/[\1]/')
        cygyellow='\[\e[1;93m\]' # bold yellow
        grn='\[\e[1;32m\]' # green
-       PS1="${grn}${suon}${cygyellow}$BOX[\[$NORMAL\]${suon}${cygyellow}"'$subd'"${suoff}]${cyn}${branch}${NORMAL}${grn}${suon}\$$SPACE\[$NORMAL\]"
+       PS1="${grn}${suon}${cygyellow}$BOX[\[$NORMAL\]${suon}${cygyellow}"'$subd'"${suoff}]${cyn}${branch}\[$NORMAL\]${grn}${suon}\$$SPACE\[$NORMAL\]"
        ###########################################################################
        ;;
   esac

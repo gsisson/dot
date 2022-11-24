@@ -23,10 +23,14 @@ fi
 #  fi
 #fi
 
-export PAGER=$(brew --prefix)/bin/less # brew 'less' (uses ~/.lesskey; allows key remaping)
-export PAGER=less                # apple 'less' (doesn't use ~/.lesskey)
+if which brew >/dev/null 2>&1; then
+  export PAGER=$(brew --prefix)/bin/less # brew 'less' (uses ~/.lesskey; allows key remaping)
+else
+  export PAGER=less                     # apple 'less' (doesn't use ~/.lesskey)
+fi
+
 #export LESS=-MRi-+X-F  #  -F:       quit-if-one-screen
- export LESS=-MRi-+X-+F # -+F: never quit-if-one-screen
+export LESS=-MRi-+X-+F # -+F: never quit-if-one-screen
 
 _source_dot_file ~/.bashrc.pyenv       2>/dev/null || true
 _source_dot_file ~/.bashrc.colors      2>/dev/null || true
