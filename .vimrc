@@ -41,3 +41,5 @@ syntax on
 "colo pablo
 colo murphy
 hi NonText term=bold  cterm=bold  ctermfg=LightBlue  gui=bold guifg=#cc0000
+
+set hlsearch
