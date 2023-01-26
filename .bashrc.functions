@@ -226,4 +226,18 @@ function gsaml2aws() {
   echo "  account id is: ${acct_id}"
 }
 
+function ggit() {
+  if [ $# -gt 0 -a "$1" = "diff" ]; then
+    local args=("$@")
+    if [ -n "$BASH_VERSION" ]; then
+      args[0]=wdiff # bash
+    else
+      args[1]=wdiff # zsh
+    fi      
+    set -- "${args[@]}"
+  fi
+  \git $@
+}
+alias git=ggit
+
 _leave_dot_file 2>/dev/null || true
