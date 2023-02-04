@@ -82,8 +82,14 @@ function cd () {
       fi
       builtin cd "${PWD/${ar[0]}/${ar[1]}}"
     else
+      # builtin cd "${@}"
+      # builtin cd "${@}" || return $?
       builtin cd "${@}"
     fi
+  fi
+  if [ $? != 0 ]; then
+    echo "returning -1"
+    return -1
   fi
   if [ -f ~/src/gitlab-aws/bin/aws.setup ]; then
     . ~/src/gitlab-aws/bin/aws.setup
