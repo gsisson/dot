@@ -52,7 +52,9 @@ export PC=glenn
 #GTK_THEME=Adwaita
  GTK_THEME="Adwaita:dark"
 
+export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
+export AWS_REGION="us-west-2"
+
 _leave_dot_file 2>/dev/null || true
 
 
-export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"

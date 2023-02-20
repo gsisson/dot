@@ -244,6 +244,6 @@ function ggit() {
   fi
   \git $@
 }
-alias git=ggit
+#alias git=ggit
 
 _leave_dot_file 2>/dev/null || true
