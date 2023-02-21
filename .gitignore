@@ -149,3 +149,5 @@ dot.emacs_pc.LINK
 # wrk
 # work
 .zsh_sessions/
+.cisco
+.anyconnect
