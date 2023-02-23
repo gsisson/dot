@@ -76,7 +76,7 @@ Sites/
 # .less
 .local/
 # .m2/
-# .midway/
+.midway/
 # .mono/
 # .node-gyp/
 # .npm/
@@ -89,7 +89,7 @@ Sites/
 # .rnd
 # .ruby-version
 # .runtimes/
-# .toolbox/
+.toolbox/
 # .usage-stats/
 .viminfo
 # find.txt*
@@ -135,7 +135,7 @@ dot.emacs_pc.LINK
 
 # Other -------------------
 .ssh/
-# .aws/
+.aws/
 # .cdk/
 # .io.ganeshrvel/
 # .hgignore_global
@@ -151,3 +151,4 @@ dot.emacs_pc.LINK
 .zsh_sessions/
 .cisco
 .anyconnect
+.ada/
