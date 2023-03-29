@@ -152,3 +152,10 @@ dot.emacs_pc.LINK
 .cisco
 .anyconnect
 .ada/
+.solargraph/
+.inspec/
+.bundle/
+.npm/
+.vim/
+.gem/
+.docker/

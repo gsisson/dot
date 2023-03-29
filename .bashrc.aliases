@@ -49,6 +49,8 @@ alias g-ssh-fix-undo="~/usr/bin/g-ssh-fix undo"
 alias g-upload=~/dev/g/aws-ps-dcm-gxp/scripts/g-upload.sh
 alias g-tf.state.work="~/dev/g/terraform.state.list_SHOW"
 alias iterm-set-title-to-branch='echo -ne "\033]0;$(git_current_branch)\007"'
+alias iterm-set-tab-color-red='echo -ne "\033]6;1;bg;red;brightness;255\a\033]6;1;bg;blue;brightness;0\a\033]6;1;bg;green;brightness;0\a"'
+alias iterm-reset-tab-color='echo -ne "\033]6;1;bg;*;default\a"'
 
 case "$(uname)" in
   *Darwin*) alias rm=_trash_file
