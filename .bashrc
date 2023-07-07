@@ -55,6 +55,6 @@ export PC=glenn
 export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
 export AWS_REGION="us-west-2"
 
+_source_dot_file ~/.brazil_completion/zsh_completion
+
 _leave_dot_file 2>/dev/null || true
-
-

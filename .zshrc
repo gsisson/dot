@@ -184,12 +184,13 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # zsh fixup -------------------------------------------------------------------------------------
 _source_dot_file ~/.bashrc.zsh.fixup 2>/dev/null || true # fix things zsh messed up
 
-_leave_dot_file 2>/dev/null || true
-
-
 # leave window title alone, but set tab titles
 DISABLE_AUTO_TITLE="true"   # print -Pn "\e]2;WINDOW\a"   ;  print -Pn "\e]1;TAB\a"
 precmd() {
   # sets the tab title to current dir
   echo -ne "\e]1;${PWD##*/}\a"
 }
+_source_dot_file ~/.brazil_completion/zsh_completion
+export JAVA_HOME="/opt/homebrew/Cellar/openjdk/20.0.1/libexec/openjdk.jdk/Contents/Home"
+
+_leave_dot_file 2>/dev/null || true

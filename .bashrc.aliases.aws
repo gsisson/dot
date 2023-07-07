@@ -1,7 +1,10 @@
 _enter_dot_file 2>/dev/null || true
 
-if [ -f ~/src/gitlab-aws/bin/aws.setup ]; then
-  _source_dot_file ~/src/gitlab-aws/bin/aws.setup 2>/dev/null || true
+f=${HOME}/src/gitlab-aws/bin/ada.creds
+if [ -f "$f" ]; then
+  #_source_dot_file $f 2>/dev/null || true
+  alias ada.creds=$f
+  eval $(ada.creds -)
 fi
 
 _leave_dot_file 2>/dev/null || true
