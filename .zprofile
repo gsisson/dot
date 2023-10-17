@@ -18,4 +18,8 @@ fi
 
 _source_dot_file ~/.bash_profile 2>/dev/null || true
 
+# Added by Toolbox App
+export PATH="$PATH:/Users/glennaws/Library/Application Support/JetBrains/Toolbox/scripts"
+
 _leave_dot_file 2>/dev/null || true
+

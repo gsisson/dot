@@ -1,6 +1,9 @@
 # start with the Bureau theme
 . $(dirname $0)/bureau.zsh-theme
-bureau_precmd () {} #null out the hook function defined in bureau.zsh-theme
+
+ bureau_precmd () {}    #null out the      hook function defined in bureau.zsh-theme
+#bureau_git_info () {}  #null out the slow hook function defined in bureau.zsh-theme
+ bureau_git_status() {} #null out the slow hook function defined in bureau.zsh-theme
 
 # my colors for Mac Terminal and iTerm2
 autoload -U colors && colors
@@ -109,4 +112,5 @@ bureau_git_prompt () {
   }
 
   PROMPT='${_USER_HOST}%{$bg[black]%}%{$fg[white]%}${_LIBERTY}%{$reset_color%}'
-  RPROMPT='${_PATH}$(nvm_prompt_info)${PS1py}$(bureau_git_prompt)$(aws_profile)$(PS1rb)$(PS1py)'
+  RPROMPT='${_PATH}$(nvm_prompt_info)$(bureau_git_prompt)$(aws_profile)' # $(PS1py) # $(PS1rb)
+#                                      ^^^__slow, so 'null out' up top     ^_slow     ^_slow

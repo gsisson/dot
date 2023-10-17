@@ -14,18 +14,8 @@ fi
 
 _source_dot_file ~/.bashrc 2>/dev/null || true
 
-_leave_dot_file 2>/dev/null || true
-
 # used by bash AND zsh (but incompatible formats!)
 #HISTFILE=$HOME/tmp/.bash_history
-
-# allow multiple Pythons and python environments
-#   see ~/usr/bin/help.python.install
-if pyenv --version > /dev/null 2>&1; then
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-  export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-fi
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -41,3 +31,5 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+_leave_dot_file 2>/dev/null || true

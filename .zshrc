@@ -77,7 +77,8 @@ HIST_IGNORE_SPACE="true"
 # Add wisely, as too many plugins slow down shell startup.
 #plugins=(zsh-syntax-highlighting zsh-autosuggestions)
 #plugins=(glenn wd gem git git-prune bundler brew heroku rake rails) # rbenv #rake-fast rake per-directory-history
- plugins=(glenn wd     git                   brew                  ) # rbenv #rake-fast rake per-directory-history
+#plugins=(glenn wd     git                   brew                  ) # rbenv #rake-fast rake per-directory-history
+ plugins=(glenn wd git colored-man-pages colorize pip python aws autojump ) # rbenv #rake-fast rake per-directory-history
 
 # Handle problems of oh-my-zsh overriding things ----------------------------------------------
   _LSCOLORS="$LSCOLORS"                                        # save LSCOLORS
@@ -118,6 +119,12 @@ unsetopt null_glob
 # make env vars with spaces in them act like they do in bash when used on the command line
 # i.e. files="file1 file2"; ls $files; # will look for file1 and file2 not for "file1 file2"
 setopt sh_word_split
+
+# allow bash-style '#' from the command line to make a comment
+setopt interactivecomments
+
+# write HISTFILE immediately, rather than waiting until shell exit
+setopt INC_APPEND_HISTORY
 
 # install support for shell completion with the AWS 'aws' CLI
 file=/usr/local/bin/aws_zsh_completer.sh
@@ -179,7 +186,12 @@ complete -o nospace -C $(brew --prefix)/bin/terraform terraform
 
 
 # iterm2 shell integration
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+if [ -e "${HOME}/.iterm2_shell_integration.zsh" ]; then
+   _source_dot_file "${HOME}/.iterm2_shell_integration.zsh"
+fi
+
+# mcfly
+eval "$(mcfly init zsh)"
 
 # zsh fixup -------------------------------------------------------------------------------------
 _source_dot_file ~/.bashrc.zsh.fixup 2>/dev/null || true # fix things zsh messed up
@@ -190,7 +202,27 @@ precmd() {
   # sets the tab title to current dir
   echo -ne "\e]1;${PWD##*/}\a"
 }
-_source_dot_file ~/.brazil_completion/zsh_completion
-export JAVA_HOME="/opt/homebrew/Cellar/openjdk/20.0.1/libexec/openjdk.jdk/Contents/Home"
+#_source_dot_file ~/.brazil_completion/zsh_completion
+#export JAVA_HOME="/opt/homebrew/Cellar/openjdk/20.0.1/libexec/openjdk.jdk/Contents/Home"
+
+#export JAVA_HOME="/opt/homebrew/opt/openjdk@17"
+#export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+#export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
+
+export PATH="/opt/homebrew/opt/node@14/bin:$PATH"     # export PATH="/opt/homebrew/opt/node@18/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/node@14/lib"      # export LDFLAGS="-L/opt/homebrew/opt/node@18/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/node@14/include" # export CPPFLAGS="-I/opt/homebrew/opt/node@18/include"
+export BRAZIL_NODE18X_PATH="/opt/homebrew/opt/node@14/bin/node"
+function enable-account() {
+  type=$3
+  if [ "$type" != EC2 -a "$type" != ECR -a "$type" != LAMBDA ]; then
+    echo "usage: enable-account ACCOUNT_ID REGION EC2|ECR|LAMBDA"
+    return
+  fi
+  echo + ada credentials update --account=$1 --provider=isengard --role=Admin --once
+         ada credentials update --account=$1 --provider=isengard --role=Admin --once --profile=enabler
+  echo + aws inspector2 enable --resource-types $type --region $2
+         aws inspector2 enable --resource-types $type --region $2 --profile=enabler | grep -iE '(ABL|accountId|failedAccounts)'
+}
 
 _leave_dot_file 2>/dev/null || true

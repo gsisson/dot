@@ -32,12 +32,12 @@ fi
 #export LESS=-MRi-+X-F  #  -F:       quit-if-one-screen
 export LESS=-MRi-+X-+F # -+F: never quit-if-one-screen
 
-_source_dot_file ~/.bashrc.pyenv       2>/dev/null || true
-_source_dot_file ~/.bashrc.colors      2>/dev/null || true
-_source_dot_file ~/.bashrc.functions   2>/dev/null || true
-_source_dot_file ~/.bashrc.completions 2>/dev/null || true
-_source_dot_file ~/.bashrc.aliases     2>/dev/null || true
-_source_dot_file ~/.bashrc.aliases.aws 2>/dev/null || true
+#_source_dot_file ~/.bashrc.pyenv       2>/dev/null || true ## very SLOW
+ _source_dot_file ~/.bashrc.colors      2>/dev/null || true
+ _source_dot_file ~/.bashrc.functions   2>/dev/null || true
+ _source_dot_file ~/.bashrc.completions 2>/dev/null || true
+ _source_dot_file ~/.bashrc.aliases     2>/dev/null || true
+ _source_dot_file ~/.bashrc.aliases.aws 2>/dev/null || true
 
 case "$(uname)" in
   *Darwin*) _source_dot_file ~/.bashrc.mac 2>/dev/null || true;;
