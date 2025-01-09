@@ -8,8 +8,8 @@
 	UseHttpPath = true
 [user]
 	name = Glenn Sisson
-	email = glennaws@amazon.com
-	#email = glenn.sisson@gmail.com
+	#email = glennaws@amazon.com
+	email = glenn.sisson@gmail.com
 [alias]
 	st = status
 	ci = commit
@@ -112,3 +112,5 @@
 	#autoStash = true
 [url "https://github.com/"]
 	insteadOf = git://github.com/
+[safe]
+	directory = /cygdrive/c/Users/gsisson

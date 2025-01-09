@@ -164,6 +164,21 @@ exif_decrementDateTimesBy10Days_fn() {
   exif_decrementDateTimesBy1Day_fn "${@}"
 }
 
+exif_1_showAllDateTimes_fn() {
+  echo + exiftool -time:all -s FILES 1>&2
+         exiftool -time:all -s "${@}"
+}
+
+exif_2_setDtoToJan1st1920atNoon() {
+  echo + exiftool "'-datetimeoriginal=1920:01:01 12:00:00'" FILES 1>&2
+         exiftool  '-datetimeoriginal=1920:01:01 12:00:00'  "${@}"
+}
+
+exif_3_setAllDatesToDTO() {
+  echo + exiftool '"-alldates<datetimeoriginal"' FILES 1>&2
+         exiftool "-alldates<datetimeoriginal" "${@}"
+}
+
 # ###########################################################
 # exif_CODE.ME() {
 # echo "exif NEEDS TO BE WRITTEN (see .bashrc.functions.pc.exif)"

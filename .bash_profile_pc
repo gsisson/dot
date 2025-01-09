@@ -76,6 +76,7 @@ export download=${USERPROFILE}/Documents/Downloads
 export download=${USERPROFILE}/Downloads
 export downloads=${download}
 export tr="t:/recyclable"
+export PATH="/cygdrive/t/recyclable/bin:${PATH}"
 alias a="cd a:/ || o bitlocker"
 alias b="cd b:/ || o bitlocker"
 alias t="cd $tr || o bitlocker"
