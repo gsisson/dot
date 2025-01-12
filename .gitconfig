@@ -114,3 +114,4 @@
 	insteadOf = git://github.com/
 [safe]
 	directory = /cygdrive/c/Users/gsisson
+	directory = /cygdrive/c/users/gsisson
