@@ -1,6 +1,9 @@
 . ~/usr/bin/functions/dotfile.tracker.fn
 _enter_dot_file 2>/dev/null || true
 
+if [ -d "c:/cygwin64/home/gsisson" ]; then
+  export USERPROFILE='c:\cygwin64\home\gsisson'
+fi
 _source_dot_file  ~/.profile 2>/dev/null || true
 
 user_email="glenn.sisson@gmail.com"

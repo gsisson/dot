@@ -28,9 +28,12 @@
 (when (eq system-type 'windows-nt)
    (add-to-list 'load-path
 ;     ln "$HOME/My Documents/Cloud/Dropbox/_Settings/lisp/dot.s_pc" "dot.emacs_pc.LINK"
-             "~/My Documents/Cloud/Dropbox/_Settings/lisp/")
+;            "~/My Documents/Cloud/Dropbox/_Settings/lisp/")
+                 "c:/Users/gsisson/Dropbox/_Settings/lisp")
    (load "dot.emacs_pc")
 )
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

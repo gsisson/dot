@@ -6,8 +6,10 @@ Atom Crashes/
 Contacts/
 Cookies
 Desktop/
+Documents
 Documents/
 Downloads/
+Dropbox
 Favorites/
 Games/
 Google Drive/
@@ -104,6 +106,7 @@ Sites/
 *.swp
 .zcompdump*
 VSCode Crashes/
+.wget-hsts
 com.googlecode.iterm2.plist
 
 # Ruby -------------------
@@ -129,9 +132,9 @@ dot.emacs_pc.LINK
 # /.vim
 /usr/bin/
 /usr/bin0/
-# /usr/local/
+/usr/local/
 /usr/ruby/
-# /usr/src/
+/usr/src/
 
 # Other -------------------
 .ssh/
