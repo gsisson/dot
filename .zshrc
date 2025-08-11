@@ -209,10 +209,10 @@ precmd() {
 #export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
 #export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
 
-export PATH="/opt/homebrew/opt/node@14/bin:$PATH"     # export PATH="/opt/homebrew/opt/node@18/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/node@14/lib"      # export LDFLAGS="-L/opt/homebrew/opt/node@18/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/node@14/include" # export CPPFLAGS="-I/opt/homebrew/opt/node@18/include"
-export BRAZIL_NODE18X_PATH="/opt/homebrew/opt/node@14/bin/node"
+#export PATH="/opt/homebrew/opt/node@14/bin:$PATH"     # export PATH="/opt/homebrew/opt/node@18/bin:$PATH"
+#export LDFLAGS="-L/opt/homebrew/opt/node@14/lib"      # export LDFLAGS="-L/opt/homebrew/opt/node@18/lib"
+#export CPPFLAGS="-I/opt/homebrew/opt/node@14/include" # export CPPFLAGS="-I/opt/homebrew/opt/node@18/include"
+#export BRAZIL_NODE18X_PATH="/opt/homebrew/opt/node@14/bin/node"
 function enable-account() {
   type=$3
   if [ "$type" != EC2 -a "$type" != ECR -a "$type" != LAMBDA ]; then
@@ -226,3 +226,6 @@ function enable-account() {
 }
 
 _leave_dot_file 2>/dev/null || true
+
+# Added by GDK bootstrap
+source /Users/gsisson/.asdf/asdf.sh

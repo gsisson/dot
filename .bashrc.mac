@@ -2,6 +2,7 @@
 _enter_dot_file 2>/dev/null || true
 
 #_source_dot_file ~/.bashrc.functions 2>/dev/null || true
+_source_dot_file ~/.asdf/asdf.sh
 
 function start() {
   echo use \"open\"
@@ -62,7 +63,7 @@ alias aws-region-CLEAR="echo + unset AWS_DEFAULT_REGION; unset AWS_DEFAULT_REGIO
 alias aws-access-key-id-CLEAR="echo + unset AWS_ACCESS_KEY_ID; unset AWS_ACCESS_KEY_ID"
 alias aws-secret-access-key-CLEAR="echo + unset AWS_SECRET_ACCESS_KEY; unset AWS_SECRET_ACCESS_KEY"
 alias aws-default-profile-CLEAR="echo + unset AWS_DEFAULT_PROFILE; unset AWS_DEFAULT_PROFILE"
-alias rbenv-versions="rbenv install --list | egrep -v '(rbx|ree|jruby|maglev|mruby|topaz|1\.8\.)'"
+#alias rbenv-versions="rbenv install --list | egrep -v '(rbx|ree|jruby|maglev|mruby|topaz|1\.8\.)'"
 alias q='echo ${PWD/$(git rev-parse --show-toplevel || echo .)?/} | sed -e "s|[^/][^/]*|..|g"' # prints ../../.. to get to git root
 alias cdq='cd `q`'
 
@@ -89,6 +90,7 @@ export PATH="$HOME/.toolbox/bin:${PATH}"
 export PATH="/usr/local/opt/node@12/bin:$PATH"
 export PATH="$HOME/dev/bin:$PATH"
 export PATH="$HOME/usr/bin:$PATH"
+export PATH="$HOME/dev/gitlab-development-kit/bin:$PATH"
 
 export EDITOR=/Applications/Emacs.app/Contents/MacOS/Emacs
 export EDITOR='emacsclient -n'

@@ -56,3 +56,6 @@ export JAVA_TOOLS_OPTIONS="-Dlog4j2.formatMsgNoLookups=true"
 export AWS_REGION="us-west-2"
 
 _leave_dot_file 2>/dev/null || true
+
+# Added by GDK bootstrap
+source /Users/gsisson/.asdf/asdf.sh
